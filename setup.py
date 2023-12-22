@@ -8,7 +8,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 NAME = "horizon"
-VERSION = "0.0.177"
+VERSION = "0.0.2"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
