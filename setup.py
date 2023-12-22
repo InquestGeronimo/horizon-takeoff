@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-NAME = "cloud-takeoff"
+NAME = "horizon"
 VERSION = "0.0.1"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
@@ -16,7 +16,7 @@ DESCRIPTION = "LLM deployment on AWS with the Takeoff Server"
 LONG_DESCRIPTION = "n/a."
 PACKAGE_DIR = {"": "src"}
 PACKAGES = find_packages("src")
-ENTRY_POINTS={"console_scripts": ["takeoff = src.takeoff.startup"]},
+ENTRY_POINTS={"console_scripts": ["horizon = src.horizon.takeoff"]},
 DEPENDENCIES = ["boto3>=1.34.4", "pyyaml>=6.0.1", "rich>=12.6.0"]
 KEYWORDS = ["cloud", "titanml", "server", "LLM", "NLP", "MLOps", "deployment"]
 CLASSIFIERS = [
