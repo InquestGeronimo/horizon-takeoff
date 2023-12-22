@@ -1,23 +1,5 @@
 import boto3
-import yaml
-from typing import Dict, Union
 
-def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
-    """Parse a YAML file and return its content as a dictionary.
-
-    Args:
-        yaml_file_path (str): Path to the YAML file.
-
-    Returns:
-        dict: A dictionary representing the YAML content or None if there's an issue.
-    """
-    try:
-        with open(yaml_file_path, 'r') as yaml_file:
-            yaml_content = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        return yaml_content
-    except (FileNotFoundError, yaml.YAMLError) as e:
-        print(f"Error parsing YAML file: {e}")
-        return None
 
 class TitanEC2:
     
@@ -36,7 +18,6 @@ class TitanEC2:
         max_count: int = 1
     ):
     
-        params = parse_yaml_file(config_path)
         self.min_count = min_count
         self.max_count = max_count
         self.ec2_client = boto3.client('ec2', region_name=params["EC2"]["region_name"])

@@ -7,7 +7,9 @@ from rich.console import Console
 from rich.markup import escape
 from typing import Dict, Any
 
+from .titan_ec2 import TitanEC2
 from .ec2_utils import EC2ConfigHandler
+from .ecr_utils import ECRManager
 from .checks import EnvChecker as env
 from .banner import print_banner
 
@@ -15,7 +17,8 @@ from .banner import print_banner
 shell = Console()
 ec2 = EC2ConfigHandler()
 
-print_banner()
+current_directory = os.path.dirname(os.path.abspath(__file__))
+script_directory = os.path.join(current_directory, "scripts")
 
 requirements = [
     (env.check_aws_account_id, "AWS account ID exists."),
@@ -42,7 +45,7 @@ def create_ec2_config_file() -> None:
     ec2_config: Dict[str, Any] = {}
     ec2_config['EC2'] = {
         'region_name': Prompt.ask(
-            f"[magenta] 1. Enter EC2 Region Name[/magenta] (current configured region: [yellow]{ec2.get_aws_region()}[/yellow])"
+            f"\n[magenta] 1. Enter EC2 Region Name[/magenta] (current configured region: [yellow]{ec2.get_aws_region()}[/yellow])"
         ),
         'ami_id': Prompt.ask(
             "\n[magenta] 2. Enter EC2 AMI ID[/magenta] (e.g. for Ubuntu 22.04 x86 [yellow]ami-0c7217cdde317cfec[/yellow])"
@@ -61,23 +64,37 @@ def create_ec2_config_file() -> None:
     with open('ec2_config.yaml', 'w') as config_file:
         yaml.dump(ec2_config, config_file, default_flow_style=False)
     
-    deploy = Prompt.ask("""[bold green]EC2 configuration file 'ec2_config.yaml' has been created in your working directory.[/bold green]
-    \n[magenta]Ready to deploy Docker image to ECR? (yes,no)[/magenta]""")
+    shell.print(f"\n[bold green]EC2 configuration file '{config_file.name}' has been created in your working directory.[/bold green]")
+    
+    return config_file
+
+def deploy_docker(config_file):
+    deploy = Prompt.ask("\n[magenta] 6. Ready to deploy Docker image to ECR?[/magenta] [yellow](yes,no)[/yellow]" , choices=["yes", "no"], show_choices=False)
     
     if deploy.lower() == "yes":
+        
+        repo_name = Prompt.ask("\n[magenta] - Enter your ECR repository name, if it doesn't exist, it will be created")
+        ecr = ECRManager(config_file.name)
+        ecr.check_or_create_repository(repo_name)
+        
+        pull_script = os.path.join(script_directory, "pull_takeoff_image.sh")
+        push_script = os.path.join(script_directory, "push_takeoff_ecr.sh")
+
         try:
             # Run the first Bash script
-            subprocess.run(["bash", "./horizon/scripts/pull_takeoff_image.sh"])
+            subprocess.run(["bash", pull_script])
             
             # Run the second Bash script
-            subprocess.run(["bash", "./horizon/scripts/push_takeoff_ecr.sh"])
+            subprocess.run(["bash", push_script, repo_name])
             
-            print("Docker image of the Takeoff Server pushed sucessfully to ECR.")
         except Exception as e:
             print(f"Error during deployment: {e}")
     else:
         print("Your configuration is completed. You can now launch your EC2 instance manually.")  #TODO write out manual flow using Docker Class and TitanEC2/TitanSagemaker class
         
+def create_ec2_instance():
+    ...
+    
     
 def create_sagemaker_config_file() -> None:
     sagemaker_config: Dict[str, Any] = {}
@@ -91,29 +108,39 @@ def create_sagemaker_config_file() -> None:
     
     print("[bold green]Sagemaker configuration file 'sagemaker_config.yaml' has been created and filled.[/bold green]")
 
-check_requirements()
-shell.print("\n[magenta]Let's generate your YAML config file for your AWS cloud environment[/magenta]\n")
-choice: str = Prompt.ask("[magenta]Choose the AWS service: [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow][/magenta]")
+def main():
+    
+    print_banner()
+    check_requirements()
+    
+    shell.print("\n[magenta]Let's generate your YAML config file for your AWS cloud environment[/magenta]")
+    choice: str = Prompt.ask(
+        "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]", 
+        choices=["ec2", "sagemaker"], 
+        show_choices=False
+    )
 
-if choice == 'ec2':
-    if config_exists(choice):
-        warning_message = "[bold yellow]Warning:[/bold yellow] EC2 configuration file already exists. Do you want to override it? (yes/no)"
-        override_choice = Prompt.ask(warning_message)
-        if override_choice == 'yes':
+    if choice == 'ec2':
+        if config_exists(choice):
+            warning_message = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
+            override_choice = Prompt.ask(warning_message, choices=["yes", "no"], show_choices=False)
+            if override_choice == 'yes':
+                config_name = create_ec2_config_file()
+                deploy_docker(config_name)
+            else:
+                print("[bold red]Aborting YAML configuration![/bold red]")
+        else:
             create_ec2_config_file()
-        else:
-            print("[bold red]Aborting YAML configuration![/bold red]")
     else:
-        create_ec2_config_file()
-elif choice == 'sagemaker':
-    if config_exists(choice):
-        warning_message = "[bold yellow]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold yellow]"
-        override_choice = Prompt.ask(warning_message)
-        if override_choice == 'yes':
+        if config_exists(choice):
+            warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
+            override_choice = Prompt.ask(warning_message)
+            if override_choice == 'yes':
+                create_sagemaker_config_file()
+            else:
+                print("[bold red]Aborting YAML configuration![/bold red]")
+        else:
             create_sagemaker_config_file()
-        else:
-            print("[bold red]Aborting YAML configuration![/bold red]")
-    else:
-        create_sagemaker_config_file()
-else:
-    print("Invalid choice. Choose either 'ec2' or 'sagemaker'.")
+        
+if __name__ == "__main__":
+    main()
