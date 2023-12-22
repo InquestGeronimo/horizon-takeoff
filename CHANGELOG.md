@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.177] - 2023-12-22
+
+### Added
+
+- Added Docker Support
+
+## [0.0.12] - 2023-12-21
+
+### Added
+
+- Added major components for EC2. Sagemaker still TODO.
+
 ## [0.0.1] - 2023-12-20
 
 ### Added
