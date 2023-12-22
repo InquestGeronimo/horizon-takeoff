@@ -1,25 +1,25 @@
 import boto3
 
-# Specify the AWS region where you want to create the ECR repository
-region = 'your-region'  # Replace with your desired region
+class ECRManager:
+    def __init__(self, region_name):
+        self.ecr_client = boto3.client('ecr', region_name=region_name)
 
-# Initialize the ECR client
-ecr_client = boto3.client('ecr', region_name=region)
+    def check_or_create_repository(self, repository_name):
+        try:
+            response = self.ecr_client.describe_repositories(repositoryNames=[repository_name])
+            repository_exists = len(response['repositories']) > 0
+        except self.ecr_client.exceptions.RepositoryNotFoundException:
+            repository_exists = False
 
-# Define the repository name
-repository_name = 'fabulinus'
+        if not repository_exists:
+            try:
+                self.ecr_client.create_repository(repositoryName=repository_name)
+                print(f"ECR repository '{repository_name}' created successfully.")
+            except Exception as e:
+                print(f"Error creating ECR repository: {e}")
+        else:
+            print(f"ECR repository '{repository_name}' already exists.")
 
-try:
-    # Create the ECR repository
-    response = ecr_client.create_repository(
-        repositoryName=repository_name
-    )
-    
-    # Check if the repository creation was successful
-    if response['ResponseMetadata']['HTTPStatusCode'] == 200:
-        print(f"ECR repository '{repository_name}' created successfully.")
-    else:
-        print(f"Failed to create ECR repository '{repository_name}'.")
 
-except Exception as e:
-    print(f"Error creating ECR repository: {str(e)}")
+ecr = ECRManager("us-east-1")
+ecr.check_or_create_repository("fabulinus")

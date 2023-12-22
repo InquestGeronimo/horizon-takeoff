@@ -1,5 +1,6 @@
 import os
 import yaml
+import subprocess
 from rich import print
 from rich.prompt import Prompt
 from rich.console import Console
@@ -60,8 +61,23 @@ def create_ec2_config_file() -> None:
     with open('ec2_config.yaml', 'w') as config_file:
         yaml.dump(ec2_config, config_file, default_flow_style=False)
     
-    print("""[bold green]EC2 configuration file 'ec2_config.yaml' has been created in your working directory.[/bold green],
-    [bold green]Ready to deploy (yes,no).[/bold green]""")
+    deploy = Prompt.ask("""[bold green]EC2 configuration file 'ec2_config.yaml' has been created in your working directory.[/bold green]
+    \n[magenta]Ready to deploy Docker image to ECR? (yes,no)[/magenta]""")
+    
+    if deploy.lower() == "yes":
+        try:
+            # Run the first Bash script
+            subprocess.run(["bash", "./horizon/scripts/pull_takeoff_image.sh"])
+            
+            # Run the second Bash script
+            subprocess.run(["bash", "./horizon/scripts/push_takeoff_ecr.sh"])
+            
+            print("Docker image of the Takeoff Server pushed sucessfully to ECR.")
+        except Exception as e:
+            print(f"Error during deployment: {e}")
+    else:
+        print("Your configuration is completed. You can now launch your EC2 instance manually.")  #TODO write out manual flow using Docker Class and TitanEC2/TitanSagemaker class
+        
     
 def create_sagemaker_config_file() -> None:
     sagemaker_config: Dict[str, Any] = {}

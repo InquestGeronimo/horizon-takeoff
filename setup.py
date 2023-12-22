@@ -12,10 +12,11 @@ VERSION = "0.0.1"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
-DESCRIPTION = "LLM deployment on AWS with the Takeoff Server"
+DESCRIPTION = "Auto-deploy the Takeoff Server on AWS for LLM inference"
 LONG_DESCRIPTION = "n/a."
 PACKAGE_DIR = {"": "src"}
 PACKAGES = find_packages("src")
+PACKAGE_DATA = {'src.horizon': ['scripts/*']}
 ENTRY_POINTS={"console_scripts": ["horizon = src.horizon.takeoff"]},
 DEPENDENCIES = ["boto3>=1.34.4", "pyyaml>=6.0.1", "rich>=12.6.0"]
 KEYWORDS = ["cloud", "titanml", "server", "LLM", "NLP", "MLOps", "deployment"]
@@ -36,6 +37,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     package_dir=PACKAGE_DIR,
     packages=PACKAGES,
+    package_data=PACKAGE_DATA,
     install_requires=DEPENDENCIES,
     keywords=KEYWORDS,
     classifiers=CLASSIFIERS
