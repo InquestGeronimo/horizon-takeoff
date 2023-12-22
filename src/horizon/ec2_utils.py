@@ -60,12 +60,3 @@ class EC2ConfigHandler:
             print(f"Name: {key['KeyName']}")
 
         return key_pairs
-
-# Usage
-# if __name__ == "__main__":
-#     ec2 = EC2ConfigHandler()
-#     reg = ec2.get_aws_region()
-#     security_groups = ec2.list_security_groups()
-#     print(security_groups)
-#     key_pairs = ec2.list_key_pairs()
-#     print(key_pairs)
