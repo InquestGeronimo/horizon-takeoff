@@ -74,7 +74,7 @@ def deploy_docker(config_file):
         
         repo_name = Prompt.ask("\n[magenta] - Enter your ECR repository name, if it doesn't exist, it will be created")
         
-        manager = Manager()
+        manager = Manager(config_file.name)
         manager.check_or_create_repository(repo_name)
         manager.deploy_takeoff_image(script_dir, repo_name)
         

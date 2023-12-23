@@ -13,11 +13,9 @@ class EnvChecker:
             str or None: The AWS CLI version if installed, or None if not installed.
         """
         try:
-            # Run the AWS CLI command to get the version
             aws_cli_version = subprocess.check_output(['aws', '--version'], stderr=subprocess.STDOUT, text=True)
             return aws_cli_version.strip()
         except subprocess.CalledProcessError:
-            # If the AWS CLI is not installed or an error occurred, it will raise an exception
             return None
 
     @staticmethod
@@ -29,13 +27,10 @@ class EnvChecker:
             str or None: The Docker version if installed, or None if not installed.
         """
         try:
-            # Run the "docker --version" command and capture the output
             docker_version = subprocess.check_output(["docker", "--version"], stderr=subprocess.STDOUT, text=True)
 
-            # If Docker is installed, return the Docker version
             return docker_version.strip()
         except subprocess.CalledProcessError:
-            # If the "docker --version" command failed, indicating Docker is not installed
             return None
 
     @staticmethod
@@ -46,10 +41,8 @@ class EnvChecker:
         Returns:
             str or None: The AWS account ID if AWS CLI is configured, or None if not configured.
         """
-        # Run the AWS CLI command to get the caller identity
         result = subprocess.run(['aws', 'sts', 'get-caller-identity'], capture_output=True, text=True)
 
-        # Check if the command was successful
         if result.returncode == 0:
             # Parse the JSON output to extract the account ID
             caller_identity = json.loads(result.stdout)
