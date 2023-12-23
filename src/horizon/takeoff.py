@@ -72,12 +72,12 @@ def deploy_docker(config_file):
     
     if deploy.lower() == "yes":
         
-        repo_name = Prompt.ask("\n[magenta] - Enter your ECR repository name, if it doesn't exist, it will be created")
+        ecr_repo_name = Prompt.ask("\n[magenta] - Enter your ECR repository name, if it doesn't exist, it will be created")
         
         manager = Manager(config_file.name)
-        manager.check_or_create_repository(repo_name)
+        manager.check_or_create_repository(ecr_repo_name)
         manager.pull_takeoff_image(script_dir)
-        manager.push_takeoff_image(script_dir, repo_name)
+        manager.push_takeoff_image(script_dir, ecr_repo_name)
         
     else:
         print("Your configuration is completed. You can now launch your EC2 instance manually.")  #TODO write out manual flow using Docker Class and TitanEC2/TitanSagemaker class

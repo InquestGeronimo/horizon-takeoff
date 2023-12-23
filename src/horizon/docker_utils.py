@@ -60,7 +60,7 @@ class Manager:
 
     def pull_takeoff_image(self, script_dir: str) -> None:
         """
-        Pulls the Takeoff Server Docker image.
+        Pulls the Takeoff Server Docker image to local machine.
 
         Args:
             script_dir (str): The directory containing the script for pulling Takeoff server.
@@ -68,13 +68,12 @@ class Manager:
         pull_script = os.path.join(script_dir, PULL_SCRIPT)
 
         try:
-            # Run the Bash pull script
             subprocess.run(["bash", pull_script])
 
         except Exception as e:
             print(f"Error during image pull: {e}")
 
-    def push_takeoff_image(self, script_dir: str, repo_name: str) -> None:
+    def push_takeoff_image(self, script_dir: str, ecr_repo_name: str) -> None:
         """
         Pushes the Takeoff Server Docker image to the ECR repository.
 
@@ -85,8 +84,7 @@ class Manager:
         push_script = os.path.join(script_dir, PUSH_SCRIPT)
 
         try:
-            # Run the Bash push script with repo_name as an argument
-            subprocess.run(["bash", push_script, repo_name])
+            subprocess.run(["bash", push_script, ecr_repo_name])
 
         except Exception as e:
             print(f"Error during image push: {e}")
