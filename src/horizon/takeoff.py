@@ -75,7 +75,7 @@ def create_ec2_config_file() -> None:
     return config_file
 
 def deploy_docker(config_file):
-    deploy = Prompt.ask("\n[magenta] 6. Ready to deploy Docker image to ECR?[/magenta] [yellow](yes,no)[/yellow]", choices=["yes", "no"], show_choices=False)
+    deploy = Prompt.ask("\n[magenta] 6. Ready to deploy Docker image to ECR and instantiate your EC2 instance?[/magenta] [yellow](yes,no)[/yellow]", choices=["yes", "no"], show_choices=False)
     
     if deploy.lower() == "yes":
         
@@ -95,7 +95,6 @@ def create_ec2_instance(config_file):
     ec2_instance = TitanEC2.load_ec2_config(config_file.name)
     instance_meta_data = ec2_instance.create_instance()
     shell.print(f"\n[bold green] Created EC2 instance: {instance_meta_data}[/bold green]")
-    
     
 def create_sagemaker_config_file() -> None:
     
