@@ -55,7 +55,7 @@ def create_ec2_config_file() -> None:
         "\n[magenta] 3. Enter EC2 Instance Type[/magenta] (e.g. for 1 V100 GPU: [yellow]p3.2xlarge[/yellow])"
     )
     
-    ec2.list_key_pairs()  # Include this line to list key pairs
+    ec2.list_key_pairs()
     ec2_config['EC2']['key_name'] = Prompt.ask(
         "\n[magenta] 4. Enter EC2 Key Name[/magenta]"
     )
@@ -70,7 +70,7 @@ def create_ec2_config_file() -> None:
     with open(ec2.config_filename, 'w') as config_file:
         yaml.dump(ec2_config, config_file, default_flow_style=False)
     
-    shell.print(f"\n[bold green]EC2 configuration file '{config_file.name}' has been created in your working directory.[/bold green]")
+    shell.print(f"\n[bold green]EC2 config file '{config_file.name}' has been created in your working directory.[/bold green]")
     
     return config_file
 
@@ -90,11 +90,15 @@ def deploy_docker(config_file):
         print("Your configuration is completed. You can now launch your EC2 instance manually.")  
         #TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
         
-def create_ec2_instance():
-    ...
+def create_ec2_instance(config_file):
+    
+    ec2_instance = TitanEC2.load_ec2_config(config_file.name)
+    instance_meta_data = ec2_instance.create_instance()
+    shell.print(f"\n[bold green] Created EC2 instance: {instance_meta_data}[/bold green]")
     
     
 def create_sagemaker_config_file() -> None:
+    
     sagemaker_config: Dict[str, Any] = {}
     sagemaker_config['account_id'] = Prompt.ask("[magenta]Enter Sagemaker Account ID[/magenta]: ")
     sagemaker_config['model_name'] = Prompt.ask("[magenta]Enter Sagemaker Model Name[/magenta]: ")
@@ -104,7 +108,7 @@ def create_sagemaker_config_file() -> None:
     with open('sagemaker_config.yaml', 'w') as config_file:
         yaml.dump(sagemaker_config, config_file, default_flow_style=False)
     
-    print("[bold green]Sagemaker configuration file 'sagemaker_config.yaml' has been created and filled.[/bold green]")
+    shell.print("[bold green]Sagemaker configuration file 'sagemaker_config.yaml' has been created and filled.[/bold green]")
 
 def main():
     
@@ -125,11 +129,13 @@ def main():
             if override_choice == 'yes':
                 config_name = create_ec2_config_file()
                 deploy_docker(config_name)
+                create_ec2_instance(config_name)
             else:
                 print("[bold red]Aborting YAML configuration![/bold red]")
         else:
             config_name = create_ec2_config_file()
             deploy_docker(config_name)
+            create_ec2_instance(config_name)
     else:
         if config_exists(choice):
             warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"

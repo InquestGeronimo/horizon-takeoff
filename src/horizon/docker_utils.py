@@ -29,7 +29,7 @@ def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
 class DockerHandler:
     def __init__(self, config_path: str) -> None:
         """
-        Initialize the Manager with the provided YAML config path.
+        Initialize the Handler with the provided YAML config path.
 
         Args:
             config_path (str): Path to the YAML configuration file.
