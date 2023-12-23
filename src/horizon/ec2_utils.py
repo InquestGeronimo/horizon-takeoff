@@ -1,4 +1,5 @@
 import boto3
+import botocore
 from typing import List, Dict, Any
 
 class EC2ConfigHandler:
@@ -14,7 +15,6 @@ class EC2ConfigHandler:
         self.ec2_client = self.session.client('ec2')
 
     def get_aws_region(self):
-        
         """
         Get the AWS region using boto3's Session object.
 
@@ -24,9 +24,9 @@ class EC2ConfigHandler:
         try:
             aws_region = self.session.region_name
             return aws_region if aws_region else "AWS region is not configured."
-        except Exception as e:
-            return f"Error: {str(e)}"
-    
+        except botocore.exceptions.NoRegionError as e:
+            print(f"Error listing aws region: {e}")
+
     def list_security_groups(self) -> List[Dict[str, Any]]:
         """
         Lists security groups in your AWS EC2 environment.
@@ -34,15 +34,18 @@ class EC2ConfigHandler:
         Returns:
             List[Dict[str, Any]]: A list of dictionaries containing security group information.
         """
-        response = self.ec2_client.describe_security_groups()
-        security_groups = response['SecurityGroups']
+        try:
+            response = self.ec2_client.describe_security_groups()
+            security_groups = response['SecurityGroups']
 
-        print("\nList of your Security Groups:")
-        for group in security_groups:
-            print(f"Name: {group['GroupName']}")
-            print(f"ID: {group['GroupId']}")
-            
-        return security_groups
+            print("\nList of your Security Groups:")
+            for group in security_groups:
+                print(f"Name: {group['GroupName']}")
+                print(f"ID: {group['GroupId']}")
+
+            return security_groups
+        except botocore.exceptions.ClientError as e:
+            print(f"Error listing security groups: {e}")
     
     def list_key_pairs(self) -> List[Dict[str, str]]:
         """
@@ -52,11 +55,16 @@ class EC2ConfigHandler:
             List[Dict[str, str]]: A list of dictionaries containing key pair information.
                 Each dictionary contains a 'KeyName' key with the name of the key pair.
         """
-        response = self.ec2_client.describe_key_pairs()
-        key_pairs = response['KeyPairs']
+        try:
+            response = self.ec2_client.describe_key_pairs()
+            key_pairs = response['KeyPairs']
 
-        print("\nList of your Key Pairs:")
-        for key in key_pairs:
-            print(f"Name: {key['KeyName']}")
+            print("\nList of your Key Pairs:")
+            for key in key_pairs:
+                print(f"Name: {key['KeyName']}")
 
-        return key_pairs
+            return key_pairs
+        except botocore.exceptions.ClientError as e:
+            # Handle the exception here, e.g., print an error message
+            print(f"Error listing key pairs: {e}")
+            return []

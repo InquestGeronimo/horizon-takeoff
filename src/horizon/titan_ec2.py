@@ -13,7 +13,7 @@ class TitanEC2:
     
     def __init__(
         self, 
-        config_path: str = "./ec2_config.yaml", 
+        config_path: str, 
         min_count: int = 1, 
         max_count: int = 1
     ):
