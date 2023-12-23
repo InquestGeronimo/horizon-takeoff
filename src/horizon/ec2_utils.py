@@ -7,6 +7,8 @@ class EC2ConfigHandler:
     A class for handling EC2 configurations and listing security groups.
     """
 
+    config_filename = "ec2_config.yaml"
+    
     def __init__(self) -> None:
         """
         Initializes an EC2ConfigHandler object with an EC2 client based on the AWS region from the current session.
@@ -68,3 +70,21 @@ class EC2ConfigHandler:
             # Handle the exception here, e.g., print an error message
             print(f"Error listing key pairs: {e}")
             return []
+        
+    def create_ec2_config_dict(self) -> Dict[str, Any]:
+        """
+        Initialize an empty EC2 configuration dictionary.
+
+        Returns:
+            dict: An empty EC2 configuration dictionary with predefined keys.
+        """
+        ec2_config: Dict[str, Any] = {
+            'EC2': {
+                'region_name': "",
+                'ami_id': "",
+                'instance_type': "",
+                'key_name': "",
+                'security_group_ids': []
+            }
+        }
+        return ec2_config

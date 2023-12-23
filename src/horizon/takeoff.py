@@ -8,13 +8,13 @@ from typing import Dict, Any
 
 from .titan_ec2 import TitanEC2
 from .ec2_utils import EC2ConfigHandler
-from .docker_utils import Manager
+from .docker_utils import DockerHandler
 from .checks import EnvChecker as env
 from .banner import print_banner
 
-
 shell = Console()
 ec2 = EC2ConfigHandler()
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 script_dir = os.path.join(current_dir, "scripts")
@@ -41,26 +41,33 @@ def config_exists(name) -> bool:
     return os.path.exists(f'{name}_config.yaml')
 
 def create_ec2_config_file() -> None:
-    ec2_config: Dict[str, Any] = {}
-    ec2_config['EC2'] = {
-        'region_name': Prompt.ask(
-            f"\n[magenta] 1. Enter EC2 Region Name[/magenta] (current configured region: [yellow]{ec2.get_aws_region()}[/yellow])"
-        ),
-        'ami_id': Prompt.ask(
-            "\n[magenta] 2. Enter EC2 AMI ID[/magenta] (e.g. for Ubuntu 22.04 x86 [yellow]ami-0c7217cdde317cfec[/yellow])"
-        ),
-        'instance_type': Prompt.ask(
-            "\n[magenta] 3. Enter EC2 Instance Type[/magenta] (e.g. for 1 V100 GPU: [yellow]p3.2xlarge[/yellow])"
-        )
-    }
-    ec2.list_key_pairs()
-    key_name: str = Prompt.ask("\n[magenta] 4. Enter EC2 Key Name[/magenta]")
-    ec2_config['EC2']['key_name'] = key_name
+    ec2_config = ec2.create_ec2_config_dict()
+    
+    ec2_config['EC2']['region_name'] = Prompt.ask(
+        f"\n[magenta] 1. Enter EC2 Region Name[/magenta] (current configured region: [yellow]{ec2.get_aws_region()}[/yellow])"
+    )
+    
+    ec2_config['EC2']['ami_id'] = Prompt.ask(
+        "\n[magenta] 2. Enter EC2 AMI ID[/magenta] (e.g. for Ubuntu 22.04 x86 [yellow]ami-0c7217cdde317cfec[/yellow])"
+    )
+    
+    ec2_config['EC2']['instance_type'] = Prompt.ask(
+        "\n[magenta] 3. Enter EC2 Instance Type[/magenta] (e.g. for 1 V100 GPU: [yellow]p3.2xlarge[/yellow])"
+    )
+    
+    ec2.list_key_pairs()  # Include this line to list key pairs
+    ec2_config['EC2']['key_name'] = Prompt.ask(
+        "\n[magenta] 4. Enter EC2 Key Name[/magenta]"
+    )
+    
     ec2.list_security_groups()
-    security_group_ids: str = Prompt.ask("\n[magenta] 5. Enter EC2 Security Group ID(s) (if multiple, comma-separated)[/magenta]")
+    security_group_ids: str = Prompt.ask(
+        "\n[magenta] 5. Enter EC2 Security Group ID(s) (if multiple, comma-separated)[/magenta]"
+    )
+    
     ec2_config['EC2']['security_group_ids'] = [sg.strip() for sg in security_group_ids.split(',')]
     
-    with open('ec2_config.yaml', 'w') as config_file:
+    with open(ec2.config_filename, 'w') as config_file:
         yaml.dump(ec2_config, config_file, default_flow_style=False)
     
     shell.print(f"\n[bold green]EC2 configuration file '{config_file.name}' has been created in your working directory.[/bold green]")
@@ -68,19 +75,20 @@ def create_ec2_config_file() -> None:
     return config_file
 
 def deploy_docker(config_file):
-    deploy = Prompt.ask("\n[magenta] 6. Ready to deploy Docker image to ECR?[/magenta] [yellow](yes,no)[/yellow]" , choices=["yes", "no"], show_choices=False)
+    deploy = Prompt.ask("\n[magenta] 6. Ready to deploy Docker image to ECR?[/magenta] [yellow](yes,no)[/yellow]", choices=["yes", "no"], show_choices=False)
     
     if deploy.lower() == "yes":
         
         ecr_repo_name = Prompt.ask("\n[magenta] - Enter your ECR repository name, if it doesn't exist, it will be created")
         
-        manager = Manager(config_file.name)
-        manager.check_or_create_repository(ecr_repo_name)
-        manager.pull_takeoff_image(script_dir)
-        manager.push_takeoff_image(script_dir, ecr_repo_name)
+        handler = DockerHandler(config_file.name)
+        handler.check_or_create_repository(ecr_repo_name)
+        handler.pull_takeoff_image(script_dir)
+        handler.push_takeoff_image(script_dir, ecr_repo_name)
         
     else:
-        print("Your configuration is completed. You can now launch your EC2 instance manually.")  #TODO write out manual flow using Docker Class and TitanEC2/TitanSagemaker class
+        print("Your configuration is completed. You can now launch your EC2 instance manually.")  
+        #TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
         
 def create_ec2_instance():
     ...
@@ -102,8 +110,8 @@ def main():
     
     print_banner()
     check_requirements()
-    
     shell.print("\n[magenta]Let's generate your YAML config file for your AWS cloud environment[/magenta]")
+    
     choice: str = Prompt.ask(
         "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]", 
         choices=["ec2", "sagemaker"], 
@@ -120,11 +128,12 @@ def main():
             else:
                 print("[bold red]Aborting YAML configuration![/bold red]")
         else:
-            create_ec2_config_file()
+            config_name = create_ec2_config_file()
+            deploy_docker(config_name)
     else:
         if config_exists(choice):
             warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
-            override_choice = Prompt.ask(warning_message)
+            override_choice = Prompt.ask(warning_message, choices=["yes", "no"], show_choices=False)
             if override_choice == 'yes':
                 create_sagemaker_config_file()
             else:

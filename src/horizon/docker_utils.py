@@ -7,6 +7,7 @@ from typing import Dict, Union
 PULL_SCRIPT = "pull_takeoff_image.sh"
 PUSH_SCRIPT = "push_takeoff_ecr.sh"
 
+
 def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
     """Parse the config YAML file containing AWS environment variables \
        and return its content as a dictionary.
@@ -25,7 +26,7 @@ def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
         print(f"Error parsing YAML file: {e}")
         return None
 
-class Manager:
+class DockerHandler:
     def __init__(self, config_path: str) -> None:
         """
         Initialize the Manager with the provided YAML config path.
