@@ -1,6 +1,5 @@
 import os
 import yaml
-import subprocess
 from rich import print
 from rich.prompt import Prompt
 from rich.console import Console
@@ -9,7 +8,7 @@ from typing import Dict, Any
 
 from .titan_ec2 import TitanEC2
 from .ec2_utils import EC2ConfigHandler
-from .ecr_utils import ECRManager
+from .docker_utils import Manager
 from .checks import EnvChecker as env
 from .banner import print_banner
 
@@ -17,8 +16,8 @@ from .banner import print_banner
 shell = Console()
 ec2 = EC2ConfigHandler()
 
-current_directory = os.path.dirname(os.path.abspath(__file__))
-script_directory = os.path.join(current_directory, "scripts")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+script_dir = os.path.join(current_dir, "scripts")
 
 requirements = [
     (env.check_aws_account_id, "AWS account ID exists."),
@@ -74,21 +73,11 @@ def deploy_docker(config_file):
     if deploy.lower() == "yes":
         
         repo_name = Prompt.ask("\n[magenta] - Enter your ECR repository name, if it doesn't exist, it will be created")
-        ecr = ECRManager(config_file.name)
-        ecr.check_or_create_repository(repo_name)
         
-        pull_script = os.path.join(script_directory, "pull_takeoff_image.sh")
-        push_script = os.path.join(script_directory, "push_takeoff_ecr.sh")
-
-        try:
-            # Run the first Bash script
-            subprocess.run(["bash", pull_script])
-            
-            # Run the second Bash script
-            subprocess.run(["bash", push_script, repo_name])
-            
-        except Exception as e:
-            print(f"Error during deployment: {e}")
+        manager = Manager()
+        manager.check_or_create_repository(repo_name)
+        manager.deploy_takeoff_image(script_dir, repo_name)
+        
     else:
         print("Your configuration is completed. You can now launch your EC2 instance manually.")  #TODO write out manual flow using Docker Class and TitanEC2/TitanSagemaker class
         
