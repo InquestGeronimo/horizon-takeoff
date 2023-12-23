@@ -76,7 +76,8 @@ def deploy_docker(config_file):
         
         manager = Manager(config_file.name)
         manager.check_or_create_repository(repo_name)
-        manager.deploy_takeoff_image(script_dir, repo_name)
+        manager.pull_takeoff_image(script_dir)
+        manager.push_takeoff_image(script_dir, repo_name)
         
     else:
         print("Your configuration is completed. You can now launch your EC2 instance manually.")  #TODO write out manual flow using Docker Class and TitanEC2/TitanSagemaker class

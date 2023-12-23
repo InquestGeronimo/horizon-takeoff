@@ -8,7 +8,8 @@ PULL_SCRIPT = "pull_takeoff_image.sh"
 PUSH_SCRIPT = "push_takeoff_ecr.sh"
 
 def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
-    """Parse a YAML file and return its content as a dictionary.
+    """Parse the config YAML file containing AWS environment variables \
+       and return its content as a dictionary.
 
     Args:
         yaml_file_path (str): Path to the YAML file.
@@ -27,7 +28,7 @@ def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
 class Manager:
     def __init__(self, config_path: str) -> None:
         """
-        Initialize the Manager with the provided configuration path.
+        Initialize the Manager with the provided YAML config path.
 
         Args:
             config_path (str): Path to the YAML configuration file.
