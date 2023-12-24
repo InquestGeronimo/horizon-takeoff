@@ -44,6 +44,12 @@ def config_exists(name) -> bool:
     return os.path.exists(f"{name}_config.yaml")
 
 
+def intro() -> None:
+    shell.print(
+        "\n[magenta]Let's generate your YAML config file for your AWS cloud environment[/magenta]"
+    )
+
+
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
 
@@ -141,9 +147,6 @@ def create_sagemaker_config_file() -> None:
 def main():
     print_banner()
     check_requirements()
-    shell.print(
-        "\n[magenta]Let's generate your YAML config file for your AWS cloud environment[/magenta]"
-    )
 
     choice: str = Prompt.ask(
         "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]",
