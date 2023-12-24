@@ -162,3 +162,4 @@ cython_debug/
 test.py
 *dev.*
 ec2_config.yaml
+.ruff*
