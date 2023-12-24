@@ -185,7 +185,7 @@ def main():
     print_banner()
     check_requirements()
     intro()
-
+    select_aws_service()
 
 if __name__ == "__main__":
     main()
