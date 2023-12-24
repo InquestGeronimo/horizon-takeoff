@@ -7,8 +7,8 @@ from rich.markup import escape
 from typing import Dict, Any
 
 from .titan_ec2 import TitanEC2
-from .ec2_utils import EC2ConfigHandler
-from .docker_utils import DockerHandler
+from .utils.ec2_utils import EC2ConfigHandler
+from .utils.docker_utils import DockerHandler
 from .checks import EnvChecker as env
 from .banner import print_banner
 
@@ -107,7 +107,7 @@ def deploy_docker(config_file):
 
 
 def create_ec2_instance(config_file):
-    ec2_instance = TitanEC2.load_ec2_config(config_file.name)
+    ec2_instance = TitanEC2.load_config(config_file.name)
     instance_meta_data = ec2_instance.create_instance()
     shell.print(
         f"\n[bold green] Created EC2 instance: {instance_meta_data}[/bold green]"

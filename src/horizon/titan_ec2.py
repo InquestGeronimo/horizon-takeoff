@@ -1,3 +1,5 @@
+from typing import Optional, Dict
+
 import boto3
 import yaml
 from .models import EC2Config
@@ -39,7 +41,7 @@ class TitanEC2:
         self.key_name = ec2_config.key_name
         self.security_group_ids = ec2_config.security_group_ids
 
-    def create_instance(self) -> str:
+    def create_instance(self) -> Dict:
         """Create an EC2 instance based on the configured parameters.
 
         Returns:
@@ -57,7 +59,7 @@ class TitanEC2:
         return self.ec2_client.run_instances(**instance_params)
 
     @classmethod
-    def load_ec2_config(cls, config_file_path: str) -> Optional["TitanEC2"]:
+    def load_config(cls, config_file_path: str) -> Optional["TitanEC2"]:
         """Load EC2 configuration from a YAML file and create a TitanEC2 instance.
 
         Args:
