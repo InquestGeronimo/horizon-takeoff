@@ -12,6 +12,7 @@ from .utils.ec2_utils import EC2ConfigHandler
 from .utils.docker_utils import DockerHandler
 from .utils.checks import EnvChecker as env
 from .utils.banner import print_banner
+from .utils.yaml_utils import add_instance_id_to_yaml
 
 shell = Console()
 ec2 = EC2ConfigHandler()
@@ -56,35 +57,38 @@ def select_aws_service() -> None:
         choices=["ec2", "sagemaker"],
         show_choices=False,
     )
+    return choice
 
-    if choice == "ec2":
-        if config_exists(choice):
-            warning_message = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
-            override_choice = Prompt.ask(
-                warning_message, choices=["yes", "no"], show_choices=False
-            )
-            if override_choice == "yes":
-                config_name = create_ec2_config_file()
-                deploy_docker(config_name)
-                create_ec2_instance(config_name)
-            else:
-                print("[bold red]Aborting YAML configuration![/bold red]")
+def provision_ec2(choice):
+    if config_exists(choice):
+        warning_message = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
+        override_choice = Prompt.ask(
+            warning_message, choices=["yes", "no"], show_choices=False
+        )
+        if override_choice == "yes":
+            config_file = create_ec2_config_file()
+            deploy_docker(config_file)
+            instance_id = create_ec2_instance(config_file)
+            return instance_id, config_file
         else:
-            config_name = create_ec2_config_file()
-            deploy_docker(config_name)
-            create_ec2_instance(config_name)
+            print("[bold red]Aborting YAML configuration![/bold red]")
     else:
-        if config_exists(choice):
-            warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
-            override_choice = Prompt.ask(
-                warning_message, choices=["yes", "no"], show_choices=False
-            )
-            if override_choice == "yes":
-                create_sagemaker_config_file()
-            else:
-                print("[bold red]Aborting YAML configuration![/bold red]")
-        else:
+        config_name = create_ec2_config_file()
+        deploy_docker(config_name)
+        create_ec2_instance(config_name)
+            
+def provision_sagemaker(choice):
+    if config_exists(choice):
+        warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
+        override_choice = Prompt.ask(
+            warning_message, choices=["yes", "no"], show_choices=False
+        )
+        if override_choice == "yes":
             create_sagemaker_config_file()
+        else:
+            print("[bold red]Aborting YAML configuration![/bold red]")
+    else:
+        create_sagemaker_config_file()
 
 
 def create_ec2_config_file() -> None:
@@ -145,17 +149,18 @@ def deploy_docker(config_file):
 
     else:
         print(
-            "Your configuration is almost complet. To launch your EC2 instance manually etc etc."
+            "Your configuration is almost complete. To launch your EC2 instance manually etc etc."
         )
         # TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
 
 
 def create_ec2_instance(config_file):
-    ec2_instance = TitanEC2.load_config(config_file.name)
-    instance_meta_data = ec2_instance.create_instance()
+    ec2 = TitanEC2.load_config(config_file.name)
+    instance_id, instance_meta_data = ec2.create_instance()
     shell.print(
         f"\n[bold green] Created EC2 instance: {instance_meta_data}[/bold green]"
     )
+    return instance_id
 
 
 def create_sagemaker_config_file() -> None:
@@ -185,7 +190,12 @@ def main():
     print_banner()
     check_requirements()
     intro()
-    select_aws_service()
+    choice = select_aws_service()
+    if choice == "ec2":
+        instance_id, config_file = provision_ec2(choice)
+        add_instance_id_to_yaml(config_file.name, instance_id)
+    else:
+        provision_sagemaker()
 
 if __name__ == "__main__":
     main()

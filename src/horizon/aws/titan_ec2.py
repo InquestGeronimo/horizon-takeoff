@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 
 import boto3
 import yaml
@@ -40,6 +40,7 @@ class TitanEC2:
         self.instance_type = ec2_config.instance_type
         self.key_name = ec2_config.key_name
         self.security_group_ids = ec2_config.security_group_ids
+        self.instance_ids = ec2_config.instance_ids or []
 
     def create_instance(self) -> Dict:
         """Create an EC2 instance based on the configured parameters.
@@ -56,7 +57,20 @@ class TitanEC2:
             "MaxCount": self.max_count,
         }
 
-        return self.ec2_client.run_instances(**instance_params)
+        response = self.ec2_client.run_instances(**instance_params)
+        return response['Instances'][0]['InstanceId'], response
+
+    def delete_instance(self, instance_ids: List[str]) -> None:
+        """Delete EC2 instances by providing a list of instance IDs.
+
+        Args:
+            instance_ids (List[str]): A list of EC2 instance IDs to delete.
+        """
+        if instance_ids:
+            self.ec2_client.terminate_instances(InstanceIds=instance_ids)
+            print(f"Instances {', '.join(instance_ids)} are being terminated.")
+        else:
+            print("No instance IDs provided. No instances will be terminated.")
 
     @classmethod
     def load_config(cls, config_file_path: str) -> Optional["TitanEC2"]:
