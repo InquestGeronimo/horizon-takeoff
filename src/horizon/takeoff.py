@@ -102,7 +102,7 @@ def deploy_docker(config_file):
 
     else:
         print(
-            "Your configuration is completed. You can now launch your EC2 instance manually."
+            "Your configuration is almost complet. To launch your EC2 instance manually etc etc."
         )
         # TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
 
