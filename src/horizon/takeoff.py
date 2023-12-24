@@ -6,11 +6,11 @@ from rich.console import Console
 from rich.markup import escape
 from typing import Dict, Any
 
-from .titan_ec2 import TitanEC2
+from .aws.titan_ec2 import TitanEC2
 from .utils.ec2_utils import EC2ConfigHandler
 from .utils.docker_utils import DockerHandler
-from .checks import EnvChecker as env
-from .banner import print_banner
+from .utils.checks import EnvChecker as env
+from .utils.banner import print_banner
 
 shell = Console()
 ec2 = EC2ConfigHandler()
