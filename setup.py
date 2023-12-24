@@ -8,16 +8,15 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 NAME = "horizon"
-VERSION = "0.0.2"
+VERSION = "0.0.23"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
 DESCRIPTION = "Auto-deploy the Takeoff Server on AWS for LLM inference"
 LONG_DESCRIPTION = "n/a."
-PACKAGE_DIR = {"": "src"}
-PACKAGES = find_packages("src")
-PACKAGE_DATA = {'src.horizon': ['scripts/*', 'utils/*']}
-ENTRY_POINTS = {"console_scripts": ["horizon=horizon.takeoff:main", "delete-ec2=horizon.del_ec2:main"]}
+PACKAGES = find_packages()
+PACKAGE_DATA = {"horizon": ["scripts/*", "utils/*", "aws/*", "logs/*"]}
+ENTRY_POINTS = {"console_scripts": ["horizon=horizon.takeoff:main", "del-instance=horizon.del_ec2:main"]}
 DEPENDENCIES = ["boto3>=1.34.4", "pyyaml>=6.0.1", "rich>=12.6.0", "pydantic>=2.5.3"]
 KEYWORDS = ["cloud", "titanml", "server", "LLM", "NLP", "MLOps", "deployment"]
 CLASSIFIERS = [
@@ -35,7 +34,6 @@ setup(
     description=DESCRIPTION,
     long_description_content_type=LD_CONTENT_TYPE,
     long_description=LONG_DESCRIPTION,
-    package_dir=PACKAGE_DIR,
     packages=PACKAGES,
     package_data=PACKAGE_DATA,
     entry_points=ENTRY_POINTS,

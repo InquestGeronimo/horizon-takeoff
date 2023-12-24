@@ -73,9 +73,10 @@ def provision_ec2(choice):
         else:
             print("[bold red]Aborting YAML configuration![/bold red]")
     else:
-        config_name = create_ec2_config_file()
-        deploy_docker(config_name)
-        create_ec2_instance(config_name)
+        config_file = create_ec2_config_file()
+        deploy_docker(config_file)
+        instance_id = create_ec2_instance(config_file)
+        return instance_id, config_file
             
 def provision_sagemaker(choice):
     if config_exists(choice):
