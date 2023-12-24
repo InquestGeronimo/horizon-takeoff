@@ -50,6 +50,43 @@ def intro() -> None:
     )
 
 
+def select_aws_service() -> None:
+    choice: str = Prompt.ask(
+        "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]",
+        choices=["ec2", "sagemaker"],
+        show_choices=False,
+    )
+
+    if choice == "ec2":
+        if config_exists(choice):
+            warning_message = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
+            override_choice = Prompt.ask(
+                warning_message, choices=["yes", "no"], show_choices=False
+            )
+            if override_choice == "yes":
+                config_name = create_ec2_config_file()
+                deploy_docker(config_name)
+                create_ec2_instance(config_name)
+            else:
+                print("[bold red]Aborting YAML configuration![/bold red]")
+        else:
+            config_name = create_ec2_config_file()
+            deploy_docker(config_name)
+            create_ec2_instance(config_name)
+    else:
+        if config_exists(choice):
+            warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
+            override_choice = Prompt.ask(
+                warning_message, choices=["yes", "no"], show_choices=False
+            )
+            if override_choice == "yes":
+                create_sagemaker_config_file()
+            else:
+                print("[bold red]Aborting YAML configuration![/bold red]")
+        else:
+            create_sagemaker_config_file()
+
+
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
 
@@ -147,41 +184,7 @@ def create_sagemaker_config_file() -> None:
 def main():
     print_banner()
     check_requirements()
-
-    choice: str = Prompt.ask(
-        "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]",
-        choices=["ec2", "sagemaker"],
-        show_choices=False,
-    )
-
-    if choice == "ec2":
-        if config_exists(choice):
-            warning_message = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
-            override_choice = Prompt.ask(
-                warning_message, choices=["yes", "no"], show_choices=False
-            )
-            if override_choice == "yes":
-                config_name = create_ec2_config_file()
-                deploy_docker(config_name)
-                create_ec2_instance(config_name)
-            else:
-                print("[bold red]Aborting YAML configuration![/bold red]")
-        else:
-            config_name = create_ec2_config_file()
-            deploy_docker(config_name)
-            create_ec2_instance(config_name)
-    else:
-        if config_exists(choice):
-            warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
-            override_choice = Prompt.ask(
-                warning_message, choices=["yes", "no"], show_choices=False
-            )
-            if override_choice == "yes":
-                create_sagemaker_config_file()
-            else:
-                print("[bold red]Aborting YAML configuration![/bold red]")
-        else:
-            create_sagemaker_config_file()
+    intro()
 
 
 if __name__ == "__main__":
