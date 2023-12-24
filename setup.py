@@ -17,7 +17,7 @@ LONG_DESCRIPTION = "n/a."
 PACKAGE_DIR = {"": "src"}
 PACKAGES = find_packages("src")
 PACKAGE_DATA = {'src.horizon': ['scripts/*', 'utils/*']}
-ENTRY_POINTS = {"console_scripts": ["horizon=horizon.takeoff:main"]}
+ENTRY_POINTS = {"console_scripts": ["horizon=horizon.takeoff:main", "delete-ec2=horizon.del_ec2:main"]}
 DEPENDENCIES = ["boto3>=1.34.4", "pyyaml>=6.0.1", "rich>=12.6.0", "pydantic>=2.5.3"]
 KEYWORDS = ["cloud", "titanml", "server", "LLM", "NLP", "MLOps", "deployment"]
 CLASSIFIERS = [
