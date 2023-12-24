@@ -2,19 +2,20 @@ import boto3
 import botocore
 from typing import List, Dict, Any
 
+
 class EC2ConfigHandler:
     """
     A class for handling EC2 configurations and listing security groups.
     """
 
     config_filename = "ec2_config.yaml"
-    
+
     def __init__(self) -> None:
         """
         Initializes an EC2ConfigHandler object with an EC2 client based on the AWS region from the current session.
         """
         self.session = boto3.Session()
-        self.ec2_client = self.session.client('ec2')
+        self.ec2_client = self.session.client("ec2")
 
     def get_aws_region(self):
         """
@@ -38,7 +39,7 @@ class EC2ConfigHandler:
         """
         try:
             response = self.ec2_client.describe_security_groups()
-            security_groups = response['SecurityGroups']
+            security_groups = response["SecurityGroups"]
 
             print("\nList of your Security Groups:")
             for group in security_groups:
@@ -48,7 +49,7 @@ class EC2ConfigHandler:
             return security_groups
         except botocore.exceptions.ClientError as e:
             print(f"Error listing security groups: {e}")
-    
+
     def list_key_pairs(self) -> List[Dict[str, str]]:
         """
         Lists the key pairs available in your AWS account.
@@ -59,7 +60,7 @@ class EC2ConfigHandler:
         """
         try:
             response = self.ec2_client.describe_key_pairs()
-            key_pairs = response['KeyPairs']
+            key_pairs = response["KeyPairs"]
 
             print("\nList of your Key Pairs:")
             for key in key_pairs:
@@ -70,7 +71,7 @@ class EC2ConfigHandler:
             # Handle the exception here, e.g., print an error message
             print(f"Error listing key pairs: {e}")
             return []
-        
+
     def create_ec2_config_dict(self) -> Dict[str, Any]:
         """
         Initialize an empty EC2 configuration dictionary.
@@ -79,12 +80,12 @@ class EC2ConfigHandler:
             dict: An empty EC2 configuration dictionary with predefined keys.
         """
         ec2_config: Dict[str, Any] = {
-            'EC2': {
-                'region_name': "",
-                'ami_id': "",
-                'instance_type': "",
-                'key_name': "",
-                'security_group_ids': []
+            "EC2": {
+                "region_name": "",
+                "ami_id": "",
+                "instance_type": "",
+                "key_name": "",
+                "security_group_ids": [],
             }
         }
         return ec2_config

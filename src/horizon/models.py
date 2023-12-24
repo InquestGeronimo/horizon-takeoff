@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 
+
 class EC2Config(BaseModel):
     region_name: str
     ami_id: str

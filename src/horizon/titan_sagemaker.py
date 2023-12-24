@@ -19,16 +19,16 @@ class TitanSageMaker:
         role (str): The IAM role ARN for SageMaker.
         sagemaker_model (sagemaker.model.Model): The SageMaker model configuration.
     """
+
     def __init__(
-        self, 
-        account_id: int, 
-        region: str, 
-        role_name: str, 
+        self,
+        account_id: int,
+        region: str,
+        role_name: str,
         instance_type: str,
         instance_count: int,
-        endpoint_name: str
+        endpoint_name: str,
     ):
-        
         self.account_id = account_id
         self.region = region
         self.role_name = role_name
@@ -45,14 +45,12 @@ class TitanSageMaker:
             role=self.role,
             predictor_cls=Predictor,
             env={
-                'TAKEOFF_MODEL_NAME': 'facebook/opt-125m',
-                'TAKEOFF_DEVICE': 'cuda',
-                'TAKEOFF_BACKEND': 'fast',
-                'TAKEOFF_LOG_LEVEL': 'INFO'
+                "TAKEOFF_MODEL_NAME": "facebook/opt-125m",
+                "TAKEOFF_DEVICE": "cuda",
+                "TAKEOFF_BACKEND": "fast",
+                "TAKEOFF_LOG_LEVEL": "INFO",
             },
-            image_config={
-                'RepositoryAccessMode': 'Platform'
-            }
+            image_config={"RepositoryAccessMode": "Platform"},
         )
 
     def deploy_endpoint(self) -> Optional[Predictor]:
@@ -68,11 +66,10 @@ class TitanSageMaker:
             predictor = self.sagemaker_model.deploy(
                 initial_instance_count=self.instance_count,
                 instance_type=self.instance_type,
-                endpoint_name=self.endpoint_name
+                endpoint_name=self.endpoint_name,
             )
             print(f"Deployed SageMaker endpoint: {self.endpoint_name}")
             return predictor
         except Exception as e:
             print(f"Failed to deploy SageMaker endpoint: {str(e)}")
             return None
-

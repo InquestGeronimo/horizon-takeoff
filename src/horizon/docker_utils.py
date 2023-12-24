@@ -19,12 +19,13 @@ def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
         dict: A dictionary representing the YAML content or None if there's an issue.
     """
     try:
-        with open(yaml_file_path, 'r') as yaml_file:
+        with open(yaml_file_path, "r") as yaml_file:
             yaml_content = yaml.load(yaml_file, Loader=yaml.FullLoader)
         return yaml_content
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error parsing YAML file: {e}")
         return None
+
 
 class DockerHandler:
     def __init__(self, config_path: str) -> None:
@@ -35,7 +36,7 @@ class DockerHandler:
             config_path (str): Path to the YAML configuration file.
         """
         params = parse_yaml_file(config_path)
-        self.ecr_client = boto3.client('ecr', region_name=params["EC2"]["region_name"])
+        self.ecr_client = boto3.client("ecr", region_name=params["EC2"]["region_name"])
 
     def check_or_create_repository(self, repo_name: str) -> None:
         """
@@ -45,8 +46,10 @@ class DockerHandler:
             repo_name (str): The name of the ECR repository to check or create.
         """
         try:
-            response = self.ecr_client.describe_repositories(repositoryNames=[repo_name])
-            repository_exists = len(response['repositories']) > 0
+            response = self.ecr_client.describe_repositories(
+                repositoryNames=[repo_name]
+            )
+            repository_exists = len(response["repositories"]) > 0
         except self.ecr_client.exceptions.RepositoryNotFoundException:
             repository_exists = False
 
