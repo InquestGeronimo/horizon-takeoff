@@ -4,7 +4,7 @@ from rich import print
 
 def print_banner():
     style = "yellow"
-    subtitle = "Deploying LLMs with the Takeoff Server on AWS"
+    subtitle = "Deploying the Takeoff Server on AWS for LLMs Inference"
     banner = """ 
 
    ████████╗ ██╗ ████████╗  █████╗  ███╗   ██╗ ███╗   ███╗ ██╗     
