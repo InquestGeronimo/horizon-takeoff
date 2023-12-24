@@ -1,10 +1,11 @@
 import os
 import yaml
+from typing import Dict, Any
+
 from rich import print
 from rich.prompt import Prompt
 from rich.console import Console
 from rich.markup import escape
-from typing import Dict, Any
 
 from .aws.titan_ec2 import TitanEC2
 from .utils.ec2_utils import EC2ConfigHandler
