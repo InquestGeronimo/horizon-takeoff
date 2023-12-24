@@ -18,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Added Docker Support
+- Added Docker Support. Created bash scripts to pull takeoff server image and push image to ECR.
 
 ## [0.0.12] - 2023-12-21
 
