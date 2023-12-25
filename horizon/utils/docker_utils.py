@@ -15,7 +15,7 @@ class DockerHandler:
             config_path (str): Path to the YAML configuration file.
         """
         params = parse_yaml_file(config_path)
-        self.ecr_client = boto3.client("ecr", region_name=params["EC2"]["region_name"])
+        self.ecr_client = boto3.client("ecr", region_name=params.region_name)
 
     def check_or_create_repository(self, repo_name: str) -> None:
         """

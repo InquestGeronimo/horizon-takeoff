@@ -1,18 +1,8 @@
 from typing import Optional, Dict, List
 
 import boto3
-import yaml
+from ..utils.yaml_utils import parse_yaml_file
 from .models import EC2Config
-
-
-def parse_yaml_file(yaml_file_path: str) -> EC2Config:
-    try:
-        with open(yaml_file_path, "r") as yaml_file:
-            yaml_content = yaml.safe_load(yaml_file)
-        return EC2Config(**yaml_content["EC2"])
-    except (FileNotFoundError, yaml.YAMLError) as e:
-        print(f"Error parsing YAML file: {e}")
-        return None
 
 
 class TitanEC2:
@@ -58,7 +48,7 @@ class TitanEC2:
         }
 
         response = self.ec2_client.run_instances(**instance_params)
-        return response['Instances'][0]['InstanceId'], response
+        return response["Instances"][0]["InstanceId"], response
 
     def delete_instance(self, instance_ids: List[str]) -> None:
         """Delete EC2 instances by providing a list of instance IDs.
