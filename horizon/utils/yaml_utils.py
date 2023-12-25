@@ -26,8 +26,7 @@ def add_instance_id_to_yaml(yaml_file_path, instance_id_to_add):
 
             updated_data = {"EC2": ec2_config.model_dump()}
 
-            with open(yaml_file_path, 'w') as file:
-                yaml.dump(updated_data, file, default_flow_style=False)
+            write_yaml_to_file(yaml_file_path, updated_data)
 
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error updating YAML file: {e}")
