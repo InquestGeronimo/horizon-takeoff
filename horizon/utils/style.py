@@ -20,7 +20,6 @@ class PromptHandler:
     aws_cli_exists = "AWS CLI is installed."
     docker_exists = "Docker is installed."
     
-    
     select_aws_feature = "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]"
     aws_feature_choices = ["ec2", "sagemaker"]
     ec2_warning_msg = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. \

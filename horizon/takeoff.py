@@ -36,14 +36,14 @@ requirements = [
 def check_requirements():
     for condition, message in requirements:
         if condition is None:
-            error_message = (
-                prompt.dependency_not_exists(escape(prompt.emoji_cross), message)
+            error_message = prompt.dependency_not_exists(
+                escape(prompt.emoji_cross), message
             )
             shell.print(error_message)
             return  # Stop execution if any condition is None
         if condition:
-            formatted_message = (
-                prompt.dependency_exists(escape(prompt.emoji_checkmark), message)
+            formatted_message = prompt.dependency_exists(
+                escape(prompt.emoji_checkmark), message
             )
             shell.print(formatted_message)
 
@@ -98,7 +98,9 @@ def provision_sagemaker(choice):
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
 
-    ec2_config["EC2"]["region_name"] = Prompt.ask(prompt.enter_region(ec2.get_aws_region()))
+    ec2_config["EC2"]["region_name"] = Prompt.ask(
+        prompt.enter_region(ec2.get_aws_region())
+    )
 
     ec2_config["EC2"]["ami_id"] = Prompt.ask(prompt.enter_ami)
 
@@ -128,9 +130,7 @@ def deploy_docker(config_file):
     )
 
     if deploy.lower() == "yes":
-        ecr_repo_name = Prompt.ask(
-            prompt.enter_ecr_name
-        )
+        ecr_repo_name = Prompt.ask(prompt.enter_ecr_name)
 
         handler = DockerHandler(config_file.name)
         handler.check_or_create_repository(ecr_repo_name)
@@ -140,7 +140,7 @@ def deploy_docker(config_file):
     else:
         print(
             "Your configuration is almost complete. To launch your EC2 instance manually etc etc."
-        ) # TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
+        )  # TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
 
 
 def create_ec2_instance(config_file):
