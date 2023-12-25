@@ -12,7 +12,7 @@ from .aws.titan_ec2 import TitanEC2
 from .utils.ec2_utils import EC2ConfigHandler
 from .utils.docker_utils import DockerHandler
 from .utils.checks import EnvChecker as env
-from .utils.style import PromptHandler as prompt, print_banner
+from .utils.style import PromptHandler as prompt, banner
 from .utils.yaml_utils import (
     add_instance_id_to_yaml,
     yaml_config_exists,
@@ -174,7 +174,7 @@ def create_sagemaker_config_file() -> None:
 
 
 def main():
-    print(Panel.fit(print_banner(), subtitle=prompt.subtitle, style="yellow"))
+    print(Panel.fit(banner(), subtitle=prompt.subtitle, style="yellow"))
     print()
     check_requirements()
     intro()

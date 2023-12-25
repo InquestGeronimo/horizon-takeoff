@@ -1,4 +1,4 @@
-def print_banner():
+def banner():
 	
 	return """ 
 
