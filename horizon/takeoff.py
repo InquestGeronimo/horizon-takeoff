@@ -3,6 +3,7 @@ import yaml
 from typing import Dict, Any
 
 from rich import print
+from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.console import Console
 from rich.markup import escape
@@ -26,9 +27,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 script_dir = os.path.join(current_dir, "scripts")
 
 requirements = [
-    (env.check_aws_account_id, "AWS account ID exists."),
-    (env.check_aws_cli_installed, "AWS CLI is installed."),
-    (env.check_docker_installed, "Docker is installed."),
+    (env.check_aws_account_id, prompt.aws_id_exists),
+    (env.check_aws_cli_installed, prompt.aws_cli_exists),
+    (env.check_docker_installed, prompt.docker_exists),
 ]
 
 
@@ -36,13 +37,13 @@ def check_requirements():
     for condition, message in requirements:
         if condition is None:
             error_message = (
-                f"[bold red]{escape(prompt.emoji_cross)}[/] {message} is missing."
+                prompt.dependency_not_exists(escape(prompt.emoji_cross), message)
             )
             shell.print(error_message)
             return  # Stop execution if any condition is None
         if condition:
             formatted_message = (
-                f"[bold green]{escape(prompt.emoji_checkmark)}[/] {message}"
+                prompt.dependency_exists(escape(prompt.emoji_checkmark), message)
             )
             shell.print(formatted_message)
 
@@ -173,7 +174,8 @@ def create_sagemaker_config_file() -> None:
 
 
 def main():
-    print_banner()
+    print(Panel.fit(print_banner(), subtitle=prompt.subtitle, style="yellow"))
+    print()
     check_requirements()
     intro()
     choice = select_aws_service()
