@@ -27,7 +27,6 @@ def add_instance_id_to_yaml(yaml_file_path: str, instance_id):
         with open(yaml_file_path, "r") as yaml_file:
             yaml_content = yaml.safe_load(yaml_file)
 
-
         # Add the instance ID to the "EC2" section
         if "instance_ids" not in yaml_content["EC2"]:
             yaml_content["EC2"]["instance_ids"] = []
@@ -36,11 +35,25 @@ def add_instance_id_to_yaml(yaml_file_path: str, instance_id):
         # Write the updated content back to the YAML file
         with open(yaml_file_path, "w") as yaml_file:
             yaml.dump(yaml_content, yaml_file, default_flow_style=False)
-
-        print(f"Instance ID '{instance_id}' added to the YAML file '{yaml_file_path}'.")
         
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error updating YAML file: {e}")
         
 def yaml_config_exists(name) -> bool:
     return os.path.exists(f"{name}_config.yaml")
+
+def write_yaml_to_file(filename, data):
+    """
+    Write YAML data to a file.
+
+    Args:
+        filename (str): The name of the file to write to.
+        data (dict): The YAML data to write.
+
+    Returns:
+        None
+    """
+    with open(filename, "w") as config_file:
+        yaml.dump(data, config_file, default_flow_style=False)
+        
+    return config_file
