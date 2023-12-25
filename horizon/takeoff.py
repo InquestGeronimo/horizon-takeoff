@@ -12,7 +12,7 @@ from .utils.ec2_utils import EC2ConfigHandler
 from .utils.docker_utils import DockerHandler
 from .utils.checks import EnvChecker as env
 from .utils.banner import print_banner
-from .utils.yaml_utils import add_instance_id_to_yaml
+from .utils.yaml_utils import add_instance_id_to_yaml, yaml_config_exists
 
 shell = Console()
 ec2 = EC2ConfigHandler()
@@ -41,10 +41,6 @@ def check_requirements():
             shell.print(formatted_message)
 
 
-def config_exists(name) -> bool:
-    return os.path.exists(f"{name}_config.yaml")
-
-
 def intro() -> None:
     shell.print(
         "\n[magenta]Let's generate your YAML config file for your AWS cloud environment[/magenta]"
@@ -59,8 +55,9 @@ def select_aws_service() -> None:
     )
     return choice
 
+
 def provision_ec2(choice):
-    if config_exists(choice):
+    if yaml_config_exists(choice):
         warning_message = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
         override_choice = Prompt.ask(
             warning_message, choices=["yes", "no"], show_choices=False
@@ -77,9 +74,10 @@ def provision_ec2(choice):
         deploy_docker(config_file)
         instance_id = create_ec2_instance(config_file)
         return instance_id, config_file
-            
+
+
 def provision_sagemaker(choice):
-    if config_exists(choice):
+    if yaml_config_exists(choice):
         warning_message = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
         override_choice = Prompt.ask(
             warning_message, choices=["yes", "no"], show_choices=False
@@ -197,6 +195,7 @@ def main():
         add_instance_id_to_yaml(config_file.name, instance_id)
     else:
         provision_sagemaker()
+
 
 if __name__ == "__main__":
     main()

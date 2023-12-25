@@ -1,3 +1,4 @@
+import os
 import yaml
 from typing import Dict, Union
 
@@ -40,3 +41,6 @@ def add_instance_id_to_yaml(yaml_file_path: str, instance_id):
         
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error updating YAML file: {e}")
+        
+def yaml_config_exists(name) -> bool:
+    return os.path.exists(f"{name}_config.yaml")
