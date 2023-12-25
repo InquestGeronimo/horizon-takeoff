@@ -117,7 +117,7 @@ def create_ec2_config_file() -> None:
 
     config_file = write_yaml_to_file(ec2.config_filename, ec2_config)
 
-    shell.print(prompt.config_created(config_file))
+    shell.print(prompt.config_created(config_file.name))
 
     return config_file
 

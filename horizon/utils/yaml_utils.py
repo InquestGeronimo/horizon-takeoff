@@ -15,7 +15,7 @@ def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
     """
     try:
         with open(yaml_file_path, "r") as yaml_file:
-            yaml_content = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            yaml_content = yaml.safe_load(yaml_file)
         return yaml_content
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error parsing YAML file: {e}")
@@ -33,8 +33,7 @@ def add_instance_id_to_yaml(yaml_file_path: str, instance_id: str) -> None:
         None
     """
     try:
-        with open(yaml_file_path, "r") as yaml_file:
-            yaml_content = yaml.safe_load(yaml_file)
+        yaml_content = parse_yaml_file(yaml_file_path)
 
         if "instance_ids" not in yaml_content.get("EC2", {}):
             yaml_content["EC2"]["instance_ids"] = []
@@ -71,3 +70,5 @@ def write_yaml_to_file(filename: str, data: Dict) -> None:
     """
     with open(filename, "w") as config_file:
         yaml.dump(data, config_file, default_flow_style=False)
+        
+    return config_file

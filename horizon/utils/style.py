@@ -50,11 +50,11 @@ class PromptHandler:
     
     @staticmethod
     def config_created(config_file):
-        return f"\n[bold green]EC2 config file '{config_file.name}' has been created in your working directory.[/bold green]"
+        return f"\n[bold green]EC2 config file '{config_file}' has been created in your working directory.[/bold green]"
     
     @staticmethod
     def instance_created(instance_meta_data):
-        return f"\n[bold green] Created EC2 instance: {instance_meta_data}[/bold green]"
+        return f"\nCreated EC2 instance: [bold green] {instance_meta_data}[/bold green]"
     
     @staticmethod
     def instance_id_added(instance_id, config_file):
