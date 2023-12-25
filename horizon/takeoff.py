@@ -169,7 +169,7 @@ def create_sagemaker_config_file() -> None:
         yaml.dump(sagemaker_config, config_file, default_flow_style=False)
 
     shell.print(
-        "[bold green]Sagemaker configuration file 'sagemaker_config.yaml' has been created and filled.[/bold green]"
+        prompt.config_created(config_file)
     )
 
 
