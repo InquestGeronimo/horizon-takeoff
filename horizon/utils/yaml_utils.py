@@ -1,6 +1,7 @@
 import os
 import yaml
 from typing import Dict
+from io import TextIOWrapper
 from ..aws.models import EC2Config
 
 class YamlFileManager:
@@ -16,7 +17,6 @@ class YamlFileManager:
 
     @staticmethod
     def add_instance_id_to_yaml(yaml_file_path, instance_id_to_add):
-        # Parse the existing YAML file using the provided parse_function
         ec2_config = YamlFileManager.parse_yaml_file(yaml_file_path)
 
         try:
@@ -46,7 +46,7 @@ class YamlFileManager:
         return os.path.exists(f"{name}_config.yaml")
 
     @staticmethod
-    def write_yaml_to_file(filename: str, data: Dict) -> None:
+    def write_yaml_to_file(filename: str, data: Dict) -> TextIOWrapper:
         """Write YAML data to a file.
 
         Args:
@@ -58,3 +58,5 @@ class YamlFileManager:
         """
         with open(filename, "w") as config_file:
             yaml.dump(data, config_file, default_flow_style=False)
+            
+        return config_file
