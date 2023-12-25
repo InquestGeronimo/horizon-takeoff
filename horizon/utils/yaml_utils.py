@@ -1,46 +1,33 @@
 import os
 import yaml
-from typing import Dict, Union
+from typing import Dict
+from ..aws.models import EC2Config
 
-
-def parse_yaml_file(yaml_file_path: str) -> Union[Dict, None]:
-    """Parse the config YAML file containing AWS environment variables \
-       and return its content as a dictionary.
-
-    Args:
-        yaml_file_path (str): Path to the YAML file.
-
-    Returns:
-        dict: A dictionary representing the YAML content or None if there's an issue.
-    """
+def parse_yaml_file(yaml_file_path: str) -> EC2Config:
     try:
         with open(yaml_file_path, "r") as yaml_file:
             yaml_content = yaml.safe_load(yaml_file)
-        return yaml_content
+        return EC2Config(**yaml_content["EC2"])
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error parsing YAML file: {e}")
         return None
 
 
-def add_instance_id_to_yaml(yaml_file_path: str, instance_id: str) -> None:
-    """Add an instance ID to an existing YAML file.
+def add_instance_id_to_yaml(yaml_file_path, instance_id_to_add):
+    # Parse the existing YAML file using the provided parse_function
+    ec2_config = parse_yaml_file(yaml_file_path)
 
-    Args:
-        yaml_file_path (str): Path to the YAML file.
-        instance_id (str): Instance ID to be added.
-
-    Returns:
-        None
-    """
     try:
-        yaml_content = parse_yaml_file(yaml_file_path)
+        if ec2_config is not None:
+            if ec2_config.instance_ids is None:
+                ec2_config.instance_ids = []
 
-        if "instance_ids" not in yaml_content.get("EC2", {}):
-            yaml_content["EC2"]["instance_ids"] = []
-        yaml_content["EC2"]["instance_ids"].append(instance_id)
+            ec2_config.instance_ids.append(instance_id_to_add)
 
-        with open(yaml_file_path, "w") as yaml_file:
-            yaml.dump(yaml_content, yaml_file, default_flow_style=False)
+            updated_data = {"EC2": ec2_config.model_dump()}
+
+            with open(yaml_file_path, 'w') as file:
+                yaml.dump(updated_data, file, default_flow_style=False)
 
     except (FileNotFoundError, yaml.YAMLError) as e:
         print(f"Error updating YAML file: {e}")
