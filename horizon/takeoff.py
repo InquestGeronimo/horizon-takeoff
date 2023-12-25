@@ -13,11 +13,7 @@ from .utils.ec2_utils import EC2ConfigHandler
 from .utils.docker_utils import DockerHandler
 from .utils.checks import EnvChecker as env
 from .utils.style import PromptHandler as prompt, banner
-from .utils.yaml_utils import (
-    add_instance_id_to_yaml,
-    yaml_config_exists,
-    write_yaml_to_file,
-)
+from .utils.yaml_utils import YamlFileManager as manager
 
 shell = Console()
 ec2 = EC2ConfigHandler()
@@ -62,7 +58,7 @@ def select_aws_service() -> None:
 
 
 def provision_ec2(choice):
-    if yaml_config_exists(choice):
+    if manager.yaml_config_exists(choice):
         override_choice = Prompt.ask(
             prompt.ec2_warning_msg, choices=prompt.boolean_choices, show_choices=False
         )
@@ -81,7 +77,7 @@ def provision_ec2(choice):
 
 
 def provision_sagemaker(choice):
-    if yaml_config_exists(choice):
+    if manager.yaml_config_exists(choice):
         override_choice = Prompt.ask(
             prompt.sagemaker_warning_msg,
             choices=prompt.boolean_choices,
@@ -115,7 +111,7 @@ def create_ec2_config_file() -> None:
         sg.strip() for sg in security_group_ids.split(",")
     ]
 
-    config_file = write_yaml_to_file(ec2.config_filename, ec2_config)
+    config_file = manager.write_yaml_to_file(ec2.config_filename, ec2_config)
 
     shell.print(prompt.config_created(config_file.name))
 
@@ -181,7 +177,7 @@ def main():
     choice = select_aws_service()
     if choice == "ec2":
         instance_id, config_file = provision_ec2(choice)
-        add_instance_id_to_yaml(config_file.name, instance_id)
+        manager.add_instance_id_to_yaml(config_file.name, instance_id)
         shell.print(prompt.instance_id_added(instance_id, config_file.name))
     else:
         provision_sagemaker()

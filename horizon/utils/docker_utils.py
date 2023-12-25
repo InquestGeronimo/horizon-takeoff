@@ -1,7 +1,7 @@
 import os
 import boto3
 import subprocess
-from .yaml_utils import parse_yaml_file
+from .yaml_utils import YamlFileManager as manager
 
 PULL_SCRIPT = "pull_takeoff_image.sh"
 PUSH_SCRIPT = "push_takeoff_ecr.sh"
@@ -14,7 +14,7 @@ class DockerHandler:
         Args:
             config_path (str): Path to the YAML configuration file.
         """
-        params = parse_yaml_file(config_path)
+        params = manager.parse_yaml_file(config_path)
         self.ecr_client = boto3.client("ecr", region_name=params.region_name)
 
     def check_or_create_repository(self, repo_name: str) -> None:

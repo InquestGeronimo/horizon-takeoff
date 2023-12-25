@@ -1,7 +1,7 @@
 from typing import Optional, Dict, List
 
 import boto3
-from ..utils.yaml_utils import parse_yaml_file
+from ..utils.yaml_utils import YamlFileManager as manager
 from .models import EC2Config
 
 
@@ -72,6 +72,6 @@ class TitanEC2:
         Returns:
             TitanEC2: An instance of TitanEC2 initialized with the loaded configuration.
         """
-        ec2_config = parse_yaml_file(config_file_path)
+        ec2_config = manager.parse_yaml_file(config_file_path)
         if ec2_config:
             return cls(ec2_config)
