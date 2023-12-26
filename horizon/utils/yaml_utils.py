@@ -64,7 +64,7 @@ class YamlFileManager:
         return os.path.exists(f"{name}_config.yaml")
 
     @staticmethod
-    def write_yaml_to_file(filename: str, data: Dict) -> None:
+    def write_yaml_to_file(filename: str, data: Dict) -> TextIOWrapper:
         """Write YAML data to a file.
 
         Args:
@@ -76,3 +76,5 @@ class YamlFileManager:
         """
         with open(filename, "w") as config_file:
             yaml.dump(data, config_file, default_flow_style=False)
+
+        return config_file
