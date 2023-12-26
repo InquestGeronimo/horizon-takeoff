@@ -127,7 +127,7 @@ def deploy_docker(config_file):
 
     if deploy.lower() == "yes":
         ecr_repo_name = Prompt.ask(prompt.enter_ecr_name)
-
+        #TODO need to write ecr_repo_name to config file
         handler = DockerHandler(config_file.name)
         handler.check_or_create_repository(ecr_repo_name)
         handler.pull_takeoff_image(script_dir)

@@ -1,9 +1,32 @@
 from typing import Optional, Dict, List
-
 import boto3
+
+
 from ..utils.yaml_utils import YamlFileManager as manager
 from .models import EC2Config
+from .iam_utils import IAMHandler
 
+test = IAMHandler()
+account_id = test.get_aws_account_id
+role_name = "ec2-ecr"
+
+instance_profile_arn = f"arn:aws:iam::{account_id}:instance-profile/{role_name}"
+
+def startup_script(account_id, region, repo):
+    STARTUP_SCRIPT = f"""
+    #!/bin/bash
+
+    # This is a sample startup script for an EC2 instance.
+    # You can customize this script with your specific setup and configuration.
+
+    apt-get update
+    apt install docker.io -y
+    apt install awscli -y
+    aws ecr get-login-password --region {region}| docker login --username AWS --password-stdin {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+    docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+
+    """
+    return STARTUP_SCRIPT
 
 class TitanEC2:
     """Initialize a TitanEC2 instance.
@@ -41,6 +64,7 @@ class TitanEC2:
         instance_params = {
             "ImageId": self.ami_id,
             "InstanceType": self.instance_type,
+            'IamInstanceProfile': {'Arn': instance_profile_arn},
             "KeyName": self.key_name,
             "SecurityGroupIds": self.security_group_ids,
             "MinCount": self.min_count,
