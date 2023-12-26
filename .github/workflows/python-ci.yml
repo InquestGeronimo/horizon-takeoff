@@ -21,7 +21,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -U pip
-        pip install ruff  # Install the 'ruff' library
+        pip install ruff
+        pip install mypy
 
     - name: Run tests
       run: |
