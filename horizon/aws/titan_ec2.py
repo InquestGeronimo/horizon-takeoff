@@ -6,12 +6,6 @@ from ..utils.yaml_utils import YamlFileManager as manager
 from .models import EC2Config
 from .iam_utils import IAMHandler
 
-test = IAMHandler()
-account_id = test.get_aws_account_id
-role_name = "ec2-ecr"
-
-instance_profile_arn = f"arn:aws:iam::{account_id}:instance-profile/{role_name}"
-
 
 def startup_script(account_id, region, repo):
     startup_script = f"""
@@ -23,7 +17,9 @@ def startup_script(account_id, region, repo):
     apt-get update
     apt install docker.io -y
     apt install awscli -y
-    aws ecr get-login-password --region {region}| docker login --username AWS --password-stdin {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+    aws ecr get-login-password --region {region} | \
+    docker login --username AWS --password-stdin \
+    {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
     docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
 
     """
@@ -48,6 +44,8 @@ class TitanEC2(IAMHandler):
             min_count (int, optional): The minimum number of instances to create. Defaults to 1.
             max_count (int, optional): The maximum number of instances to create. Defaults to 1.
         """
+        super().__init__()
+        
         self.min_count = min_count
         self.max_count = max_count
         self.region = ec2_config.region_name
@@ -57,6 +55,9 @@ class TitanEC2(IAMHandler):
         self.key_name = ec2_config.key_name
         self.security_group_ids = ec2_config.security_group_ids
         self.instance_ids = ec2_config.instance_ids
+        self.account_id = self.get_aws_account_id()
+        self.instance_profile_arn = f"arn:aws:iam::{self.account_id}:instance-profile/ec2-ecr" 
+        #TODO ask for ARN in GUI, eventually this is will be removed.
 
     def create_instance(self) -> Dict:
         """Create an EC2 instance based on the configured parameters.
@@ -67,10 +68,10 @@ class TitanEC2(IAMHandler):
         instance_params = {
             "ImageId": self.ami_id,
             "InstanceType": self.instance_type,
-            "IamInstanceProfile": {"Arn": instance_profile_arn},
+            "IamInstanceProfile": {"Arn": self.instance_profile_arn},
             "KeyName": self.key_name,
             "SecurityGroupIds": self.security_group_ids,
-            "UserData": startup_script(account_id, self.region, self.repo),
+            "UserData": startup_script(self.account_id, self.region, self.repo),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,
         }
