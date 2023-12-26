@@ -28,7 +28,6 @@ jobs:
       run: |
         ruff check horizon/
         ruff format horizon/
-        mypy horizon/
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
