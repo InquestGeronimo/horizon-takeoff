@@ -9,3 +9,4 @@ class EC2Config(BaseModel):
     key_name: str
     security_group_ids: List[str]
     instance_ids: Optional[List[str]] = None
+    ecr_repo_name: Optional[str] = None

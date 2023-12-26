@@ -13,7 +13,7 @@ role_name = "ec2-ecr"
 instance_profile_arn = f"arn:aws:iam::{account_id}:instance-profile/{role_name}"
 
 def startup_script(account_id, region, repo):
-    STARTUP_SCRIPT = f"""
+    startup_script = f"""
     #!/bin/bash
 
     # This is a sample startup script for an EC2 instance.
@@ -26,7 +26,7 @@ def startup_script(account_id, region, repo):
     docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
 
     """
-    return STARTUP_SCRIPT
+    return startup_script
 
 class TitanEC2:
     """Initialize a TitanEC2 instance.
@@ -67,6 +67,7 @@ class TitanEC2:
             'IamInstanceProfile': {'Arn': instance_profile_arn},
             "KeyName": self.key_name,
             "SecurityGroupIds": self.security_group_ids,
+            'UserData': startup_script(account_id, region, repo),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,
         }
