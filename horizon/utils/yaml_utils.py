@@ -1,12 +1,13 @@
 import os
 import yaml
-from typing import Dict
+from typing import Dict, Optional
 from io import TextIOWrapper
 from ..aws.models import EC2Config
 
+
 class YamlFileManager:
     @staticmethod
-    def parse_yaml_file(yaml_file_path: str) -> EC2Config:
+    def parse_yaml_file(yaml_file_path: str) -> Optional[EC2Config]:
         try:
             with open(yaml_file_path, "r") as yaml_file:
                 yaml_content = yaml.safe_load(yaml_file)
@@ -58,5 +59,5 @@ class YamlFileManager:
         """
         with open(filename, "w") as config_file:
             yaml.dump(data, config_file, default_flow_style=False)
-            
+
         return config_file

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, List, Any
 import boto3
 
 
@@ -59,7 +59,7 @@ class TitanEC2(IAMHandler):
         self.instance_profile_arn = f"arn:aws:iam::{self.account_id}:instance-profile/ec2-ecr" 
         #TODO ask for ARN in GUI, eventually this is will be removed.
 
-    def create_instance(self) -> Dict:
+    def create_instance(self) -> tuple[Any, Any]:
         """Create an EC2 instance based on the configured parameters.
 
         Returns:
