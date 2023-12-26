@@ -28,8 +28,7 @@ jobs:
       run: |
         ruff check horizon/
         ruff format horizon/
-        ruff check client.py
-        ruff format client.py
+        mypy horizion/
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
