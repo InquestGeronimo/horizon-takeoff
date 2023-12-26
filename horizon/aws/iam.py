@@ -96,12 +96,12 @@ class IAMHandler:
             response = self.iam_client.list_instance_profiles()
 
             print("\nList of instance profile ARNs:\n")
-            for profile in response['InstanceProfiles']:
-                role_name = profile['Roles'][0]['RoleName']
-                arn = profile['Arn']
+            for profile in response["InstanceProfiles"]:
+                role_name = profile["Roles"][0]["RoleName"]
+                arn = profile["Arn"]
                 print(f"Role Name: {role_name}")
                 print(f"Arn: {arn}")
-            
+
             return response
         except Exception as e:
             # Handle exceptions or errors here

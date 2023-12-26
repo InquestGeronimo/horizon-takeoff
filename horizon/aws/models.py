@@ -13,4 +13,3 @@ class EC2Config(BaseModel):
     instance_ids: Optional[List[str]] = None
     ecr_repo_name: Optional[str] = None
     hardware: Optional[str] = None
-    

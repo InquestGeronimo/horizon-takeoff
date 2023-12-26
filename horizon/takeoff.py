@@ -89,15 +89,16 @@ def provision_sagemaker(choice):
     else:
         create_sagemaker_config_file()
 
+
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
-    
+
     ec2_config["EC2"]["hf_model_name"] = Prompt.ask(prompt.enter_model)
-    
+
     ec2_config["EC2"]["region_name"] = Prompt.ask(
         prompt.enter_region(ec2.get_aws_region())
     )
-    
+
     ec2_config["EC2"]["ami_id"] = Prompt.ask(prompt.enter_ami)
 
     ec2_config["EC2"]["instance_type"] = Prompt.ask(prompt.enter_instance_type)
@@ -110,10 +111,12 @@ def create_ec2_config_file() -> None:
     ec2_config["EC2"]["security_group_ids"] = [
         sg.strip() for sg in security_group_ids.split(",")
     ]
-    
+
     ec2.list_instance_profile_arns()
-    ec2_config["EC2"]["instance_role_arn"]: str = Prompt.ask(prompt.enter_instance_profile_arn)
-    
+    ec2_config["EC2"]["instance_role_arn"]: str = Prompt.ask(
+        prompt.enter_instance_profile_arn
+    )
+
     config_file = manager.write_yaml_to_file(ec2.config_filename, ec2_config)
 
     shell.print(prompt.config_created(config_file.name))
@@ -135,7 +138,7 @@ def deploy_docker(config_file):
         )
         manager.add_ecr_repo_name_to_yaml(config_file.name, ecr_repo_name)
         manager.add_hardware_to_yaml(config_file.name, hardware)
-        
+
         handler = DockerHandler(config_file.name)
         handler.check_or_create_repository(ecr_repo_name)
         handler.pull_takeoff_image(script_dir)
@@ -187,7 +190,7 @@ def main():
         shell.print(prompt.instance_id_added(instance_id, config_file.name))
     else:
         provision_sagemaker()
-        #TODO have to add sagemaker support
+        # TODO have to add sagemaker support
 
 
 if __name__ == "__main__":

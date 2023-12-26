@@ -25,8 +25,8 @@ class YamlFileManager:
             return None
 
     @staticmethod
-    def add_instance_id_to_yaml(yaml_file_path: str, instance_id_to_add: str) -> None: 
-        #TODO change title to make it more generic
+    def add_instance_id_to_yaml(yaml_file_path: str, instance_id_to_add: str) -> None:
+        # TODO change title to make it more generic
         """Add an instance ID to a YAML configuration file.
 
         Args:
@@ -53,8 +53,8 @@ class YamlFileManager:
             print(f"Error updating YAML file: {e}")
 
     @staticmethod
-    def add_ecr_repo_name_to_yaml(yaml_file_path: str, repo_name_to_add: str) -> None: 
-        #TODO change title to make it more generic
+    def add_ecr_repo_name_to_yaml(yaml_file_path: str, repo_name_to_add: str) -> None:
+        # TODO change title to make it more generic
         """Add an instance ID to a YAML configuration file.
 
         Args:
@@ -74,13 +74,12 @@ class YamlFileManager:
 
                 YamlFileManager.write_yaml_to_file(yaml_file_path, updated_data)
 
-
         except (FileNotFoundError, yaml.YAMLError) as e:
             print(f"Error updating YAML file: {e}")
 
     @staticmethod
-    def add_model_name_to_yaml(yaml_file_path: str, model_name_to_add: str) -> None: 
-        #TODO change title to make it more generic
+    def add_model_name_to_yaml(yaml_file_path: str, model_name_to_add: str) -> None:
+        # TODO change title to make it more generic
         """Add an instance ID to a YAML configuration file.
 
         Args:
@@ -100,13 +99,12 @@ class YamlFileManager:
 
                 YamlFileManager.write_yaml_to_file(yaml_file_path, updated_data)
 
-
         except (FileNotFoundError, yaml.YAMLError) as e:
             print(f"Error updating YAML file: {e}")
-            
+
     @staticmethod
-    def add_hardware_to_yaml(yaml_file_path: str, hardware_to_add: str) -> None: 
-        #TODO change title to make it more generic
+    def add_hardware_to_yaml(yaml_file_path: str, hardware_to_add: str) -> None:
+        # TODO change title to make it more generic
         """Add a hardware specification to a YAML configuration file.
 
         Args:
@@ -126,10 +124,9 @@ class YamlFileManager:
 
                 YamlFileManager.write_yaml_to_file(yaml_file_path, updated_data)
 
-
         except (FileNotFoundError, yaml.YAMLError) as e:
             print(f"Error updating YAML file: {e}")
-            
+
     @staticmethod
     def yaml_config_exists(name: str) -> bool:
         """Check if a YAML configuration file exists.

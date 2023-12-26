@@ -6,6 +6,7 @@ from .yaml_utils import YamlFileManager as manager
 PULL_SCRIPT = "pull_takeoff_image.sh"
 PUSH_SCRIPT = "push_takeoff_ecr.sh"
 
+
 class DockerHandler:
     def __init__(self, config_path: str) -> None:
         """

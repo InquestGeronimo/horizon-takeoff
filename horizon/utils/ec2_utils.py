@@ -4,6 +4,7 @@ from typing import List, Dict, Any
 
 from ..aws.iam import IAMHandler
 
+
 class EC2ConfigHandler(IAMHandler):
     """
     A class for handling EC2 configurations and listing security groups.
@@ -15,9 +16,9 @@ class EC2ConfigHandler(IAMHandler):
         """
         Initializes an EC2ConfigHandler object with an EC2 client based on the AWS region from the current session.
         """
-        
+
         super().__init__()
-        
+
         self.session = boto3.Session()
         self.ec2_client = self.session.client("ec2")
 
