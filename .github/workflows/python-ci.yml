@@ -27,6 +27,9 @@ jobs:
       run: |
         # Replace 'your_test_command' with the actual test command for your project
         ruff check horizon/
+        ruff format horizon/
+        ruff check client.py
+        ruff format client.py
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
