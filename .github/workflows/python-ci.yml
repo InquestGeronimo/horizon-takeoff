@@ -25,7 +25,6 @@ jobs:
 
     - name: Run tests
       run: |
-        # Replace 'your_test_command' with the actual test command for your project
         ruff check horizon/
         ruff format horizon/
         ruff check client.py
