@@ -28,10 +28,10 @@ jobs:
     - name: Run tests
       run: |
         # Replace 'your_test_command' with the actual test command for your project
-        ruff your_test_command
+        ruff check horizon/
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: path/to/your/test/results  # Replace with the path to your test result files
+        path: /.github/workflow  # Replace with the path to your test result files

@@ -1,6 +1,7 @@
 import requests
 from typing import Dict, Any
 
+
 class Endpoint:
     """A class for invoking a URL with JSON data via a __call__ method."""
 
@@ -28,5 +29,3 @@ class Endpoint:
         self.json_data = {"text": input_text}
         response = requests.post(self.url, json=self.json_data)
         return response.json()
-
-
