@@ -8,7 +8,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 NAME = "horizon"
-VERSION = "0.0.23"
+VERSION = "0.0.3"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
@@ -16,7 +16,7 @@ DESCRIPTION = "Auto-deploy the Takeoff Server on AWS for LLM inference"
 LONG_DESCRIPTION = "n/a."
 PACKAGES = find_packages()
 PACKAGE_DATA = {"horizon": ["scripts/*", "utils/*", "aws/*", "logs/*"]}
-ENTRY_POINTS = {"console_scripts": ["horizon=horizon.takeoff:main", "del-instance=horizon.del_ec2:main"]}
+ENTRY_POINTS = {"console_scripts": ["horizon-takeoff=horizon.takeoff:main", "del-instance=horizon.del_ec2:main"]}
 DEPENDENCIES = ["boto3>=1.34.4", "pyyaml>=6.0.1", "rich>=12.6.0", "pydantic>=2.5.3"]
 KEYWORDS = ["cloud", "titanml", "server", "LLM", "NLP", "MLOps", "deployment"]
 CLASSIFIERS = [
