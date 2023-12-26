@@ -1,5 +1,7 @@
 import boto3
-import botocore.exceptions  # Import for more specific exceptions
+import botocore.exceptions
+
+# https://docs.aws.amazon.com/code-library/latest/ug/python_3_iam_code_examples.html
 
 class IAMHandler:
     def __init__(self):
