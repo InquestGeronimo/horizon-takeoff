@@ -187,6 +187,7 @@ def main():
         shell.print(prompt.instance_id_added(instance_id, config_file.name))
     else:
         provision_sagemaker()
+        #TODO have to add sagemaker support
 
 
 if __name__ == "__main__":

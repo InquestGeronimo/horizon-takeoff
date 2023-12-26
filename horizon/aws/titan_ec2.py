@@ -77,6 +77,7 @@ class TitanEC2(IAMHandler):
                 self.region,
                 self.ecr_repo_name,
                 self.model_name,
+                self.hardware
             ),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,
@@ -100,6 +101,28 @@ class TitanEC2(IAMHandler):
         else:
             print("No instance IDs provided. No instances will be terminated.")
 
+    def get_instance_ipv4(self) -> str:
+        """Get the IPv4 address of a running EC2 instance.
+
+        Args:
+            instance_id (str): The ID of the EC2 instance.
+
+        Returns:
+            str: The IPv4 address of the instance.
+        """
+        
+        response = self.ec2_client.describe_instances(InstanceIds=self.instance_ids)
+
+        if 'Reservations' in response and len(response['Reservations']) > 0:
+            instances = response['Reservations'][0]['Instances']
+            if len(instances) > 0 and 'PublicIpAddress' in instances[0]:
+                public_ip = instances[0]['PublicIpAddress']
+                return public_ip
+            else:
+                return f"No public IPv4 address found for instance {self.instance_ids}"
+        else:
+            return f"No information found for instance {self.instance_ids}"
+    
     @classmethod
     def load_config(cls, config_file_path: str) -> Optional["TitanEC2"]:
         """Load EC2 configuration from a YAML file and create a TitanEC2 instance.
@@ -113,3 +136,5 @@ class TitanEC2(IAMHandler):
         ec2_config = manager.parse_yaml_file(config_file_path)
         if ec2_config:
             return cls(ec2_config)
+    
+    
