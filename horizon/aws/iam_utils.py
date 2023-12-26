@@ -54,3 +54,17 @@ class IAMHandler:
             raise
         else:
             return roles
+        
+    def list_instance_profile_arns(self):
+        try:
+            # List instance profiles
+            response = self.iam_client.list_instance_profiles()
+
+            # Extract the ARNs from the response
+            instance_profile_arns = [profile["Arn"] for profile in response["InstanceProfiles"]]
+
+            return instance_profile_arns
+        except Exception as e:
+            # Handle exceptions or errors here
+            print(f"An error occurred: {str(e)}")
+            return []

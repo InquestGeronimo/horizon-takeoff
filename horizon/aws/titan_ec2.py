@@ -12,6 +12,7 @@ role_name = "ec2-ecr"
 
 instance_profile_arn = f"arn:aws:iam::{account_id}:instance-profile/{role_name}"
 
+
 def startup_script(account_id, region, repo):
     startup_script = f"""
     #!/bin/bash
@@ -28,7 +29,8 @@ def startup_script(account_id, region, repo):
     """
     return startup_script
 
-class TitanEC2:
+
+class TitanEC2(IAMHandler):
     """Initialize a TitanEC2 instance.
 
     Args:
@@ -48,12 +50,13 @@ class TitanEC2:
         """
         self.min_count = min_count
         self.max_count = max_count
-        self.ec2_client = boto3.client("ec2", region_name=ec2_config.region_name)
+        self.region = ec2_config.region_name
+        self.ec2_client = boto3.client("ec2", region_name=self.region)
         self.ami_id = ec2_config.ami_id
         self.instance_type = ec2_config.instance_type
         self.key_name = ec2_config.key_name
         self.security_group_ids = ec2_config.security_group_ids
-        self.instance_ids = ec2_config.instance_ids or []
+        self.instance_ids = ec2_config.instance_ids
 
     def create_instance(self) -> Dict:
         """Create an EC2 instance based on the configured parameters.
@@ -64,10 +67,10 @@ class TitanEC2:
         instance_params = {
             "ImageId": self.ami_id,
             "InstanceType": self.instance_type,
-            'IamInstanceProfile': {'Arn': instance_profile_arn},
+            "IamInstanceProfile": {"Arn": instance_profile_arn},
             "KeyName": self.key_name,
             "SecurityGroupIds": self.security_group_ids,
-            'UserData': startup_script(account_id, region, repo),
+            "UserData": startup_script(account_id, self.region, self.repo),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,
         }
