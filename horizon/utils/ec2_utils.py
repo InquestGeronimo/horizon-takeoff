@@ -2,8 +2,9 @@ import boto3
 import botocore
 from typing import List, Dict, Any
 
+from ..aws.iam import IAMHandler
 
-class EC2ConfigHandler:
+class EC2ConfigHandler(IAMHandler):
     """
     A class for handling EC2 configurations and listing security groups.
     """
@@ -14,6 +15,9 @@ class EC2ConfigHandler:
         """
         Initializes an EC2ConfigHandler object with an EC2 client based on the AWS region from the current session.
         """
+        
+        super().__init__()
+        
         self.session = boto3.Session()
         self.ec2_client = self.session.client("ec2")
 
@@ -41,7 +45,7 @@ class EC2ConfigHandler:
             response = self.ec2_client.describe_security_groups()
             security_groups = response["SecurityGroups"]
 
-            print("\nList of your Security Groups:")
+            print("\nList of your Security Groups:\n")
             for group in security_groups:
                 print(f"Name: {group['GroupName']}")
                 print(f"ID: {group['GroupId']}")
@@ -62,7 +66,7 @@ class EC2ConfigHandler:
             response = self.ec2_client.describe_key_pairs()
             key_pairs = response["KeyPairs"]
 
-            print("\nList of your Key Pairs:")
+            print("\nList of your Key Pairs:\n")
             for key in key_pairs:
                 print(f"Name: {key['KeyName']}")
 

@@ -53,6 +53,84 @@ class YamlFileManager:
             print(f"Error updating YAML file: {e}")
 
     @staticmethod
+    def add_ecr_repo_name_to_yaml(yaml_file_path: str, repo_name_to_add: str) -> None: 
+        #TODO change title to make it more generic
+        """Add an instance ID to a YAML configuration file.
+
+        Args:
+            yaml_file_path (str): The path to the YAML file.
+            repo_name_to_add (str): The ECR repo name to add.
+
+        Returns:
+            None
+        """
+        ec2_config = YamlFileManager.parse_yaml_file(yaml_file_path)
+
+        try:
+            if ec2_config is not None:
+                ec2_config.ecr_repo_name = repo_name_to_add  # Assign the single string
+
+                updated_data = {"EC2": ec2_config.model_dump()}
+
+                YamlFileManager.write_yaml_to_file(yaml_file_path, updated_data)
+
+
+        except (FileNotFoundError, yaml.YAMLError) as e:
+            print(f"Error updating YAML file: {e}")
+
+    @staticmethod
+    def add_model_name_to_yaml(yaml_file_path: str, model_name_to_add: str) -> None: 
+        #TODO change title to make it more generic
+        """Add an instance ID to a YAML configuration file.
+
+        Args:
+            yaml_file_path (str): The path to the YAML file.
+            repo_name_to_add (str): The ECR repo name to add.
+
+        Returns:
+            None
+        """
+        ec2_config = YamlFileManager.parse_yaml_file(yaml_file_path)
+
+        try:
+            if ec2_config is not None:
+                ec2_config.hf_model_name = model_name_to_add
+
+                updated_data = {"EC2": ec2_config.model_dump()}
+
+                YamlFileManager.write_yaml_to_file(yaml_file_path, updated_data)
+
+
+        except (FileNotFoundError, yaml.YAMLError) as e:
+            print(f"Error updating YAML file: {e}")
+            
+    @staticmethod
+    def add_hardware_to_yaml(yaml_file_path: str, hardware_to_add: str) -> None: 
+        #TODO change title to make it more generic
+        """Add a hardware specification to a YAML configuration file.
+
+        Args:
+            yaml_file_path (str): The path to the YAML file.
+            hardware_to_add (str): The hardware specification to add (e.g., 'cpu' or 'gpu').
+
+        Returns:
+            None
+        """
+        ec2_config = YamlFileManager.parse_yaml_file(yaml_file_path)
+
+        try:
+            if ec2_config is not None:
+                ec2_config.hardware = hardware_to_add
+
+                updated_data = {"EC2": ec2_config.model_dump()}
+
+                YamlFileManager.write_yaml_to_file(yaml_file_path, updated_data)
+
+
+        except (FileNotFoundError, yaml.YAMLError) as e:
+            print(f"Error updating YAML file: {e}")
+            
+    @staticmethod
     def yaml_config_exists(name: str) -> bool:
         """Check if a YAML configuration file exists.
 

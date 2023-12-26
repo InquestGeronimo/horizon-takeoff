@@ -84,9 +84,6 @@ class IAMHandler:
             return roles
         except botocore.exceptions.ClientError as e:
             print("Couldn't list roles for the account:", e)
-            raise
-        else:
-            return roles
 
     def list_instance_profile_arns(self) -> List[str]:
         """
@@ -97,10 +94,15 @@ class IAMHandler:
         """
         try:
             response = self.iam_client.list_instance_profiles()
-            instance_profile_arns = [
-                profile["Arn"] for profile in response["InstanceProfiles"]
-            ]
-            return instance_profile_arns
+
+            print("\nList of instance profile ARNs:\n")
+            for profile in response['InstanceProfiles']:
+                role_name = profile['Roles'][0]['RoleName']
+                arn = profile['Arn']
+                print(f"Role Name: {role_name}")
+                print(f"Arn: {arn}")
+            
+            return response
         except Exception as e:
             # Handle exceptions or errors here
             print(f"An error occurred: {str(e)}")

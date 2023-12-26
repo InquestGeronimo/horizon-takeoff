@@ -7,20 +7,20 @@ from .models import EC2Config
 from .iam import IAMHandler
 
 
-def startup_script(account_id, region, repo):
-    startup_script = f"""
-    #!/bin/bash
-
-    # This is a sample startup script for an EC2 instance.
-    # You can customize this script with your specific setup and configuration.
-
+def startup_script(account_id, region, repo, model_name, hardware):
+    
+    hardware = "cuda" if hardware == "gpu" else "cpu"
+    
+    startup_script = f"""#!/bin/bash
     apt-get update
     apt install docker.io -y
     apt install awscli -y
-    aws ecr get-login-password --region {region} | \
-    docker login --username AWS --password-stdin \
+    aws ecr get-login-password --region {region} |\
+    docker login --username AWS --password-stdin\
     {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
     docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+    docker run -e TAKEOFF_MODEL_NAME={model_name} -e TAKEOFF_DEVICE={hardware} \
+    -p 8000:80 {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
 
     """
     return startup_script
@@ -35,19 +35,18 @@ class TitanEC2(IAMHandler):
         max_count (int, optional): The maximum number of instances to create. Defaults to 1.
     """
 
-    def __init__(self, ec2_config: EC2Config, min_count: int = 1, max_count: int = 1):
-        """
-        Initialize a TitanEC2 instance.
-
-        Args:
-            ec2_config (EC2Config): A Pydantic model representing the EC2 configuration.
-            min_count (int, optional): The minimum number of instances to create. Defaults to 1.
-            max_count (int, optional): The maximum number of instances to create. Defaults to 1.
-        """
+    def __init__(
+        self,
+        ec2_config: EC2Config,
+        min_count: int = 1,
+        max_count: int = 1,
+        volume_size: int = 20,
+    ):
         super().__init__()
-        
+
         self.min_count = min_count
         self.max_count = max_count
+        self.volume_size = volume_size
         self.region = ec2_config.region_name
         self.ec2_client = boto3.client("ec2", region_name=self.region)
         self.ami_id = ec2_config.ami_id
@@ -55,9 +54,11 @@ class TitanEC2(IAMHandler):
         self.key_name = ec2_config.key_name
         self.security_group_ids = ec2_config.security_group_ids
         self.instance_ids = ec2_config.instance_ids
+        self.ecr_repo_name = ec2_config.ecr_repo_name
+        self.instance_profile_arn = ec2_config.instance_role_arn
+        self.model_name = ec2_config.hf_model_name
+        self.hardware = ec2_config.hardware
         self.account_id = self.get_aws_account_id()
-        self.instance_profile_arn = f"arn:aws:iam::{self.account_id}:instance-profile/ec2-ecr" 
-        #TODO ask for ARN in GUI, eventually this is will be removed.
 
     def create_instance(self) -> tuple[Any, Any]:
         """Create an EC2 instance based on the configured parameters.
@@ -71,9 +72,17 @@ class TitanEC2(IAMHandler):
             "IamInstanceProfile": {"Arn": self.instance_profile_arn},
             "KeyName": self.key_name,
             "SecurityGroupIds": self.security_group_ids,
-            "UserData": startup_script(self.account_id, self.region, self.repo),
+            "UserData": startup_script(
+                self.account_id,
+                self.region,
+                self.ecr_repo_name,
+                self.model_name,
+            ),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,
+            "BlockDeviceMappings": [
+                {"DeviceName": "/dev/sda1", "Ebs": {"VolumeSize": self.volume_size}}
+            ],
         }
 
         response = self.ec2_client.run_instances(**instance_params)

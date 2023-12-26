@@ -11,5 +11,7 @@ Usage:
 - Run the script to pull the Docker image locally.
 '
 
-# Pull the specific Docker image (tytn/fabulinus:latest) from a public registry
+
+
 docker pull tytn/fabulinus:latest
+
