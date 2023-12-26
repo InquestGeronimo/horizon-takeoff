@@ -5,11 +5,11 @@ name: Python CI
 on:
   push:
     branches:
-      - main  # Change to your main branch name
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # You can choose a different runner, if needed
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -18,7 +18,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10  # Choose your desired Python version
+        python-version: 3.10
 
     - name: Install dependencies
       run: |
@@ -34,4 +34,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: test-results
-        path: /.github/workflow  # Replace with the path to your test result files
+        path: .
