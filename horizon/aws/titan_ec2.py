@@ -4,7 +4,7 @@ import boto3
 
 from ..utils.yaml_utils import YamlFileManager as manager
 from .models import EC2Config
-from .iam_utils import IAMHandler
+from .iam import IAMHandler
 
 
 def startup_script(account_id, region, repo):
