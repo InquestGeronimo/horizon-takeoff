@@ -8,6 +8,14 @@ from ..aws.models import EC2Config
 class YamlFileManager:
     @staticmethod
     def parse_yaml_file(yaml_file_path: str) -> Optional[EC2Config]:
+        """Parse a YAML file and return an EC2Config object.
+
+        Args:
+            yaml_file_path (str): The path to the YAML file.
+
+        Returns:
+            Optional[EC2Config]: An EC2Config object representing the parsed YAML data, or None on error.
+        """
         try:
             with open(yaml_file_path, "r") as yaml_file:
                 yaml_content = yaml.safe_load(yaml_file)
@@ -17,7 +25,16 @@ class YamlFileManager:
             return None
 
     @staticmethod
-    def add_instance_id_to_yaml(yaml_file_path, instance_id_to_add):
+    def add_instance_id_to_yaml(yaml_file_path: str, instance_id_to_add: str) -> None:
+        """Add an instance ID to a YAML configuration file.
+
+        Args:
+            yaml_file_path (str): The path to the YAML file.
+            instance_id_to_add (str): The instance ID to add.
+
+        Returns:
+            None
+        """
         ec2_config = YamlFileManager.parse_yaml_file(yaml_file_path)
 
         try:
@@ -47,7 +64,7 @@ class YamlFileManager:
         return os.path.exists(f"{name}_config.yaml")
 
     @staticmethod
-    def write_yaml_to_file(filename: str, data: Dict) -> TextIOWrapper:
+    def write_yaml_to_file(filename: str, data: Dict) -> None:
         """Write YAML data to a file.
 
         Args:
@@ -59,5 +76,3 @@ class YamlFileManager:
         """
         with open(filename, "w") as config_file:
             yaml.dump(data, config_file, default_flow_style=False)
-
-        return config_file
