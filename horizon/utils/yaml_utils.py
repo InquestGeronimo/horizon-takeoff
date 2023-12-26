@@ -25,7 +25,8 @@ class YamlFileManager:
             return None
 
     @staticmethod
-    def add_instance_id_to_yaml(yaml_file_path: str, instance_id_to_add: str) -> None:
+    def add_instance_id_to_yaml(yaml_file_path: str, instance_id_to_add: str) -> None: 
+        #TODO change title to make it more generic
         """Add an instance ID to a YAML configuration file.
 
         Args:
