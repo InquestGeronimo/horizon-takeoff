@@ -26,7 +26,7 @@ With Horizon-Takeoff library, you have the flexibility to choose between two dis
 
 * Own a security group allowing inboud traffic for `port 8000` (community edition), `port 3000` (pro edition). This will expose the Docker endpoint for API calling.
 
-> Currently, only EC2 instance deployment is stable, Sagemaker is under development. Also Pro Takeoff Server with Pro features is in the job queue.
+> Currently, only EC2 instance deployment on the Community edition server is stable, Sagemaker and/or Takeoff Server with Pro features is under development.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 <br>
