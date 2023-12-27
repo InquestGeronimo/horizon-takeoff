@@ -7,7 +7,7 @@ shell = Console()
 
 
 def main():
-    ec2 = TitanEC2.load_config(handler.config_filename)
+    ec2 = TitanEC2(handler.config_file)
     ec2.delete_instance(ec2.instance_ids)
     shell.print("\n[bold red]instance deleted[/bold red]")
 

@@ -45,19 +45,21 @@ class TitanEC2(IAMHandler):
         self.min_count = min_count
         self.max_count = max_count
         self.volume_size = volume_size
-        self.region = ec2_config.region_name
+        
+        self.config = manager.parse_yaml_file(ec2_config)
+        self.region = self.config.region_name
         self.ec2_client = boto3.client("ec2", region_name=self.region)
-        self.ami_id = ec2_config.ami_id
-        self.instance_type = ec2_config.instance_type
-        self.key_name = ec2_config.key_name
-        self.security_group_ids = ec2_config.security_group_ids
-        self.instance_ids = ec2_config.instance_ids
-        self.ecr_repo_name = ec2_config.ecr_repo_name
-        self.instance_profile_arn = ec2_config.instance_role_arn
-        self.model_name = ec2_config.hf_model_name
-        self.hardware = ec2_config.hardware
+        self.ami_id = self.config.ami_id
+        self.instance_type = self.config.instance_type
+        self.key_name = self.config.key_name
+        self.security_group_ids = self.config.security_group_ids
+        self.instance_ids = self.config.instance_ids
+        self.ecr_repo_name = self.config.ecr_repo_name
+        self.instance_profile_arn = self.config.instance_role_arn
+        self.model_name = self.config.hf_model_name
+        self.hardware = self.config.hardware
         self.account_id = self.get_aws_account_id()
-
+        
     def create_instance(self) -> tuple[Any, Any]:
         """Create an EC2 instance based on the configured parameters.
 
@@ -120,17 +122,3 @@ class TitanEC2(IAMHandler):
                 return f"No public IPv4 address found for instance {self.instance_ids}"
         else:
             return f"No information found for instance {self.instance_ids}"
-
-    @classmethod
-    def load_config(cls, config_file_path: str) -> Optional["TitanEC2"]:
-        """Load EC2 configuration from a YAML file and create a TitanEC2 instance.
-
-        Args:
-            config_file_path (str): Path to the YAML configuration file.
-
-        Returns:
-            TitanEC2: An instance of TitanEC2 initialized with the loaded configuration.
-        """
-        ec2_config = manager.parse_yaml_file(config_file_path)
-        if ec2_config:
-            return cls(ec2_config)

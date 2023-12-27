@@ -1,3 +1,4 @@
+import os
 import boto3
 import botocore
 from typing import List, Dict, Any
@@ -10,7 +11,12 @@ class EC2ConfigHandler(IAMHandler):
     A class for handling EC2 configurations and listing security groups.
     """
 
-    config_filename = "ec2_config.yaml"
+    config_file = "ec2_config.yaml"
+
+    # Check if the config file path is not absolute and construct an absolute path if needed.
+    if not os.path.isabs(config_file):
+        config_file = os.path.join(os.getcwd(), config_file)
+
 
     def __init__(self) -> None:
         """

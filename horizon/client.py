@@ -16,7 +16,7 @@ class EC2Endpoint:
         (True, True): "3000/generate_stream",
     }
 
-    config_file = EC2ConfigHandler.config_filename
+    config_file = EC2ConfigHandler.config_file
 
     def __init__(self, pro: bool = False, stream: bool = False):
         """

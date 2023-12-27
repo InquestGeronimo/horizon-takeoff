@@ -11,12 +11,16 @@ class YamlFileManager:
         """Parse a YAML file and return an EC2Config object.
 
         Args:
-            yaml_file_path (str): The path to the YAML file.
+            yaml_file_path (str): The path to the YAML file, or just the filename.
 
         Returns:
             Optional[EC2Config]: An EC2Config object representing the parsed YAML data, or None on error.
         """
         try:
+            # If the input is just the filename, construct the full path
+            if not os.path.isabs(yaml_file_path):
+                yaml_file_path = os.path.join(os.getcwd(), yaml_file_path)
+
             with open(yaml_file_path, "r") as yaml_file:
                 yaml_content = yaml.safe_load(yaml_file)
             return EC2Config(**yaml_content["EC2"])

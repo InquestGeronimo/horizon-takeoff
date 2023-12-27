@@ -118,7 +118,7 @@ def deploy_docker(config_file):
 
 
 def create_ec2_instance(config_file):
-    ec2 = TitanEC2.load_config(config_file.name)
+    ec2 = TitanEC2(config_file.name)
     instance_id, instance_meta_data = ec2.create_instance()
     shell.print(prompt.instance_created(instance_meta_data))
     return instance_id

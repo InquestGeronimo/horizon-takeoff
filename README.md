@@ -126,7 +126,7 @@ docker.push_takeoff_image()
 Now create your EC2 instance:
 
 ```py
-titan = TitanEC2.load_config("ec2_config.yaml")
+titan = TitanEC2("ec2_config.yaml")
 instance = titan.create_instance()
 print(instance)
 ```
