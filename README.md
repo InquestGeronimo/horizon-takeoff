@@ -6,6 +6,8 @@ Horizon Takeoff
     <img width="400" height="350" src="./img/rocket.png">
 </div>
 
+[![Video Thumbnail](https://github.com/InquestGeronimo/horizon-takeoff/blob/main/img/readme-vid.mp4)](https://github.com/InquestGeronimo/horizon-takeoff/blob/main/img/readme-vid.mp4)
+
 
 Horizon Takeoff is a library designed to streamline the deployment ofTitanML's Takeoff server on AWS, focusing on EC2 and SageMaker. This toolkit simplifies the process of setting up and deploying cloud instances and containers with an interactive terminal TUI (Text-based User Interface) for simplicity when configuring your cloud environment.
 
@@ -22,7 +24,7 @@ pip install horizon-takeoff
 The initial step involves initializing the entrypoint to get your TUI launched:
 
 ```py
-horizon-takeoff
+horizon-takeoff ec2
 ```
 
 Launch:
