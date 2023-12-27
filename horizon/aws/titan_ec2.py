@@ -13,6 +13,7 @@ class TitanEC2(IAMHandler):
         ec2_config (EC2Config): A Pydantic model representing the EC2 configuration.
         min_count (int, optional): The minimum number of instances to create. Defaults to 1.
         max_count (int, optional): The maximum number of instances to create. Defaults to 1.
+        volume_size (int, optional): Size of Storage disk on instance. Defaults to 20GB.
     """
 
     def __init__(
