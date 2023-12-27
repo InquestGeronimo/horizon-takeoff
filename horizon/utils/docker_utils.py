@@ -3,9 +3,11 @@ import boto3
 import subprocess
 from .yaml_utils import YamlFileManager as manager
 
-PULL_SCRIPT = "pull_takeoff_image.sh"
-PUSH_SCRIPT = "push_takeoff_ecr.sh"
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
 
+# Construct paths to the two Bash scripts in the parallel "scripts" directory
+pull_path = os.path.join(current_script_dir, '..', 'scripts', 'pull_takeoff_image.sh')
+push_path = os.path.join(current_script_dir, '..', 'scripts', 'push_takeoff_ecr.sh')
 
 class DockerHandler:
     def __init__(self, config_path: str) -> None:
@@ -15,8 +17,8 @@ class DockerHandler:
         Args:
             config_path (str): Path to the YAML configuration file.
         """
-        params = manager.parse_yaml_file(config_path)
-        self.ecr_client = boto3.client("ecr", region_name=params.region_name)
+        self.ec2_config = manager.parse_yaml_file(config_path)
+        self.ecr_client = boto3.client("ecr", region_name=self.ec2_config.region_name)
 
     def check_or_create_repository(self, repo_name: str) -> None:
         """
@@ -42,22 +44,21 @@ class DockerHandler:
         else:
             print(f"ECR repository '{repo_name}' already exists.")
 
-    def pull_takeoff_image(self, script_dir: str) -> None:
+    def pull_takeoff_image(self) -> None:
         """
         Pulls the Takeoff Server Docker image to local machine.
 
         Args:
             script_dir (str): The directory containing the script for pulling Takeoff server.
         """
-        pull_script = os.path.join(script_dir, PULL_SCRIPT)
 
         try:
-            subprocess.run(["bash", pull_script])
+            subprocess.run(["bash", pull_path])
 
         except Exception as e:
             print(f"Error during image pull: {e}")
 
-    def push_takeoff_image(self, script_dir: str, ecr_repo_name: str) -> None:
+    def push_takeoff_image(self) -> None:
         """
         Pushes the Takeoff Server Docker image to the ECR repository.
 
@@ -65,10 +66,9 @@ class DockerHandler:
             script_dir (str): The directory containing the Bash push script.
             repo_name (str): The name of the ECR repository.
         """
-        push_script = os.path.join(script_dir, PUSH_SCRIPT)
 
         try:
-            subprocess.run(["bash", push_script, ecr_repo_name])
+            subprocess.run(["bash", push_path, self.ec2_config.ecr_repo_name])
 
         except Exception as e:
             print(f"Error during image push: {e}")

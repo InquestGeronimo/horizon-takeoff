@@ -20,8 +20,7 @@ from .utils.yaml_utils import YamlFileManager as manager
 shell = Console()
 ec2 = EC2ConfigHandler()
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-script_dir = os.path.join(current_dir, "scripts")
+
 
 requirements = [
     (env.check_aws_account_id, prompt.aws_id_exists),
@@ -109,8 +108,8 @@ def deploy_docker(config_file):
 
         handler = DockerHandler(config_file.name)
         handler.check_or_create_repository(ecr_repo_name)
-        handler.pull_takeoff_image(script_dir)
-        handler.push_takeoff_image(script_dir, ecr_repo_name)
+        handler.pull_takeoff_image()
+        handler.push_takeoff_image()
 
     else:
         print(
