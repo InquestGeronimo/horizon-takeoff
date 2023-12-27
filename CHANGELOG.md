@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - completed end-to-end EC2 support
+- added Endpoint API support
 
 ### Changed
 
