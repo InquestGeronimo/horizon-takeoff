@@ -178,19 +178,23 @@ def create_sagemaker_config_file() -> None:
     shell.print(prompt.config_created(config_file))
 
 
-def main():
-    print(Panel.fit(banner(), subtitle=prompt.subtitle, style="yellow"))
-    print()
-    check_requirements()
-    intro()
-    choice = select_aws_service()
-    if choice == "ec2":
-        instance_id, config_file = provision_ec2(choice)
+def deploy_cloud_service(service):
+    if service == "ec2":
+        instance_id, config_file = provision_ec2(service)
         manager.add_instance_id_to_yaml(config_file.name, instance_id)
         shell.print(prompt.instance_id_added(instance_id, config_file.name))
     else:
         provision_sagemaker()
         # TODO have to add sagemaker support
+
+
+def main():
+    print(Panel.fit(banner(), subtitle=prompt.subtitle, style="yellow"))
+    print()
+    check_requirements()
+    intro()
+    service = select_aws_service()
+    deploy_cloud_service(service)
 
 
 if __name__ == "__main__":
