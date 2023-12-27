@@ -17,7 +17,9 @@ With this library, you have two workflows for launching your AWS service with th
 ## Requirements
 
 **1.** AWS CLI installed and configured on local machine.
+
 **2.** Docker installed.
+
 **3.** Own an AWS account with the following configurations:
 
 * Have an instance profile role with access to `AmazonEC2ContainerRegistryReadOnly`. This will allow access to Docker pulls from ECR within an instance.
