@@ -6,13 +6,9 @@ Horizon Takeoff
     <img width="400" height="350" src="./img/rocket.png">
 </div>
 
-**Horizon Takeoff** is a Python library for simplifying the deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. This toolkit offers a streamlined approach to setting up cloud instances and containers. It does so through an interactive terminal-based User Interface (TUI) that enhances the ease of configuring your cloud environment.
+**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. It does so through an interactive terminal-based User Interface (TUI) that enhances the ease of configuring your cloud environment. View Titan's [Takeoff Server Docs](https://docs.titanml.co/docs/intro) to learn more about its commmunity and Pro features.
 
-Using Takeoff you can deploy highly optimized LLMs effortlessly. We have built Takeoff with support for: optimized 4-bit inference using AWQ, accelerated single-gpu inference and scaled multi-gpu deployment for maximum throughput.
-
-
-
-You have two workflows for launching your AWS service with the Takeoff Server for LLM inference:
+With this library, you have two workflows for launching your AWS service with the Takeoff Server:
 
 **1. Text-based User Interface (TUI):** This involves following a step-by-step guide within the terminal to enter various variables. This will automatically configure and save your cloud environment settings in a YAML file, pull, tag and push the Takeoff Server image to ECR, and launch the instance.
 
