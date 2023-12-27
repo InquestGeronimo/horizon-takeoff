@@ -102,8 +102,8 @@ def deploy_docker(config_file):
         hardware = Prompt.ask(
             prompt.enter_hardware, choices=prompt.hardware_choices, show_choices=False
         )
-        manager.add_ecr_repo_name_to_yaml(config_file.name, ecr_repo_name)
-        manager.add_hardware_to_yaml(config_file.name, hardware)
+        manager.update_yaml_config(config_file.name, "ecr_repo_name", ecr_repo_name)
+        manager.update_yaml_config(config_file.name, "hardware", hardware)
 
         handler = DockerHandler(config_file.name)
         handler.check_or_create_repository()
@@ -181,7 +181,7 @@ def provision_sagemaker(choice):
 def deploy_cloud_service(service):
     if service == "ec2":
         instance_id, config_file = provision_ec2(service)
-        manager.add_instance_id_to_yaml(config_file.name, instance_id)
+        manager.update_yaml_config(config_file.name, "instance_ids", instance_id)
         shell.print(prompt.instance_id_added(instance_id, config_file.name))
     else:
         provision_sagemaker()
