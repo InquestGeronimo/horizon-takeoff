@@ -75,21 +75,6 @@ def provision_ec2(choice):
         return instance_id, config_file
 
 
-def provision_sagemaker(choice):
-    if manager.yaml_config_exists(choice):
-        override_choice = Prompt.ask(
-            prompt.sagemaker_warning_msg,
-            choices=prompt.boolean_choices,
-            show_choices=False,
-        )
-        if override_choice == "yes":
-            create_sagemaker_config_file()
-        else:
-            print(prompt.abort_config)
-    else:
-        create_sagemaker_config_file()
-
-
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
 
@@ -176,6 +161,21 @@ def create_sagemaker_config_file() -> None:
         yaml.dump(sagemaker_config, config_file, default_flow_style=False)
 
     shell.print(prompt.config_created(config_file))
+
+
+def provision_sagemaker(choice):
+    if manager.yaml_config_exists(choice):
+        override_choice = Prompt.ask(
+            prompt.sagemaker_warning_msg,
+            choices=prompt.boolean_choices,
+            show_choices=False,
+        )
+        if override_choice == "yes":
+            create_sagemaker_config_file()
+        else:
+            print(prompt.abort_config)
+    else:
+        create_sagemaker_config_file()
 
 
 def deploy_cloud_service(service):
