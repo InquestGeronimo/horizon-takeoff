@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9  # Use Python 3.9 instead of 3.10
+        python-version: 3.9
 
     - name: Install dependencies
       run: |
@@ -26,7 +26,7 @@ jobs:
     - name: Run tests with Ruff
       run: |
         ruff check horizon/
-        ruff format horizon/
+        ruff format horizon/ --exclude horizon/__init__.py
 
     - name: Upload test results
       uses: actions/upload-artifact@v2

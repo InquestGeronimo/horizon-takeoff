@@ -23,6 +23,7 @@ def startup_script(account_id, region, repo, model_name, hardware):
     """
     return startup_script
 
+
 class TitanEC2(IAMHandler):
     """Initialize a TitanEC2 instance.
 
@@ -45,7 +46,7 @@ class TitanEC2(IAMHandler):
         self.min_count = min_count
         self.max_count = max_count
         self.volume_size = volume_size
-        
+
         self.config = manager.parse_yaml_file(ec2_config)
         self.region = self.config.region_name
         self.ec2_client = boto3.client("ec2", region_name=self.region)
@@ -59,7 +60,7 @@ class TitanEC2(IAMHandler):
         self.model_name = self.config.hf_model_name
         self.hardware = self.config.hardware
         self.account_id = self.get_aws_account_id()
-        
+
     def create_instance(self) -> tuple[Any, Any]:
         """Create an EC2 instance based on the configured parameters.
 

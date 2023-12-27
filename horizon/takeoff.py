@@ -20,7 +20,6 @@ shell = Console()
 ec2 = EC2ConfigHandler()
 
 
-
 requirements = [
     (env.check_aws_account_id, prompt.aws_id_exists),
     (env.check_aws_cli_installed, prompt.aws_cli_exists),
@@ -189,8 +188,14 @@ def deploy_cloud_service(service):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Horizon CLI - Manage AWS EC2 and SageMaker")
-    parser.add_argument("service", choices=["ec2", "sagemaker"], help="Choose the cloud service to deploy")
+    parser = argparse.ArgumentParser(
+        description="Horizon CLI - Manage AWS EC2 and SageMaker"
+    )
+    parser.add_argument(
+        "service",
+        choices=["ec2", "sagemaker"],
+        help="Choose the cloud service to deploy",
+    )
 
     args = parser.parse_args()
 

@@ -6,8 +6,9 @@ from .yaml_utils import YamlFileManager as manager
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Construct paths to the two Bash scripts in the parallel "scripts" directory
-pull_path = os.path.join(current_script_dir, '..', 'scripts', 'pull_takeoff_image.sh')
-push_path = os.path.join(current_script_dir, '..', 'scripts', 'push_takeoff_ecr.sh')
+pull_path = os.path.join(current_script_dir, "..", "scripts", "pull_takeoff_image.sh")
+push_path = os.path.join(current_script_dir, "..", "scripts", "push_takeoff_ecr.sh")
+
 
 class DockerHandler:
     def __init__(self, config_path: str) -> None:
@@ -37,8 +38,12 @@ class DockerHandler:
 
         if not repository_exists:
             try:
-                self.ecr_client.create_repository(repositoryName=self.ec2_config.ecr_repo_name)
-                print(f"ECR repository '{self.ec2_config.ecr_repo_name}' created successfully.")
+                self.ecr_client.create_repository(
+                    repositoryName=self.ec2_config.ecr_repo_name
+                )
+                print(
+                    f"ECR repository '{self.ec2_config.ecr_repo_name}' created successfully."
+                )
             except Exception as e:
                 print(f"Error creating ECR repository: {e}")
         else:

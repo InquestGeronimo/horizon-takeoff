@@ -17,7 +17,6 @@ class EC2ConfigHandler(IAMHandler):
     if not os.path.isabs(config_file):
         config_file = os.path.join(os.getcwd(), config_file)
 
-
     def __init__(self) -> None:
         """
         Initializes an EC2ConfigHandler object with an EC2 client based on the AWS region from the current session.

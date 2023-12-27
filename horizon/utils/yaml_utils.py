@@ -28,9 +28,10 @@ class YamlFileManager:
             print(f"Error parsing YAML file: {e}")
             return None
 
-
     @staticmethod
-    def update_yaml_config(yaml_file_path: str, field_name: str, value_to_add: str) -> None:
+    def update_yaml_config(
+        yaml_file_path: str, field_name: str, value_to_add: str
+    ) -> None:
         """Update a field in a YAML configuration file.
 
         Args:
