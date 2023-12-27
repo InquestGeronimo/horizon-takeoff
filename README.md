@@ -22,9 +22,9 @@ With this library, you have two workflows for launching your AWS service with th
 
 **3.** Own an AWS account with the following configurations:
 
-&emsp;&emsp;**3.1:** Have an instance profile role with access to `AmazonEC2ContainerRegistryReadOnly`. This will allow access to Docker pulls from ECR within an instance.
+* Have an instance profile role with access to `AmazonEC2ContainerRegistryReadOnly`. This will allow access to Docker pulls from ECR within an instance.
 
-&emsp;&emsp;**3.2:** Own a security group allowing inboud traffic for `port 8000` (community edition), `port 3000` (pro edition). This will expose the Docker endpoint for API calling.
+* Own a security group allowing inboud traffic for `port 8000` (community edition), `port 3000` (pro edition). This will expose the Docker endpoint for API calling.
 
 > Currently, only EC2 instance deployment is stable, Sagemaker is under development. Also Pro Takeoff Server with Pro features is in the job queue.
 
