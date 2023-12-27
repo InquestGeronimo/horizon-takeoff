@@ -105,7 +105,25 @@ EC2:
 
 # Manual Launch
 
-To launch an EC2 instance, load the YAML file. These commands will pull the Takeoff Docker image, tag it for ECR, and push it to ECR. An instance will be created, the Docker image from ECR will be pulled in the instance and the container will start automatically:
+Upon configuring the YAML file, you'll need use the `DockerHandler` and `TitanEC2` classes to handle Docker image flows and instance instantiation.
+
+### Docker 
+
+To launch an EC2 instance, load the YAML file path into the `DockerHandler` class. These commands will pull the Takeoff Docker image, tag it for ECR, and push it to ECR:
+
+```py
+
+from horizon import DockerHandler, TitanEC2
+
+docker = DockerHandler("ec2_config.yaml")
+
+docker.pull_takeoff_image()
+docker.push_takeoff_image()
+```
+
+### Create Instance
+
+Now create your EC2 instance:
 
 ```py
 titan = TitanEC2.load_config("ec2_config.yaml")

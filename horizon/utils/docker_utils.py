@@ -20,7 +20,7 @@ class DockerHandler:
         self.ec2_config = manager.parse_yaml_file(config_path)
         self.ecr_client = boto3.client("ecr", region_name=self.ec2_config.region_name)
 
-    def check_or_create_repository(self, repo_name: str) -> None:
+    def check_or_create_repository(self) -> None:
         """
         Check if an ECR repository exists; create it if not.
 
@@ -29,7 +29,7 @@ class DockerHandler:
         """
         try:
             response = self.ecr_client.describe_repositories(
-                repositoryNames=[repo_name]
+                repositoryNames=[self.ec2_config.ecr_repo_name]
             )
             repository_exists = len(response["repositories"]) > 0
         except self.ecr_client.exceptions.RepositoryNotFoundException:
@@ -37,12 +37,12 @@ class DockerHandler:
 
         if not repository_exists:
             try:
-                self.ecr_client.create_repository(repositoryName=repo_name)
-                print(f"ECR repository '{repo_name}' created successfully.")
+                self.ecr_client.create_repository(repositoryName=self.ec2_config.ecr_repo_name)
+                print(f"ECR repository '{self.ec2_config.ecr_repo_name}' created successfully.")
             except Exception as e:
                 print(f"Error creating ECR repository: {e}")
         else:
-            print(f"ECR repository '{repo_name}' already exists.")
+            print(f"ECR repository '{self.ec2_config.ecr_repo_name}' already exists.")
 
     def pull_takeoff_image(self) -> None:
         """

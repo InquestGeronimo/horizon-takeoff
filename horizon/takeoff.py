@@ -107,7 +107,7 @@ def deploy_docker(config_file):
         manager.add_hardware_to_yaml(config_file.name, hardware)
 
         handler = DockerHandler(config_file.name)
-        handler.check_or_create_repository(ecr_repo_name)
+        handler.check_or_create_repository()
         handler.pull_takeoff_image()
         handler.push_takeoff_image()
 
