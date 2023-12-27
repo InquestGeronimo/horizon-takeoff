@@ -8,7 +8,7 @@ Horizon Takeoff
 
 
 <div style="display: flex; justify-content: center;">
-  <video autoplay muted controls src="https://private-user-images.githubusercontent.com/79061523/293062674-cd626c61-4397-4498-91d3-f11e2e4ea540.mp4" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
+  <video autoplay muted controls src="https://github.com/InquestGeronimo/horizon-takeoff/assets/79061523/cd626c61-4397-4498-91d3-f11e2e4ea540" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
 </div>
 
 
