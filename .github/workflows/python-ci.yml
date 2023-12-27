@@ -26,7 +26,7 @@ jobs:
     - name: Run tests with Ruff
       run: |
         ruff check horizon/
-        ruff format horizon/ --exclude horizon/__init__.py
+        ruff format horizon/
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
