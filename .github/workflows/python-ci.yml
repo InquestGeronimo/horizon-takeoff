@@ -23,9 +23,9 @@ jobs:
         pip install -U pip
         pip install ruff
 
-    - name: Copy .ruff.toml
+    - name: Copy ruff.toml
       run: |
-        cp .ruff.toml $HOME/.ruff.toml
+        cp ruff.toml $HOME/ruff.toml
 
     - name: Run tests with Ruff
       run: |
