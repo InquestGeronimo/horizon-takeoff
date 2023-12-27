@@ -12,7 +12,7 @@ With Horizon-Takeoff, you have the flexibility to choose between two distinct wo
 
 **1. Text-based User Interface (TUI):** This approach guides you through a step-by-step process within the terminal, allowing you to input various variables. This automated procedure configures and preserves your cloud environment settings in a YAML file, handles the pulling, tagging, and pushing of the Takeoff Server image to AWS's Elastic Container Registry (ECR), and initiates the instance launch.
 
-**2. Manual Deployment:** Alternatively, you can opt for manual deployment by configuring a YAML configuration file according to your specific requirements. Further details found in the `YAML Configuration` section.
+**2. Manual Deployment:** Alternatively, you can opt for manual deployment by configuring a YAML configuration file according to your specific requirements. Further details found in the `Manual YAML Configuration` section.
 
 ## Requirements
 
