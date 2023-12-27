@@ -83,7 +83,7 @@ To delete your working instance, run:
 del-instance
 ```
 
-# YAML Configuration
+# Manual YAML Configuration
 
 To bypass the TUI, you can create your YAML config manually. Make sure to enter the following variables save it as `ec2_config.yaml`:
 
@@ -103,7 +103,8 @@ EC2:
     - sg-0fefe7b366b0c0843                  
 ```
 
-# Launch Manually
+# Manual Launch
+
 To launch an EC2 instance, load the YAML file. These commands will pull the Takeoff Docker image, tag it for ECR, and push it to ECR. An instance will be created, the Docker image from ECR will be pulled in the instance and the container will start automatically:
 
 ```py
