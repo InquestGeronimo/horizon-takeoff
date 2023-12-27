@@ -7,7 +7,9 @@ Horizon Takeoff
 </div>
 
 
-[![Video Thumbnail](https://i.ytimg.com/vi/m-zareZwEKI/hqdefault.jpg)](https://youtu.be/m-zareZwEKI)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/m-zareZwEKI?autoplay=1" frameborder="0" allowfullscreen></iframe>
+
+
 
 
 Horizon Takeoff is a library designed to streamline the deployment of TitanML's Takeoff server on AWS, focusing on EC2 and SageMaker. This toolkit simplifies the process of setting up and deploying cloud instances and containers with an interactive terminal TUI (Text-based User Interface) for simplicity when configuring your cloud environment.
