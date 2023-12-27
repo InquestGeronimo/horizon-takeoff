@@ -23,14 +23,9 @@ jobs:
         pip install -U pip
         pip install ruff
 
-    - name: Configure Ruff
+    - name: Run tests with Ruff
       run: |
-        echo "[checks]" >> .ruff.toml
-        echo 'exclude = ["horizon/__init__.py"]' >> .ruff.toml
-
-    - name: Run tests
-      run: |
-        ruff check horizon/
+        ruff check horizon/ --ignore horizon/__init__.py
         ruff format horizon/
 
     - name: Upload test results
