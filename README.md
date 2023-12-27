@@ -6,13 +6,13 @@ Horizon Takeoff
     <img width="400" height="350" src="./img/rocket.png">
 </div>
 
-**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. The deployment process is facilitated through an interactive terminal-based User Interface (TUI), enhancing the ease and efficiency of configuring your cloud environment. Refer to Titan's documentation to gain further insights into the [Takeoff Server's](https://docs.titanml.co/docs/intro) Commmunity and Pro features.
+**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. The deployment process is facilitated through an interactive terminal-based User Interface (TUI), enhancing the ease and efficiency of configuring your cloud environment. To gain a deeper understanding of the features offered by the Takeoff Server, one should refer to [TitanML's documentation](https://docs.titanml.co/docs/intro).
 
-With Horizon-Takeoff library, you have the flexibility to choose between two distinct workflows for launching your AWS service:
+With Horizon-Takeoff, you have the flexibility to choose between two distinct workflows for launching your AWS service:
 
 **1. Text-based User Interface (TUI):** This approach guides you through a step-by-step process within the terminal, allowing you to input various variables. This automated procedure configures and preserves your cloud environment settings in a YAML file, handles the pulling, tagging, and pushing of the Takeoff Server image to Amazon Elastic Container Registry (ECR), and initiates the instance launch.
 
-**2. Manual Deployment:** Alternatively, you can opt for manual deployment by configuring a YAML configuration file according to your specific requirements. Further details can be found in the `YAML Configuration` section.
+**2. Manual Deployment:** Alternatively, you can opt for manual deployment by configuring a YAML configuration file according to your specific requirements. Further details found in the `YAML Configuration` section.
 
 ## Requirements
 
