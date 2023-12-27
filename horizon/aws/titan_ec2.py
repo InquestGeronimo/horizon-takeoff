@@ -6,6 +6,23 @@ from .models import EC2Config
 from .iam import IAMHandler
 
 
+def startup_script(account_id, region, repo, model_name, hardware):
+    hardware = "cuda" if hardware == "gpu" else "cpu"
+
+    startup_script = f"""#!/bin/bash
+    apt-get update
+    apt install docker.io -y
+    apt install awscli -y
+    aws ecr get-login-password --region {region} |\
+    docker login --username AWS --password-stdin\
+    {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+    docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+    docker run -e TAKEOFF_MODEL_NAME={model_name} -e TAKEOFF_DEVICE={hardware} \
+    -p 8000:80 {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+
+    """
+    return startup_script
+
 class TitanEC2(IAMHandler):
     """Initialize a TitanEC2 instance.
 
@@ -117,21 +134,3 @@ class TitanEC2(IAMHandler):
         ec2_config = manager.parse_yaml_file(config_file_path)
         if ec2_config:
             return cls(ec2_config)
-
-
-def startup_script(account_id, region, repo, model_name, hardware):
-    hardware = "cuda" if hardware == "gpu" else "cpu"
-
-    startup_script = f"""#!/bin/bash
-    apt-get update
-    apt install docker.io -y
-    apt install awscli -y
-    aws ecr get-login-password --region {region} |\
-    docker login --username AWS --password-stdin\
-    {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
-    docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
-    docker run -e TAKEOFF_MODEL_NAME={model_name} -e TAKEOFF_DEVICE={hardware} \
-    -p 8000:80 {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
-
-    """
-    return startup_script
