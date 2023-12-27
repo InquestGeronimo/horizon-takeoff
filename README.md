@@ -2,9 +2,9 @@
 Horizon Takeoff
 </h1>
 
-<div align="center">
+<!-- <div align="center">
     <img width="400" height="350" src="./img/rocket.png">
-</div>
+</div> -->
 
 https://github.com/InquestGeronimo/horizon-takeoff/assets/79061523/d03f6e5c-3e18-42c4-904b-a07eb59e753f
 
