@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.0.3.5] - 2023-12-27
 
+### Added
+
+Added root README
+
 ### Changed
 
 - refactored YAM, Docker, and Endpoint config
