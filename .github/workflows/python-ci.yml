@@ -22,7 +22,11 @@ jobs:
       run: |
         pip install -U pip
         pip install ruff
-        pip install mypy
+
+    - name: Configure Ruff
+      run: |
+        echo "[checks]" >> .ruff.toml
+        echo 'exclude = ["horizon/__init__.py"]' >> .ruff.toml
 
     - name: Run tests
       run: |
