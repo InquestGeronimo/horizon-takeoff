@@ -14,11 +14,13 @@ With this library, you have two workflows for launching your AWS service with th
 
 **2. Manual Deployment:** For manual deployment, configure a YAML configuration file manually.
 
-### Requirements
+<h3 align="left">
+Requirements
+</h3>
 
-**1.** AWS CLI installed and configured.
+**1.** AWS CLI installed and configured on local machine.
 
-**2.** Docker installed
+**2.** Docker installed.
 
 **3.** Own an AWS account with the following configurations:
 
