@@ -1,5 +1,7 @@
 import os
+import sys
 import yaml
+import argparse
 from typing import Dict, Any
 
 from rich import print
@@ -47,13 +49,13 @@ def intro() -> None:
     shell.print(prompt.intro)
 
 
-def select_aws_service() -> None:
-    choice: str = Prompt.ask(
-        prompt.select_aws_feature,
-        choices=prompt.aws_feature_choices,
-        show_choices=False,
-    )
-    return choice
+# def select_aws_service() -> None:
+#     choice: str = Prompt.ask(
+#         prompt.select_aws_feature,
+#         choices=prompt.aws_feature_choices,
+#         show_choices=False,
+#     )
+#     return choice
 
 
 def create_ec2_config_file() -> None:
@@ -189,13 +191,17 @@ def deploy_cloud_service(service):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Horizon CLI - Manage AWS EC2 and SageMaker")
+    parser.add_argument("service", choices=["ec2", "sagemaker"], help="Choose the cloud service to deploy")
+
+    args = parser.parse_args()
+
     print(Panel.fit(banner(), subtitle=prompt.subtitle, style="yellow"))
     print()
     check_reqs()
     intro()
-    service = select_aws_service()
-    deploy_cloud_service(service)
+    deploy_cloud_service(args.service)
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
