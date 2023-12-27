@@ -1,4 +1,4 @@
-from typing import Optional, List, Any
+from typing import List, Any
 import boto3
 
 from ..utils.yaml_utils import YamlFileManager as manager

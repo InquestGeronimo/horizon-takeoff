@@ -1,4 +1,3 @@
-import os
 import sys
 import yaml
 import argparse
@@ -84,7 +83,7 @@ def create_ec2_config_file() -> None:
         prompt.enter_instance_profile_arn
     )
 
-    config_file = manager.write_yaml_to_file(ec2.config_filename, ec2_config)
+    config_file = manager.write_yaml_to_file(ec2.config_file, ec2_config)
 
     shell.print(prompt.config_created(config_file.name))
 
