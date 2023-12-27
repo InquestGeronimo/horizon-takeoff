@@ -6,13 +6,13 @@ Horizon Takeoff
     <img width="400" height="350" src="./img/rocket.png">
 </div>
 
-**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. It does so through an interactive terminal-based User Interface (TUI) that enhances the ease of configuring your cloud environment. View Titan's [Takeoff Server Docs](https://docs.titanml.co/docs/intro) to learn more about its commmunity and Pro features.
+**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. The deployment process is facilitated through an interactive terminal-based User Interface (TUI), enhancing the ease and efficiency of configuring your cloud environment. Refer to Titan's documentation to gain further insights into the [Takeoff Server's](https://docs.titanml.co/docs/intro) Commmunity and Pro features.
 
-With this library, you have two workflows for launching your AWS service with the Takeoff Server:
+With Horizon-Takeoff library, you have the flexibility to choose between two distinct workflows for launching your AWS service:
 
-**1. Text-based User Interface (TUI):** This involves following a step-by-step guide within the terminal to enter various variables. This will automatically configure and save your cloud environment settings in a YAML file, pull, tag and push the Takeoff Server image to ECR, and launch the instance.
+**1. Text-based User Interface (TUI):** This approach guides you through a step-by-step process within the terminal, allowing you to input various variables. This automated procedure configures and preserves your cloud environment settings in a YAML file, handles the pulling, tagging, and pushing of the Takeoff Server image to Amazon Elastic Container Registry (ECR), and initiates the instance launch.
 
-**2. Manual Deployment:** For manual deployment, configure a YAML configuration file manually.
+**2. Manual Deployment:** Alternatively, you can opt for manual deployment by configuring a YAML configuration file according to your specific requirements. Further details can be found in the `YAML Configuration` section.
 
 ## Requirements
 
@@ -51,19 +51,19 @@ horizon-takeoff ec2
 
 # Staging
 
-After you've finished the TUI workflow, an automatically generated YAML configuration file will be stored in your working directory. This file will trigger the staging process for your instance on its own. Please be patient and wait for a few minutes as the instance downloads the LLM model and initiates the Docker container containing the Takeoff Server. To keep track of the progress and access cloud initialization logs, you can SSH into your instance using the following command:
+After you've finished the TUI workflow, a YAML configuration file will be automatically stored in your working directory. This file will trigger the staging process of your deployment. Wait a few minutes as the instance downloads the LLM model and initiates the Docker container containing the Takeoff Server. To keep track of the progress and access your instance's initialization logs, you can SSH into your instance using the following command:
 
 ```bash
 ssh -i ~/<pem.key> <user>@<public-ipv4-dns>  # e.g. ssh -i ~/aws.pem ubuntu@ec2-44-205-255-59.compute-1.amazonaws.com
 ```
 
-To view the cloud init logs and ensure that your container is up and running, run the following command:
+To view your instance logs and confirm that your container is up and running, run:
 
 ```bash
 cat /var/log/cloud-init-output.log
 ```
 
-if you find the Uvicorn URL endpoint displayed within them, it indicates that your Docker container is up and running, and you are now prepared to start making API calls for LLM inference.
+if you find the Uvicorn URL endpoint displayed within them, it indicates that your Docker container running, and you are now prepared to start making API calls for LLM inference.
 
 # Calling API Endpoint
 
