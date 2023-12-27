@@ -23,7 +23,6 @@ class EC2Endpoint:
         Initialize an Endpoint instance.
 
         Args:
-            address (str): The ipv4 address for the EC2 instance.
             stream (bool): Whether to use a streaming endpoint. Defaults to False.
             pro (bool): Whether to use a pro or community endpoint. Defaults to False.
         """
