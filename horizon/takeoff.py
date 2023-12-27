@@ -56,25 +56,6 @@ def select_aws_service() -> None:
     return choice
 
 
-def provision_ec2(choice):
-    if manager.yaml_config_exists(choice):
-        override_choice = Prompt.ask(
-            prompt.ec2_warning_msg, choices=prompt.boolean_choices, show_choices=False
-        )
-        if override_choice == "yes":
-            config_file = create_ec2_config_file()
-            deploy_docker(config_file)
-            instance_id = create_ec2_instance(config_file)
-            return instance_id, config_file
-        else:
-            print(prompt.abort_config)
-    else:
-        config_file = create_ec2_config_file()
-        deploy_docker(config_file)
-        instance_id = create_ec2_instance(config_file)
-        return instance_id, config_file
-
-
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
 
@@ -140,6 +121,25 @@ def create_ec2_instance(config_file):
     instance_id, instance_meta_data = ec2.create_instance()
     shell.print(prompt.instance_created(instance_meta_data))
     return instance_id
+
+
+def provision_ec2(choice):
+    if manager.yaml_config_exists(choice):
+        override_choice = Prompt.ask(
+            prompt.ec2_warning_msg, choices=prompt.boolean_choices, show_choices=False
+        )
+        if override_choice == "yes":
+            config_file = create_ec2_config_file()
+            deploy_docker(config_file)
+            instance_id = create_ec2_instance(config_file)
+            return instance_id, config_file
+        else:
+            print(prompt.abort_config)
+    else:
+        config_file = create_ec2_config_file()
+        deploy_docker(config_file)
+        instance_id = create_ec2_instance(config_file)
+        return instance_id, config_file
 
 
 def create_sagemaker_config_file() -> None:
