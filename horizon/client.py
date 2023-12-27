@@ -1,5 +1,10 @@
+import boto3
 import requests
+
 from typing import Any, Dict
+from .utils.yaml_utils import YamlFileManager
+from .utils.ec2_utils import EC2ConfigHandler
+
 
 class EC2Endpoint:
     """A class for invoking a API endpoint on EC2Instance with JSON data via a __call__ method."""
@@ -11,7 +16,9 @@ class EC2Endpoint:
         (True, True): "3000/generate_stream",
     }
 
-    def __init__(self, address: str, pro: bool = False, stream: bool = False):
+    config_file = EC2ConfigHandler.config_filename
+
+    def __init__(self, pro: bool = False, stream: bool = False):
         """
         Initialize an Endpoint instance.
 
@@ -20,7 +27,8 @@ class EC2Endpoint:
             stream (bool): Whether to use a streaming endpoint. Defaults to False.
             pro (bool): Whether to use a pro or community endpoint. Defaults to False.
         """
-        base_url = "http://" + address + ":"
+        self.address = self.get_ip_address()
+        base_url = "http://" + self.address + ":"
         self.url = base_url + self.BASE_URLS[(pro, stream)]
 
     def __call__(self, input_text: str) -> Dict[str, Any]:
@@ -36,3 +44,29 @@ class EC2Endpoint:
         json_data = {"text": input_text}
         response = requests.post(self.url, json=json_data)
         return response.json()
+
+    def get_ip_address(self) -> str:
+        """Get the IPv4 address of a running EC2 instance.
+
+        Args:
+            instance_id (str): The ID of the EC2 instance.
+
+        Returns:
+            str: The IPv4 address of the instance.
+        """
+
+        ec2_config = YamlFileManager.parse_yaml_file(self.config_file)
+        self.ec2_client = boto3.client("ec2", region_name=ec2_config.region_name)
+        response = self.ec2_client.describe_instances(
+            InstanceIds=ec2_config.instance_ids
+        )
+
+        if "Reservations" in response and len(response["Reservations"]) > 0:
+            instances = response["Reservations"][0]["Instances"]
+            if len(instances) > 0 and "PublicIpAddress" in instances[0]:
+                public_ip = instances[0]["PublicIpAddress"]
+                return public_ip
+            else:
+                return f"No public IPv4 address found for instance {ec2_config.instance_ids}"
+        else:
+            return f"No information found for instance {ec2_config.instance_ids}"
