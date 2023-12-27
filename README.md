@@ -19,7 +19,7 @@ This involves using a step-by-step guide within the TUI to enter various variabl
 
 For manual deployment, you will need to configure a YAML configuration file. After configuration, you can launch the TitanEC2 instance deployer object to deploy your service. 
 
-These two approaches provide flexibility in how you set up and launch your AWS service.
+> Currently, only EC2 instance deployment is stable, Sagemaker is under development.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 <br>
@@ -31,9 +31,8 @@ pip install horizon-takeoff
 # Launching the TUI <img align="center" width="30" height="29" src="https://media.giphy.com/media/PeaNPlyOVPNMHjqTm7/giphy.gif">
 <br>
 
-After installation, launch the entrypoint to get your TUI launched. Enter `horizon-takeoff <service>`. 
+After installation, launch the entrypoint to get your TUI launched. Enter `horizon-takeoff <service>`:
 
-> Currently, only EC2 instance deployment is stable, Sagemaker is under development.
 
 ```py
 horizon-takeoff ec2
