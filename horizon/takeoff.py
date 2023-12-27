@@ -28,7 +28,7 @@ requirements = [
 ]
 
 
-def check_requirements():
+def check_reqs():
     for condition, message in requirements:
         if condition is None:
             error_message = prompt.dependency_not_exists(
@@ -191,7 +191,7 @@ def deploy_cloud_service(service):
 def main():
     print(Panel.fit(banner(), subtitle=prompt.subtitle, style="yellow"))
     print()
-    check_requirements()
+    check_reqs()
     intro()
     service = select_aws_service()
     deploy_cloud_service(service)
