@@ -8,7 +8,7 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
 NAME = "horizon-takeoff"
-VERSION = "0.0.3"
+VERSION = "0.0.3.1"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
@@ -22,7 +22,13 @@ ENTRY_POINTS = {
         "del-instance=horizon.del_ec2:main",
     ]
 }
-DEPENDENCIES = ["boto3>=1.34.4", "pyyaml>=6.0.1", "rich>=12.6.0", "pydantic>=2.5.3"]
+DEPENDENCIES = [
+    "boto3>=1.34.4",
+    "pyyaml>=6.0.1",
+    "rich>=12.6.0",
+    "pydantic>=2.5.3",
+    "requests>=2.31.0",
+]
 KEYWORDS = ["cloud", "titanml", "server", "LLM", "NLP", "MLOps", "deployment"]
 CLASSIFIERS = [
     "Development Status :: 1 - Planning",

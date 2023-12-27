@@ -1,20 +1,27 @@
 import requests
-from typing import Dict, Any
-
+from typing import Any, Dict
 
 class Endpoint:
     """A class for invoking a URL with JSON data via a __call__ method."""
 
-    json_data: Dict[str, Any] = {}
+    BASE_URLS = {
+        (False, False): "8000/generate",
+        (False, True): "9000/generate_stream",
+        (True, False): "3000/generate",
+        (True, True): "3000/generate_stream",
+    }
 
-    def __init__(self, url: str):
+    def __init__(self, address: str, stream: bool = False, pro: bool = False):
         """
         Initialize an Endpoint instance.
 
         Args:
-            url (str): The URL to send POST requests to.
+            address (str): The address for the URL.
+            stream (bool, optional): Whether to use a streaming endpoint. Defaults to False.
+            pro (bool, optional): Whether to use a pro endpoint. Defaults to False.
         """
-        self.url = url
+        base_url = "http://" + address + ":"
+        self.url = base_url + self.BASE_URLS[(pro, stream)]
 
     def __call__(self, input_text: str) -> Dict[str, Any]:
         """
@@ -26,6 +33,6 @@ class Endpoint:
         Returns:
             Dict[str, Any]: The JSON response from the URL.
         """
-        self.json_data = {"text": input_text}
-        response = requests.post(self.url, json=self.json_data)
+        json_data = {"text": input_text}
+        response = requests.post(self.url, json=json_data)
         return response.json()
