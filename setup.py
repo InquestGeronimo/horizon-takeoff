@@ -19,7 +19,7 @@ PACKAGE_DATA = {"horizon": ["scripts/*", "utils/*", "aws/*", "logs/*"]}
 ENTRY_POINTS = {
     "console_scripts": [
         "horizon-takeoff=horizon.takeoff:main",
-        "del-instance=horizon.del_ec2:main",
+        "horizon-del=horizon.del_ec2:main",
     ]
 }
 DEPENDENCIES = [

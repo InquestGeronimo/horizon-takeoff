@@ -77,15 +77,15 @@ print(generation)
 
 # Deleting Instance
 
-To delete your working instance, run:
+To delete your working instance via the terminal, run:
 
 ```bash
-del-instance
+horizon-del
 ```
 
 # Manual YAML Configuration
 
-To bypass the TUI, you can create your YAML config manually. Make sure to enter the following variables save it as `ec2_config.yaml`:
+To bypass the TUI, you can create your YAML config manually. Make sure to enter the following variables and save them in the `ec2_config.yaml` file:
 
 ```yaml
 EC2:
