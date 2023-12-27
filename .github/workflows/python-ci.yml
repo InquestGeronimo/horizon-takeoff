@@ -25,7 +25,7 @@ jobs:
 
     - name: Run tests with Ruff
       run: |
-        ruff check horizon/ --ignore horizon/__init__.py
+        ruff check horizon/
         ruff format horizon/
 
     - name: Upload test results
