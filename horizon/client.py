@@ -1,24 +1,24 @@
 import requests
 from typing import Any, Dict
 
-class Endpoint:
-    """A class for invoking a URL with JSON data via a __call__ method."""
+class EC2Endpoint:
+    """A class for invoking a API endpoint on EC2Instance with JSON data via a __call__ method."""
 
     BASE_URLS = {
         (False, False): "8000/generate",
-        (False, True): "9000/generate_stream",
+        (False, True): "8000/generate_stream",
         (True, False): "3000/generate",
         (True, True): "3000/generate_stream",
     }
 
-    def __init__(self, address: str, stream: bool = False, pro: bool = False):
+    def __init__(self, address: str, pro: bool = False, stream: bool = False):
         """
         Initialize an Endpoint instance.
 
         Args:
-            address (str): The address for the URL.
-            stream (bool, optional): Whether to use a streaming endpoint. Defaults to False.
-            pro (bool, optional): Whether to use a pro endpoint. Defaults to False.
+            address (str): The ipv4 address for the EC2 instance.
+            stream (bool): Whether to use a streaming endpoint. Defaults to False.
+            pro (bool): Whether to use a pro or community endpoint. Defaults to False.
         """
         base_url = "http://" + address + ":"
         self.url = base_url + self.BASE_URLS[(pro, stream)]

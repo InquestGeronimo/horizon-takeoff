@@ -3,7 +3,6 @@ from rich.console import Console
 from .aws.titan_ec2 import TitanEC2
 from .utils.ec2_utils import EC2ConfigHandler as handler
 
-
 shell = Console()
 
 

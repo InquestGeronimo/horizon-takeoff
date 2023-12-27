@@ -96,7 +96,7 @@ class TitanEC2(IAMHandler):
         """
         if instance_ids:
             self.ec2_client.terminate_instances(InstanceIds=instance_ids)
-            print(f"Instances {', '.join(instance_ids)} are being terminated.")
+            print(f"Instance {', '.join(instance_ids)} is being terminated.")
         else:
             print("No instance IDs provided. No instances will be terminated.")
 
