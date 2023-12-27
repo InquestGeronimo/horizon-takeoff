@@ -62,12 +62,12 @@ class PromptHandler:
 
     @staticmethod
     def config_created(config_file):
-        return f"\n[bold green]Config file '{config_file}' has been created in your working directory.[/bold green]"
+        return f"\n[bold green]Config file has been created in your working directory: '{config_file}'.[/bold green]"
 
     @staticmethod
     def instance_created(instance_meta_data):
-        return f"\nCreated EC2 instance: [bold green] {instance_meta_data}[/bold green]"
+        return f"\nCreated EC2 instance: [bold green]{instance_meta_data}[/bold green]"
 
     @staticmethod
-    def instance_id_added(instance_id, config_file):
-        return f"Instance ID '{instance_id}' added to the YAML file '{config_file}'."
+    def instance_id_added(instance_id):
+        return f"\nInstance ID [bold green]{instance_id}[/bold green] added to the YAML file."
