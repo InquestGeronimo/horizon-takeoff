@@ -29,8 +29,8 @@ jobs:
 
     - name: Run tests with Ruff
       run: |
-        ruff check horizon/
-        ruff format horizon/
+        ruff check .
+        ruff format .
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
