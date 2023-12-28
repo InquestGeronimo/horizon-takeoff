@@ -58,7 +58,7 @@ Wait a few minutes as the instance downloads the LLM model and initiates the Doc
 ssh -i ~/<pem.key> <user>@<public-ipv4-dns>  # e.g. ssh -i ~/aws.pem ubuntu@ec2-44-205-255-59.compute-1.amazonaws.com
 ```
 
-In your instance's terminal, run the followign command to view your logs to confirm when your container is up and running:
+In your instance's terminal, run the following command to view your logs to confirm when your container is up and running:
 
 ```bash
 cat /var/log/cloud-init-output.log
