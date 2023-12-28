@@ -81,7 +81,7 @@ class TitanEC2(IAMHandler):
                 self.ecr_repo_name,
                 self.model_name,
                 self.hardware,
-                self.server_edition
+                self.server_edition,
             ),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,

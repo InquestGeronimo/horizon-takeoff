@@ -1,5 +1,3 @@
-from typing import Dict
-
 def banner():
     return """ 
 
@@ -41,7 +39,7 @@ class PromptHandler:
     enter_security_group = "\n[magenta] 6. Enter EC2 Security Group ID(s) (if multiple, comma-separated)\n\
     Make sure security group has a TCP port 8000 exposed for inbound traffic[/magenta]"
     enter_instance_profile_arn = "\n[magenta] 7. Enter instance profile arn[/magenta]"
-    
+
     # Docker & ECR prompts
     docker_flow = "\n[magenta] 8. Ready to deploy Docker image to ECR and instantiate your EC2 instance?[/magenta] [yellow](yes,no)[/yellow]"
     enter_ecr_name = "\n[magenta] 8.1 Enter your ECR repository name, if it doesn't exist, it will be created"

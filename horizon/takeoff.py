@@ -47,15 +47,6 @@ def intro() -> None:
     shell.print(prompt.intro)
 
 
-# def select_aws_service() -> None:
-#     choice: str = Prompt.ask(
-#         prompt.select_aws_feature,
-#         choices=prompt.aws_feature_choices,
-#         show_choices=False,
-#     )
-#     return choice
-
-
 def create_ec2_config_file() -> None:
     ec2_config = ec2.create_ec2_config_dict()
 
@@ -186,7 +177,7 @@ def deploy_cloud_service(service, server_edition):
         shell.print(prompt.instance_id_added(instance_id))
     else:
         provision_sagemaker()
-        # TODO have to add sagemaker support
+        # TODO add sagemaker support
 
 
 def main():
