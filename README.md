@@ -36,7 +36,7 @@ pip install horizon-takeoff
 # TUI Launch <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 <br>
 
-After installation, launch the entrypoint to spin up the TUI. Enter `horizon-takeoff <service>`:
+After installation, launch the entrypoint to spin up the TUI:
 
 
 ```bash
@@ -52,7 +52,7 @@ horizon-takeoff ec2
 
 After you've finished the TUI workflow, a YAML configuration file will be automatically stored in your working directory. This file will trigger the staging process of your deployment and you will receive a notification in terminal of your instance launch. 
 
-Wait a few minutes as the instance downloads the LLM model and initiates the Docker container containing the Takeoff Server. To keep track of the progress and access your instance's initialization logs, you can SSH into your instance using the following command:
+Wait a few minutes as the instance downloads the LLM model and initiates the Docker container containing the Takeoff Server. To keep track of the progress and access your instance's initialization logs, you can SSH into your instance:
 
 ```bash
 ssh -i ~/<pem.key> <user>@<public-ipv4-dns>  # e.g. ssh -i ~/aws.pem ubuntu@ec2-44-205-255-59.compute-1.amazonaws.com
