@@ -7,7 +7,7 @@ from .utils.ec2_utils import EC2ConfigHandler
 
 
 class EC2Endpoint:
-    """A class for invoking a API endpoint on EC2Instance with JSON data via a __call__ method."""
+    """A class for invoking a API endpoint on EC2Instance."""
 
     BASE_URLS = {
         (False, False): "8000/generate",
@@ -26,8 +26,8 @@ class EC2Endpoint:
             stream (bool): Whether to use a streaming endpoint. Defaults to False.
             pro (bool): Whether to use a pro or community endpoint. Defaults to False.
         """
-        self.address = self.get_ip_address()
-        base_url = "http://" + self.address + ":"
+        address = self.get_ip_address()
+        base_url = "http://" + address + ":"
         self.url = base_url + self.BASE_URLS[(pro, stream)]
 
     def __call__(self, input_text: str) -> Dict[str, Any]:
