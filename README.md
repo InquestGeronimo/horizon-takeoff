@@ -33,10 +33,10 @@ With Horizon-Takeoff, you have the flexibility to choose between two distinct wo
 pip install horizon-takeoff
 ```
 
-# Launching the TUI <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
+# TUI Launch <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 <br>
 
-After installation, launch the entrypoint to get your TUI launched. Enter `horizon-takeoff <service>`:
+After installation, launch the entrypoint to spin up the TUI. Enter `horizon-takeoff <service>`:
 
 
 ```bash
