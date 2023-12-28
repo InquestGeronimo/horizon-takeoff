@@ -64,7 +64,7 @@ In your instance's terminal, run the followign command to view your logs to conf
 cat /var/log/cloud-init-output.log
 ```
 
-If you observe the Uvicorn URL endpoint being displayed in the logs, it signifies that your Docker container is operational, and you are now ready to initiate API calls to the inference endpoint.
+If you observe the Uvicorn URL endpoint being displayed in the logs, it signifies that your Docker container is operational, and you are now ready to invoke API calls to the inference endpoint.
 
 # Calling the Inference Endpoint <img align="center" width="30" height="29" src="https://media.giphy.com/media/ITRemFlr5tS39AzQUL/giphy.gif">
 <br>
