@@ -129,8 +129,8 @@ Launch the EC2 instance:
 
 ```py
 titan = TitanEC2("ec2_config.yaml")
-instance = titan.create_instance()
-print(instance)
+instance_id, meta_data = titan.create_instance()
+print(meta_data)
 ```
 Revisit the `Staging` and 'Calling the Inference Endpoint` section for final steps
 
@@ -138,4 +138,6 @@ Revisit the `Staging` and 'Calling the Inference Endpoint` section for final ste
 
 To delete instance, pass in your `Instance Id`
 
-titan.delete_instance()
+```py
+titan.delete_instance(instance_id)
+```
