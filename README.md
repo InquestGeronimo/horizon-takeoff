@@ -10,9 +10,9 @@ Horizon Takeoff
 
 With Horizon-Takeoff, you have the flexibility to choose between two distinct workflows for launching your AWS service:
 
-**1. Text-based User Interface (TUI):** This approach guides you through a step-by-step process within the terminal, allowing you to input various variables. This automated procedure configures and preserves your cloud environment settings in a YAML file, handles the pulling, tagging, and pushing of the Takeoff Server image to AWS's Elastic Container Registry (ECR), and initiates the instance launch.
+**1. Terminal User Interface (TUI):** This approach guides you through a step-by-step process within the terminal. This procedure configures and preserves your cloud environment settings in a YAML file, handles pulling, tagging, and pushing of the Takeoff Server image to AWS's Elastic Container Registry (ECR), and initiates the instance launch.
 
-**2. Manual Deployment:** Alternatively, you can opt for manual deployment by configuring a YAML configuration file according to your specific requirements. Further details found in the `Manual YAML Configuration` section.
+**2. Manual Deployment:** Alternatively, you can can configure the YAML config file according to your specific requirements without the TUI. Further details found in the `YAML Configuration` section.
 
 ## Requirements
 
@@ -83,9 +83,9 @@ To delete your working instance via the terminal, run:
 horizon-del
 ```
 
-# Manual YAML Configuration
+# YAML Configuration
 
-To bypass the TUI, you can create your YAML config manually. Make sure to enter the following variables and save them in the `ec2_config.yaml` file:
+To bypass the TUI, you can create your YAML configuration manually. Make sure to enter the following EC2-related variables and save them in a `ec2_config.yaml` file:
 
 ```yaml
 EC2:
@@ -103,16 +103,15 @@ EC2:
     - sg-0fefe7b366b0c0843                  
 ```
 
-# Manual Launch
+# Launch in Python
 
-Upon configuring the YAML file, you'll need use the `DockerHandler` and `TitanEC2` classes to handle Docker image flows and instance instantiation.
+Upon configuring the YAML file, you'll need use the `DockerHandler` and `TitanEC2` classes to handle Docker image flows and instance launch.
 
 ### Docker 
 
-To launch an EC2 instance, load the YAML file path into the `DockerHandler` class. These commands will pull the Takeoff Docker image, tag it for ECR, and push it to ECR:
+Before launching your EC2 instance, first load the YAML file into the `DockerHandler` class. These commands will pull the Takeoff Docker image, tag it for ECR, and push it to ECR:
 
 ```py
-
 from horizon import DockerHandler, TitanEC2
 
 docker = DockerHandler("ec2_config.yaml")
