@@ -58,13 +58,13 @@ Wait a few minutes as the instance downloads the LLM model and initiates the Doc
 ssh -i ~/<pem.key> <user>@<public-ipv4-dns>  # e.g. ssh -i ~/aws.pem ubuntu@ec2-44-205-255-59.compute-1.amazonaws.com
 ```
 
-To view your instance logs and confirm that your container is up and running, run:
+In your instance's terminal, run the followign command to view your logs to confirm when your container is up and running:
 
 ```bash
 cat /var/log/cloud-init-output.log
 ```
 
-if you find the Uvicorn URL endpoint displayed in the logs, it indicates that your Docker container is running, and you are now prepared to start making API calls to the inference endpoint.
+If you observe the Uvicorn URL endpoint being displayed in the logs, it signifies that your Docker container is operational, and you are now ready to initiate API calls to the inference endpoint.
 
 # Calling the Inference Endpoint <img align="center" width="30" height="29" src="https://media.giphy.com/media/ITRemFlr5tS39AzQUL/giphy.gif">
 <br>
@@ -141,7 +141,7 @@ Revisit the `Staging` and `Calling the Inference Endpoint` section for API handl
 
 ### Delete Instance
 
-To delete instance, pass in your `Instance Id`:
+Pass your `Instance Id` to the `delete_instance` method:
 
 ```py
 titan.delete_instance(instance_id)
