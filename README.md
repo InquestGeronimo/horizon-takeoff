@@ -66,7 +66,7 @@ cat /var/log/cloud-init-output.log
 
 If you observe the Uvicorn URL endpoint being displayed, it signifies that your Docker container is operational and you are now ready to invoke API calls to the inference endpoint.
 
-# Calling the Inference Endpoint <img align="center" width="30" height="29" src="https://media.giphy.com/media/fw8uZriJW4TlhmZnUj/giphy.gif">
+# Calling the Endpoint <img align="center" width="30" height="29" src="https://media.giphy.com/media/fw8uZriJW4TlhmZnUj/giphy.gif">
 <br>
 
 Once you've initialized the EC2Endpoint class, you can effortlessly invoke your LLM in the cloud with just a single line of code.
