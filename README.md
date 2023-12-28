@@ -22,9 +22,9 @@ With Horizon-Takeoff, you have the flexibility to choose between two distinct wo
 
 * Have an instance profile role with access to `AmazonEC2ContainerRegistryReadOnly`. This will allow access to Docker pulls from ECR within an instance.
 
-* Own a security group allowing inboud traffic for `port 8000` (community edition), `port 3000` (pro edition). This will expose the Docker endpoint for API calling.
+* Own a security group allowing inbound traffic to `port: 8000` (required for Takeoff Server community edition) and `port: 3000` (required for Takeoff Server pro edition). This will expose the appropriate Docker endpoints for API calling depending on your server edition of choice.
 
-> Currently, only EC2 instance deployment on the Community edition server is stable, Sagemaker and/or Takeoff Server with Pro features is under development.
+> Currently, only EC2 instance deployment on the Community edition server is stable, Sagemaker and/or Takeoff Server Pro edition is under development.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 <br>
