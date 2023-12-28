@@ -51,7 +51,9 @@ horizon-takeoff ec2
 
 # Staging
 
-After you've finished the TUI workflow, a YAML configuration file will be automatically stored in your working directory. This file will trigger the staging process of your deployment. Wait a few minutes as the instance downloads the LLM model and initiates the Docker container containing the Takeoff Server. To keep track of the progress and access your instance's initialization logs, you can SSH into your instance using the following command:
+After you've finished the TUI workflow, a YAML configuration file will be automatically stored in your working directory. This file will trigger the staging process of your deployment and you will receive a notification in terminal of your instance launch. 
+
+Wait a few minutes as the instance downloads the LLM model and initiates the Docker container containing the Takeoff Server. To keep track of the progress and access your instance's initialization logs, you can SSH into your instance using the following command:
 
 ```bash
 ssh -i ~/<pem.key> <user>@<public-ipv4-dns>  # e.g. ssh -i ~/aws.pem ubuntu@ec2-44-205-255-59.compute-1.amazonaws.com
@@ -63,11 +65,11 @@ To view your instance logs and confirm that your container is up and running, ru
 cat /var/log/cloud-init-output.log
 ```
 
-if you find the Uvicorn URL endpoint displayed within them, it indicates that your Docker container running, and you are now prepared to start making API calls for LLM inference.
+if you find the Uvicorn URL endpoint displayed in the logs, it indicates that your Docker container is running, and you are now prepared to start making API calls to the inference endpoint.
 
 # Calling the Inference Endpoint
 
-The orchestration involved in invoking a running EC2 instance has been simplified. Once you've initialized the EC2Endpoint class, you can effortlessly invoke your LLM in the cloud with just a single line of code.
+Once you've initialized the EC2Endpoint class, you can effortlessly invoke your LLM in the cloud with just a single line of code.
 
 ```py
 from horizon import EC2Endpoint
