@@ -137,7 +137,7 @@ print(meta_data)
 ```
 When you instance is created, you will get a JSON output of the instance's meta data.
 
-Revisit the `Staging` and 'Calling the Inference Endpoint` section for API handling.
+Revisit the `Staging` and `Calling the Inference Endpoint` section for API handling.
 
 ### Delete Instance
 
