@@ -1,6 +1,6 @@
-import boto3
-
 # ------ UNDER DEVELOPMENT
+
+import boto3
 
 # Initialize the CloudWatch Logs client
 cloudwatch = boto3.client(
