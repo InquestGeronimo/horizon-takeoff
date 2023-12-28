@@ -6,9 +6,9 @@ Horizon Takeoff
     <img width="400" height="350" src="./img/rocket.png">
 </div>
 
-**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. The deployment process is facilitated through an interactive terminal-based User Interface (TUI), enhancing the ease and efficiency of configuring your cloud environment. To gain a deeper understanding of the features offered by the Takeoff Server, one should refer to [TitanML's documentation](https://docs.titanml.co/docs/intro).
+**Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. The deployment process is facilitated through an interactive terminal-based User Interface (TUI) for streamlining the configuration your cloud environment. To gain a deeper understanding of the features offered by the Takeoff Server, refer to TitanML's [documentation](https://docs.titanml.co/docs/intro).
 
-With Horizon-Takeoff, you have the flexibility to choose between two distinct workflows for launching your AWS service:
+With Horizon-Takeoff, you have the flexibility to choose between two distinct workflows:
 
 **1. Terminal User Interface (TUI):** This approach guides you through a step-by-step process within the terminal. This procedure configures and preserves your cloud environment settings in a YAML file, handles pulling, tagging, and pushing of the Takeoff Server image to AWS's Elastic Container Registry (ECR), and initiates the instance launch.
 
@@ -108,11 +108,11 @@ EC2:
 
 # Launch in Python
 
-Upon configuring the YAML file, you'll need use the `DockerHandler` and `TitanEC2` classes to handle Docker image flows and instance launch.
+Upon configuring the YAML file, instantiate the `DockerHandler` and `TitanEC2` classes to handle Docker image flows and instance launch.
 
 ### Docker 
 
-Load the YAML file into the `DockerHandler` class. These commands will pull the Takeoff Docker image, tag it, and push it to ECR:
+Load the YAML file into the `DockerHandler`. These commands will pull the Takeoff Docker image, tag it, and push it to ECR:
 
 ```py
 from horizon import DockerHandler, TitanEC2
@@ -132,11 +132,13 @@ titan = TitanEC2("ec2_config.yaml")
 instance_id, meta_data = titan.create_instance()
 print(meta_data)
 ```
-Revisit the `Staging` and 'Calling the Inference Endpoint` section for final steps
+When you instance is created, you will get a JSON output of the instance's meta data.
+
+Revisit the `Staging` and 'Calling the Inference Endpoint` section for API handling.
 
 ### Delete Instance
 
-To delete instance, pass in your `Instance Id`
+To delete instance, pass in your `Instance Id`:
 
 ```py
 titan.delete_instance(instance_id)
