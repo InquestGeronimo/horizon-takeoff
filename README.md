@@ -65,7 +65,9 @@ cat /var/log/cloud-init-output.log
 
 if you find the Uvicorn URL endpoint displayed within them, it indicates that your Docker container running, and you are now prepared to start making API calls for LLM inference.
 
-# Calling API Endpoint
+# Calling the Inference Endpoint
+
+The orchestration behind calling a running EC2 instance has been abstracted away. After initialling the EC2Endpoint class, you can call your LLM with one line of code.
 
 ```py
 from horizon import EC2Endpoint
