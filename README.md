@@ -10,16 +10,14 @@ Horizon Takeoff
 
 With Horizon-Takeoff, you have the flexibility to choose between two distinct workflows:
 
-**1. Terminal User Interface (TUI):** This approach guides you through a step-by-step process within the terminal. This procedure configures and preserves your cloud environment settings in a YAML file, handles pulling, tagging, and pushing of the Takeoff Server image to AWS's Elastic Container Registry (ECR), and initiates the instance launch.
+**1. Terminal User Interface (TUI):** This approach guides you through a step-by-step process within the terminal. This procedure automatically saves your cloud environment settings in a YAML file and handles cloud orchestration tasks such as handling of the Takeoff Server image to AWS's Elastic Container Registry (ECR), initiating the instance launch and Takeoff Server configuration for LLM inference.
 
-**2. Manual Deployment:** Alternatively, you can can configure the YAML config file according to your specific requirements without the TUI. Further details found in the `YAML Configuration` section.
+**2. Python API:** Alternatively, you can can manually create the YAML config file according to your specific requirements and execute the orchestration and instance launch in Python. Further details found in the `YAML Configuration` section.
 
 ## Requirements
 
-**1.** AWS CLI installed and configured on local machine.
-
-**2.** Docker installed.
-
+**1.** AWS CLI installed and configured on local machine.  
+**2.** Docker installed.  
 **3.** Own an AWS account with the following configurations:
 
 * Have an instance profile role with access to `AmazonEC2ContainerRegistryReadOnly`. This will allow access to Docker pulls from ECR within an instance.
