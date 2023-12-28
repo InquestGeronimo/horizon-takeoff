@@ -133,3 +133,9 @@ instance = titan.create_instance()
 print(instance)
 ```
 Revisit the `Staging` and 'Calling the Inference Endpoint` section for final steps
+
+### Delete Instance
+
+To delete instance, pass in your `Instance Id`
+
+titan.delete_instance()
