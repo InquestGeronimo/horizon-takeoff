@@ -52,6 +52,8 @@ class YamlFileManager:
                     ec2_config.instance_ids.append(value_to_add)
                 elif field_name == "ecr_repo_name":
                     ec2_config.ecr_repo_name = value_to_add
+                elif field_name == "server_edition":
+                    ec2_config.server_edition = value_to_add
                 elif field_name == "hf_model_name":
                     ec2_config.hf_model_name = value_to_add
                 elif field_name == "hardware":

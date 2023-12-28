@@ -6,7 +6,8 @@ from .models import EC2Config
 from .iam import IAMHandler
 
 
-def startup_script(account_id, region, repo, model_name, hardware):
+def startup_script(account_id, region, repo, model_name, hardware, server_edition):
+    port = 3000 if server_edition == "pro" else 8000
     hardware = "cuda" if hardware == "gpu" else "cpu"
 
     startup_script = f"""#!/bin/bash
@@ -18,7 +19,7 @@ def startup_script(account_id, region, repo, model_name, hardware):
     {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
     docker pull {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
     docker run -e TAKEOFF_MODEL_NAME={model_name} -e TAKEOFF_DEVICE={hardware} \
-    -p 8000:80 {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
+    -p {port}:80 {account_id}.dkr.ecr.{region}.amazonaws.com/{repo}:latest
 
     """
     return startup_script
@@ -59,6 +60,7 @@ class TitanEC2(IAMHandler):
         self.instance_profile_arn = self.config.instance_role_arn
         self.model_name = self.config.hf_model_name
         self.hardware = self.config.hardware
+        self.server_edition = self.config.server_edition
         self.account_id = self.get_aws_account_id()
 
     def create_instance(self) -> tuple[Any, Any]:
@@ -79,6 +81,7 @@ class TitanEC2(IAMHandler):
                 self.ecr_repo_name,
                 self.model_name,
                 self.hardware,
+                self.server_edition
             ),
             "MinCount": self.min_count,
             "MaxCount": self.max_count,

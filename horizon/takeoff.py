@@ -177,11 +177,12 @@ def provision_sagemaker(choice):
         create_sagemaker_config_file()
 
 
-def deploy_cloud_service(service):
+def deploy_cloud_service(service, server_edition):
     if service == "ec2":
         instance_id, config_file = provision_ec2(service)
         manager.update_yaml_config(config_file.name, "instance_ids", instance_id)
-        shell.print(prompt.instance_id_added(instance_id, config_file.name))
+        manager.update_yaml_config(config_file.name, "server_edition", server_edition)
+        shell.print(prompt.instance_id_added(instance_id))
     else:
         provision_sagemaker()
         # TODO have to add sagemaker support
@@ -194,7 +195,12 @@ def main():
     parser.add_argument(
         "service",
         choices=["ec2", "sagemaker"],
-        help="Choose the cloud service to deploy",
+        help="Select the cloud service to deploy.",
+    )
+    parser.add_argument(
+        "server",
+        choices=["community", "pro"],
+        help="Select the server edition to deploy.",
     )
 
     args = parser.parse_args()
@@ -203,7 +209,7 @@ def main():
     print()
     check_reqs()
     intro()
-    deploy_cloud_service(args.service)
+    deploy_cloud_service(args.service, args.server)
 
 
 if __name__ == "__main__":

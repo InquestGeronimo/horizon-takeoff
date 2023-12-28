@@ -1,3 +1,5 @@
+from typing import Dict
+
 def banner():
     return """ 
 
@@ -62,10 +64,10 @@ class PromptHandler:
 
     @staticmethod
     def config_created(config_file):
-        return f"\n[bold green]Config file has been created in your working directory: '{config_file}'.[/bold green]"
+        return f"\n[bold green]Config file was created to path: '{config_file}'.[/bold green]"
 
     @staticmethod
-    def instance_created(instance_meta_data):
+    def instance_created(instance_meta_data: Dict):
         return f"\nCreated EC2 instance: [bold green]{instance_meta_data}[/bold green]"
 
     @staticmethod
