@@ -126,7 +126,7 @@ docker.push_takeoff_image()
 
 ### Create Instance
 
-Afterwards, you can now launch the EC2 instance:
+Launch the EC2 instance:
 
 ```py
 titan = TitanEC2("ec2_config.yaml")
