@@ -1,7 +1,7 @@
 import boto3
 import requests
-
 from typing import Any, Dict
+
 from .utils.yaml_utils import YamlFileManager
 from .utils.ec2_utils import EC2ConfigHandler
 
