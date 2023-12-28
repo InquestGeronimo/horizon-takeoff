@@ -67,7 +67,7 @@ if you find the Uvicorn URL endpoint displayed within them, it indicates that yo
 
 # Calling the Inference Endpoint
 
-The orchestration behind calling a running EC2 instance has been abstracted away. After initialling the EC2Endpoint class, you can call your LLM with one line of code.
+The orchestration involved in invoking a running EC2 instance has been simplified. Once you've initialized the EC2Endpoint class, you can effortlessly invoke your LLM in the cloud with just a single line of code.
 
 ```py
 from horizon import EC2Endpoint
@@ -87,7 +87,7 @@ horizon-del
 
 # YAML Configuration
 
-To bypass the TUI, you can create your YAML configuration manually. Make sure to enter the following EC2-related variables and save them in a `ec2_config.yaml` file:
+If you prefer to bypass the TUI, you can enter your YAML configuration manually. Make sure to add the following EC2-related variables and save them in a `ec2_config.yaml` file:
 
 ```yaml
 EC2:
@@ -111,7 +111,7 @@ Upon configuring the YAML file, you'll need use the `DockerHandler` and `TitanEC
 
 ### Docker 
 
-Before launching your EC2 instance, first load the YAML file into the `DockerHandler` class. These commands will pull the Takeoff Docker image, tag it for ECR, and push it to ECR:
+Load the YAML file into the `DockerHandler` class. These commands will pull the Takeoff Docker image, tag it, and push it to ECR:
 
 ```py
 from horizon import DockerHandler, TitanEC2
@@ -124,17 +124,11 @@ docker.push_takeoff_image()
 
 ### Create Instance
 
-Now create your EC2 instance:
+Afterwards, you can now launch the EC2 instance:
 
 ```py
 titan = TitanEC2("ec2_config.yaml")
 instance = titan.create_instance()
 print(instance)
 ```
-### Staging
-
-You can keep up with the process as described in the `Staging` section.
-
-### Calling API
-
-Same process in the `Calling API` section.
+Revisit the `Staging` and 'Calling the Inference Endpoint` section for final steps
