@@ -93,18 +93,17 @@ If you prefer to bypass the TUI, you can enter your YAML configuration manually.
 
 ```yaml
 EC2:
-  ami_id: ami-0c7217cdde317cfec             # The ID of the Amazon Machine Image (AMI) to use for EC2 instances.
-  ecr_repo_name: takeoff                    # The name of the Elastic Container Registry (ECR) repository.
-  hardware: cpu                             # The hardware type: 'cpu' or 'gpu'
-  hf_model_name: tiiuae/falcon-7b-instruct  # The name of the Hugging Face model to use.
-  instance_ids:                             # List of EC2 instance ID.
-    - i-0234f3336b2ccd78a                   
-  instance_role_arn: arn:aws:iam::^^^:path  # The ARN of the IAM instance profile role.
-  instance_type: c5.2xlarge                 # The EC2 instance type.
-  key_name: aws                             # The name of the AWS key pair.
-  region_name: us-east-1                    # The AWS region name.
-  security_group_ids:                       # List of security group ID(s) associated with the instances.
-    - sg-0fefe7b366b0c0843                  
+  ami_id: ami-0c7217cdde317cfec             # Set the ID of the Amazon Machine Image (AMI) to use for EC2 instances.
+  ecr_repo_name: takeoff                    # Set the name of the ECR repository. If it doesn't exist it will be created.
+  hardware: cpu                             # Set the hardware type: 'cpu' or 'gpu'
+  hf_model_name: tiiuae/falcon-7b-instruct  # Set the name of the Hugging Face model to use.
+  instance_role_arn: arn:aws:iam::^^^:path  # Set the ARN of the IAM instance profile role.
+  instance_type: c5.2xlarge                 # Set the EC2 instance type.
+  key_name: aws                             # Set the name of the AWS key pair.
+  region_name: us-east-1                    # Set the AWS region name.
+  security_group_ids:                       # Set the security group ID(s).
+    - sg-0fefe7b366b0c0843
+  server_edition: community                 # defaults to "community" ("pro" not available yet)                
 ```
 
 # Launch in Python

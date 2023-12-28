@@ -47,9 +47,6 @@ class EC2Endpoint:
     def get_ip_address(self) -> str:
         """Get the IPv4 address of a running EC2 instance.
 
-        Args:
-            instance_id (str): The ID of the EC2 instance.
-
         Returns:
             str: The IPv4 address of the instance.
         """

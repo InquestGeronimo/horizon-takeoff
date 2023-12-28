@@ -4,6 +4,7 @@ import argparse
 from typing import Dict, Any
 
 from rich import print
+from rich.pretty import pprint
 from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.console import Console
@@ -118,7 +119,7 @@ def deploy_docker(config_file):
 def create_ec2_instance(config_file):
     ec2 = TitanEC2(config_file.name)
     instance_id, instance_meta_data = ec2.create_instance()
-    shell.print(prompt.instance_created(instance_meta_data))
+    pprint(instance_meta_data, expand_all=True)
     return instance_id
 
 

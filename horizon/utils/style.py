@@ -40,10 +40,8 @@ class PromptHandler:
     enter_key_name = "\n[magenta] 5. Enter EC2 Key Name[/magenta]"
     enter_security_group = "\n[magenta] 6. Enter EC2 Security Group ID(s) (if multiple, comma-separated)\n\
     Make sure security group has a TCP port 8000 exposed for inbound traffic[/magenta]"
-    enter_instance_profile_arn = "\n[magenta] 7. Enter instance profile arn for role with policy allowing for pulling images from ECR.\n\
-    (e.g. [yellow]arn:aws:iam::<account_id>:instance-profile/<role_name>[/yellow])\n\
-    Make sure role has policy for: AmazonEC2ContainerRegistryReadOnly[/magenta]"
-
+    enter_instance_profile_arn = "\n[magenta] 7. Enter instance profile arn[/magenta]"
+    
     # Docker & ECR prompts
     docker_flow = "\n[magenta] 8. Ready to deploy Docker image to ECR and instantiate your EC2 instance?[/magenta] [yellow](yes,no)[/yellow]"
     enter_ecr_name = "\n[magenta] 8.1 Enter your ECR repository name, if it doesn't exist, it will be created"
@@ -64,12 +62,8 @@ class PromptHandler:
 
     @staticmethod
     def config_created(config_file):
-        return f"\n[bold green]Config file was created to path: '{config_file}'.[/bold green]"
-
-    @staticmethod
-    def instance_created(instance_meta_data: Dict):
-        return f"\nCreated EC2 instance: [bold green]{instance_meta_data}[/bold green]"
+        return f"\n[bold green]Config file saved to path: '{config_file}'.[/bold green]"
 
     @staticmethod
     def instance_id_added(instance_id):
-        return f"\nInstance ID [bold green]{instance_id}[/bold green] added to the YAML file."
+        return f"\nInstance ID [bold green]{instance_id}[/bold green] added to YAML config file."
