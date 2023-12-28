@@ -33,7 +33,7 @@ With Horizon-Takeoff, you have the flexibility to choose between two distinct wo
 pip install horizon-takeoff
 ```
 
-# Launching the TUI <img align="center" width="30" height="29" src="https://media.giphy.com/media/PeaNPlyOVPNMHjqTm7/giphy.gif">
+# Launching the TUI <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 <br>
 
 After installation, launch the entrypoint to get your TUI launched. Enter `horizon-takeoff <service>`:
@@ -47,7 +47,8 @@ horizon-takeoff ec2
   <video muted controls src="https://private-user-images.githubusercontent.com/79061523/293062674-cd626c61-4397-4498-91d3-f11e2e4ea540.mp4" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
 </div>
 
-# Staging
+# Staging <img align="center" width="30" height="29" src="https://media.giphy.com/media/SmaYvew52UlC9MmB6l/giphy.gif">
+<br>
 
 After you've finished the TUI workflow, a YAML configuration file will be automatically stored in your working directory. This file will trigger the staging process of your deployment and you will receive a notification in terminal of your instance launch. 
 
@@ -65,7 +66,8 @@ cat /var/log/cloud-init-output.log
 
 if you find the Uvicorn URL endpoint displayed in the logs, it indicates that your Docker container is running, and you are now prepared to start making API calls to the inference endpoint.
 
-# Calling the Inference Endpoint
+# Calling the Inference Endpoint <img align="center" width="30" height="29" src="https://media.giphy.com/media/ITRemFlr5tS39AzQUL/giphy.gif">
+<br>
 
 Once you've initialized the EC2Endpoint class, you can effortlessly invoke your LLM in the cloud with just a single line of code.
 
@@ -77,7 +79,8 @@ generation = endpoint('List 3 things to do in London.')
 print(generation)
 ```
 
-# Deleting Instance
+# Deleting Instance <img align="center" width="30" height="29" src="https://media.giphy.com/media/HhTXt43pk1I1W/giphy.gif">
+<br>
 
 To delete your working instance via the terminal, run:
 
@@ -85,7 +88,8 @@ To delete your working instance via the terminal, run:
 horizon-del
 ```
 
-# YAML Configuration
+# YAML Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/mrYOnKZ7MJFCM/giphy.gif">
+<br>
 
 If you prefer to bypass the TUI, you can enter your YAML configuration manually. Make sure to add the following EC2-related variables and save them in a `ec2_config.yaml` file:
 
@@ -104,7 +108,8 @@ EC2:
   server_edition: community                 # defaults to "community" ("pro" not available yet)                
 ```
 
-# Launch in Python
+# Launch in Python <img align="center" width="30" height="29" src="https://media.giphy.com/media/PeaNPlyOVPNMHjqTm7/giphy.gif">
+<br>
 
 Upon configuring the YAML file, instantiate the `DockerHandler` and `TitanEC2` classes to handle Docker image flows and instance launch.
 
