@@ -36,7 +36,7 @@ pip install horizon-takeoff
 # TUI Launch <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 <br>
 
-After installation, launch the entrypoint to spin up the TUI:
+Launch the TUI for configuring an EC2 instance with the community version of the Takeoff Server:
 
 
 ```bash
