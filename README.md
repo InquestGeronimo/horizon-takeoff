@@ -40,7 +40,7 @@ After installation, launch the entrypoint to spin up the TUI:
 
 
 ```bash
-horizon-takeoff ec2
+horizon-takeoff ec2 community
 ```
 
 <div style="display: flex; justify-content: center;">
