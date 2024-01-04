@@ -5,7 +5,7 @@ import os
 here = os.path.abspath(os.path.dirname(__file__))
 
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
-    long_description = "\n" + fh.read()
+    LONG_DESCRIPTION = "\n" + fh.read()
 
 NAME = "horizon-takeoff"
 VERSION = "0.0.4.0"
@@ -13,7 +13,7 @@ AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
 DESCRIPTION = "Auto-deploy the Takeoff Server on AWS for LLM inference"
-LONG_DESCRIPTION = "n/a."
+LICENSE = "Apache-2.0 license"
 PACKAGES = find_packages()
 PACKAGE_DATA = {"horizon": ["scripts/*", "utils/*", "aws/*", "logs/*"]}
 ENTRY_POINTS = {
@@ -40,6 +40,7 @@ CLASSIFIERS = [
 setup(
     name=NAME,
     version=VERSION,
+    license=LICENSE,
     author=AUTHOR,
     author_email=EMAIL,
     description=DESCRIPTION,
