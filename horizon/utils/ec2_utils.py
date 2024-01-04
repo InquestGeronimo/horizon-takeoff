@@ -24,8 +24,16 @@ class EC2ConfigHandler(IAMHandler):
 
         super().__init__()
 
-        self.session = boto3.Session()
-        self.ec2_client = self.session.client("ec2")
+        try:
+            self.session = boto3.Session()
+            self.ec2_client = self.session.client("ec2")
+        except botocore.exceptions.NoRegionError as e:
+            # Handle the specific NoRegionError exception here.
+            print("No AWS region specified. Either AWS CLI is not installed or region is not configured.")
+            # Optionally, raise or log the exception further if needed.
+        except Exception as e:
+            # Handle other exceptions as needed.
+            print(f"Error initializing EC2ConfigHandler: {str(e)}")
 
     def get_aws_region(self):
         """
