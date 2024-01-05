@@ -94,7 +94,6 @@ def create_ec2_config_file() -> None:
     else:
         shell.print(prompt.abort_deployment)
         sys.exit(1)
-        
 
 
 def deploy_docker(config_file):
