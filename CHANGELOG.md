@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-yaml configuration review prior to deployment
+- yaml configuration review prior to deployment
+- added new TUI video
 
 ## [0.0.4.2] - 2024-01-04
 
