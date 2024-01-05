@@ -3,7 +3,7 @@ Horizon Takeoff
 </h1>
 
 <div align="center">
-    <img width="400" height="350" src="./img/rocket.png">
+    <img width="400" height="350" src="/img/rocket.png">
 </div>
 
 **Horizon Takeoff** is a Python library for simplifying the cloud deployment of LLMs with TitanML's [Takeoff Server](https://github.com/titanml/takeoff-community) on AWS, with a specific focus on EC2 and SageMaker. The deployment process is facilitated through an interactive Terminal User Interface (TUI) for streamlining the configuration of your cloud environment. To gain a deeper understanding of the features offered by the Takeoff Server, refer to TitanML's [documentation](https://docs.titanml.co/docs/intro).
