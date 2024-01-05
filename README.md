@@ -44,7 +44,7 @@ horizon-takeoff ec2 community
 ```
 
 <div style="display: flex; justify-content: center;">
-  <video muted controls src="https://private-user-images.githubusercontent.com/79061523/293062674-cd626c61-4397-4498-91d3-f11e2e4ea540.mp4" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
+  <video muted controls src="https://github.com/InquestGeronimo/horizon-takeoff/assets/79061523/c1eabd23-c064-41b3-9966-414c5e4b5524" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
 </div>
 
 # Staging <img align="center" width="30" height="29" src="https://media.giphy.com/media/SmaYvew52UlC9MmB6l/giphy.gif">
