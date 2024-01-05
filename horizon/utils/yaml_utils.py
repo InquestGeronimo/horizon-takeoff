@@ -88,3 +88,20 @@ class YamlFileManager:
             yaml.dump(data, config_file, default_flow_style=False)
 
         return config_file
+
+    @staticmethod
+    def read_yaml_file(yaml_file_path: str) -> None:
+        """Print the entire content of a YAML file.
+
+        Args:
+            yaml_file_path (str): The path to the YAML file, or just the filename.
+
+        Returns:
+            None
+        """
+        try:
+            with open(yaml_file_path, "r") as config_file:
+                yaml_content = config_file.read()
+                return yaml_content
+        except FileNotFoundError as e:
+            print(f"Error reading YAML file: {e}")

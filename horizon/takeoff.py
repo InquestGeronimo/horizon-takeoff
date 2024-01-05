@@ -83,10 +83,18 @@ def create_ec2_config_file() -> None:
         prompt.enter_hardware, choices=prompt.hardware_choices, show_choices=False
     )
     config_file = manager.write_yaml_to_file(ec2.config_file, ec2_config)
-
+    config = manager.read_yaml_file(config_file.name)
     shell.print(prompt.config_created(config_file.name))
-
-    return config_file
+    shell.print(config, highlight=True, new_line_start=True)
+    review_config = Prompt.ask(
+        prompt.review_config, choices=prompt.boolean_choices, show_choices=False
+    )
+    if review_config == "yes":
+        return config_file
+    else:
+        shell.print(prompt.abort_deployment)
+        sys.exit(1)
+        
 
 
 def deploy_docker(config_file):

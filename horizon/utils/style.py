@@ -30,6 +30,7 @@ class PromptHandler:
     ec2_warning_msg = "\n[bold red]Warning:[/bold red] EC2 configuration file already exists. Do you want to override it? [yellow](yes/no)[/yellow]"
     boolean_choices = ["yes", "no"]
     abort_config = "[bold red]Aborting YAML configuration![/bold red]"
+    abort_deployment = "[bold red]Aborting deployment![/bold red]"
     sagemaker_warning_msg = "[bold red]Warning: Sagemaker configuration file already exists. Do you want to override it? (yes/no)[/bold red]"
 
     # Deployment type prompts
@@ -45,6 +46,7 @@ class PromptHandler:
     enter_ecr_name = "\n[magenta] 8 Enter your ECR repository name, if it doesn't exist, it will be created"
     enter_hardware = "\n[magenta] 9 Do you want to run your LLM on CPUs or GPUs?[/magenta] [yellow](cpu,gpu)[/yellow]"
     hardware_choices = ["cpu", "gpu"]
+    review_config = "\n[magenta] Here is your YAML config file, please edit incorrect inputs if required, otherwise, are you ready to deploy?  [yellow](yes/no)[/yellow]"
 
     @staticmethod
     def dependency_not_exists(escape, message):
