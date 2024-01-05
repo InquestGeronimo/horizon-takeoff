@@ -43,7 +43,7 @@ Launch the TUI for configuring an EC2 instance with the community version of the
 horizon-takeoff ec2 community
 ```
 
-The TUI not only features a clean user interface but also conducts pre-start checks for AWS CLI and Docker installations. Furthermore, it has access to your AWS profile data, allowing it to significantly expedite the configuration of your AWS cloud environment. This includes the ability to list your available AWS keys, security groups, and ARN roles.
+The TUI not only features a clean user interface (powered by the `rich` library) but also conducts pre-start checks for AWS CLI and Docker installations. Furthermore, it has access to your AWS profile data, allowing it to significantly expedite the configuration of your AWS cloud environment. This includes the ability to list your available AWS keys, security groups, and ARN roles.
 
 <div style="display: flex; justify-content: center;">
   <video muted controls src="https://github.com/InquestGeronimo/horizon-takeoff/assets/79061523/c1eabd23-c064-41b3-9966-414c5e4b5524" class="d-block rounded-bottom-2 border-top width-fit" style="max-height:640px; min-height: 200px"></video>
