@@ -32,7 +32,6 @@ class EnvChecker:
             docker_version = subprocess.check_output(
                 ["docker", "--version"], stderr=subprocess.STDOUT, text=True
             )
-
             return docker_version.strip()
         except subprocess.CalledProcessError:
             return None

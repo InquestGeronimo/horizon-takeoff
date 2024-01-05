@@ -21,26 +21,30 @@ shell = Console()
 ec2 = EC2ConfigHandler()
 
 
-requirements = [
-    (env.check_aws_account_id, prompt.aws_id_exists),
-    (env.check_aws_cli_installed, prompt.aws_cli_exists),
-    (env.check_docker_installed, prompt.docker_exists),
-]
+def check_dependency(dependency_name, exists_message, not_exists_message):
+    if dependency_name() is None:
+        error_message = prompt.dependency_not_exists(
+            escape(prompt.emoji_cross), not_exists_message
+        )
+        shell.print(error_message)
+        sys.exit(1)  # Exit the program with an error code (e.g., 1).
+
+    formatted_message = prompt.dependency_exists(
+        escape(prompt.emoji_checkmark), exists_message
+    )
+    shell.print(formatted_message)
 
 
 def check_reqs():
-    for condition, message in requirements:
-        if condition is None:
-            error_message = prompt.dependency_not_exists(
-                escape(prompt.emoji_cross), message
-            )
-            shell.print(error_message)
-            return  # Stop execution if any condition is None
-        if condition:
-            formatted_message = prompt.dependency_exists(
-                escape(prompt.emoji_checkmark), message
-            )
-            shell.print(formatted_message)
+    check_dependency(
+        env.check_aws_account_id, prompt.aws_id_exists, prompt.aws_id_not_exists
+    )
+    check_dependency(
+        env.check_aws_cli_installed, prompt.aws_cli_exists, prompt.aws_cli_not_exists
+    )
+    check_dependency(
+        env.check_docker_installed, prompt.docker_exists, prompt.docker_not_exists
+    )
 
 
 def intro() -> None:
@@ -74,6 +78,10 @@ def create_ec2_config_file() -> None:
         prompt.enter_instance_profile_arn
     )
 
+    ec2_config["EC2"]["ecr_repo_name"] = Prompt.ask(prompt.enter_ecr_name)
+    ec2_config["EC2"]["hardware"] = Prompt.ask(
+        prompt.enter_hardware, choices=prompt.hardware_choices, show_choices=False
+    )
     config_file = manager.write_yaml_to_file(ec2.config_file, ec2_config)
 
     shell.print(prompt.config_created(config_file.name))
@@ -82,29 +90,10 @@ def create_ec2_config_file() -> None:
 
 
 def deploy_docker(config_file):
-    deploy = Prompt.ask(
-        prompt.docker_flow,
-        choices=prompt.boolean_choices,
-        show_choices=False,
-    )
-
-    if deploy.lower() == "yes":
-        ecr_repo_name = Prompt.ask(prompt.enter_ecr_name)
-        hardware = Prompt.ask(
-            prompt.enter_hardware, choices=prompt.hardware_choices, show_choices=False
-        )
-        manager.update_yaml_config(config_file.name, "ecr_repo_name", ecr_repo_name)
-        manager.update_yaml_config(config_file.name, "hardware", hardware)
-
-        handler = DockerHandler(config_file.name)
-        handler.check_or_create_repository()
-        handler.pull_takeoff_image()
-        handler.push_takeoff_image()
-
-    else:
-        print(
-            "Your configuration is almost complete. To launch your EC2 instance manually etc etc."
-        )  # TODO write out manual flow using DockerHandler Class and TitanEC2/TitanSagemaker class
+    handler = DockerHandler(config_file.name)
+    handler.check_or_create_repository()
+    handler.pull_takeoff_image()
+    handler.push_takeoff_image()
 
 
 def create_ec2_instance(config_file):
@@ -171,13 +160,19 @@ def provision_sagemaker(choice):
 
 def deploy_cloud_service(service, server_edition):
     if service == "ec2":
-        instance_id, config_file = provision_ec2(service)
-        manager.update_yaml_config(config_file.name, "instance_ids", instance_id)
-        manager.update_yaml_config(config_file.name, "server_edition", server_edition)
-        shell.print(prompt.instance_id_added(instance_id))
+        result = provision_ec2(service)
+        if result is not None:
+            instance_id, config_file = result
+            manager.update_yaml_config(config_file.name, "instance_ids", instance_id)
+            manager.update_yaml_config(
+                config_file.name, "server_edition", server_edition
+            )
+            shell.print(prompt.instance_id_added(instance_id))
+        else:
+            pass
     else:
         provision_sagemaker()
-        # TODO add sagemaker support
+        # TODO add SageMaker support
 
 
 def main():

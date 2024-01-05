@@ -18,8 +18,11 @@ class PromptHandler:
     emoji_checkmark = ":heavy_check_mark:"
     emoji_cross = ":x:"
     aws_id_exists = "AWS account ID exists."
+    aws_id_not_exists = "AWS account ID not found. Cannot continue."
     aws_cli_exists = "AWS CLI is installed."
+    aws_cli_not_exists = "AWS CLI not installed. Cannot continue."
     docker_exists = "Docker is installed."
+    docker_not_exists = "Docker not installed or running. Cannot continue."
 
     # AWS service selection prompts
     select_aws_feature = "\n[magenta]Choose the AWS service:[/magenta] [yellow]ec2[/yellow] or [yellow]sagemaker[/yellow]"
@@ -31,8 +34,6 @@ class PromptHandler:
 
     # Deployment type prompts
     enter_model = "\n[magenta] 1. Enter Hugging Face model name (e.g. [yellow]meta-llama/Llama-2-7b[/yellow])"
-
-    # EC2 config prompts
     enter_ami = "\n[magenta] 3. Enter EC2 AMI ID[/magenta] (e.g. for Ubuntu 22.04 x86 [yellow]ami-0c7217cdde317cfec[/yellow])"
     enter_instance_type = "\n[magenta] 4. Enter EC2 Instance Type[/magenta] (e.g. for 1 V100 GPU: [yellow]p3.2xlarge[/yellow])"
     enter_key_name = "\n[magenta] 5. Enter EC2 Key Name[/magenta]"
@@ -41,14 +42,13 @@ class PromptHandler:
     enter_instance_profile_arn = "\n[magenta] 7. Enter instance profile arn[/magenta]"
 
     # Docker & ECR prompts
-    docker_flow = "\n[magenta] 8. Ready to deploy Docker image to ECR and instantiate your EC2 instance?[/magenta] [yellow](yes,no)[/yellow]"
-    enter_ecr_name = "\n[magenta] 8.1 Enter your ECR repository name, if it doesn't exist, it will be created"
-    enter_hardware = "\n[magenta] 8.2 Do you want to run your LLM on CPUs or GPUs?[/magenta] [yellow](cpu,gpu)[/yellow]"
+    enter_ecr_name = "\n[magenta] 8 Enter your ECR repository name, if it doesn't exist, it will be created"
+    enter_hardware = "\n[magenta] 9 Do you want to run your LLM on CPUs or GPUs?[/magenta] [yellow](cpu,gpu)[/yellow]"
     hardware_choices = ["cpu", "gpu"]
 
     @staticmethod
     def dependency_not_exists(escape, message):
-        return f"[bold red]{escape}[/] {message} is missing."
+        return f"[bold red]{escape}[/] {message}"
 
     @staticmethod
     def dependency_exists(escape, message):
