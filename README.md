@@ -93,7 +93,7 @@ repetition_penalty: int = 1,
 no_repeat_ngram_size: int = 0,
 ```
 
- For more information on the available decoding arguments, refer to TitanML's [docs](https://docs.titanml.co/docs/titan-takeoff/experimentation/generation-parameters).
+ For more information regarding the available decoding arguments, refer to TitanML's [docs](https://docs.titanml.co/docs/titan-takeoff/experimentation/generation-parameters).
 
 # Deleting Instance <img align="center" width="30" height="29" src="https://media.giphy.com/media/HhTXt43pk1I1W/giphy.gif">
 <br>
