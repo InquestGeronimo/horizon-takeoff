@@ -24,7 +24,7 @@ class EC2Endpoint:
         stream: bool = False,
         sampling_topk: int = 1,
         sampling_topp: float = 1.0,
-        sampling_temperature: float = 0.1,
+        sampling_temperature: float = 1.0,
         repetition_penalty: int = 1,
         no_repeat_ngram_size: int = 0,
     ):
@@ -32,10 +32,13 @@ class EC2Endpoint:
         Initialize an Endpoint instance.
 
         Args:
-            stream (bool): Whether to use a streaming endpoint. Defaults to False.
             pro (bool): Whether to use a pro or community endpoint. Defaults to False.
-            sampling_temperature (float): The sampling temperature. Defaults to 0.1.
-            no_repeat_ngram_size (int): The no_repeat_ngram_size. Defaults to 3.
+            stream (bool): Whether to use a streaming endpoint. Defaults to False.
+            sampling_topk (int): Sampling parameter for top-k candidates. Defaults to 1.
+            sampling_topp (float): Sampling parameter for top-p candidates. Defaults to 1.0.
+            sampling_temperature (float): The sampling temperature. Defaults to 1.0.
+            repetition_penalty (int): Penalty for generating repeated tokens. Defaults to 1.
+            no_repeat_ngram_size (int): The no_repeat_ngram_size. Defaults to 0.
         """
         address = self.get_ip_address()
         base_url = "http://" + address + ":"
