@@ -18,17 +18,33 @@ class EC2Endpoint:
 
     config_file = EC2ConfigHandler.config_file
 
-    def __init__(self, pro: bool = False, stream: bool = False):
+    def __init__(
+        self,
+        pro: bool = False,
+        stream: bool = False,
+        sampling_topk: int = 1,
+        sampling_topp: float = 1.0,
+        sampling_temperature: float = 0.1,
+        repetition_penalty: int = 1,
+        no_repeat_ngram_size: int = 0,
+    ):
         """
         Initialize an Endpoint instance.
 
         Args:
             stream (bool): Whether to use a streaming endpoint. Defaults to False.
             pro (bool): Whether to use a pro or community endpoint. Defaults to False.
+            sampling_temperature (float): The sampling temperature. Defaults to 0.1.
+            no_repeat_ngram_size (int): The no_repeat_ngram_size. Defaults to 3.
         """
         address = self.get_ip_address()
         base_url = "http://" + address + ":"
         self.url = base_url + self.BASE_URLS[(pro, stream)]
+        self.sampling_topk = sampling_topk
+        self.sampling_topp = sampling_topp
+        self.sampling_temperature = sampling_temperature
+        self.repetition_penalty = repetition_penalty
+        self.no_repeat_ngram_size = no_repeat_ngram_size
 
     def __call__(self, input_text: str) -> Dict[str, Any]:
         """
@@ -40,7 +56,14 @@ class EC2Endpoint:
         Returns:
             Dict[str, Any]: The JSON response from the URL.
         """
-        json_data = {"text": input_text}
+        json_data = {
+            "text": input_text,
+            "sampling_topk": self.sampling_topk,
+            "sampling_topp": self.sampling_topp,
+            "sampling_temperature": self.sampling_temperature,
+            "repetition_penalty": self.repetition_penalty,
+            "no_repeat_ngram_size": self.no_repeat_ngram_size,
+        }
         response = requests.post(self.url, json=json_data)
         return response.json()
 
